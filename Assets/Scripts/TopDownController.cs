@@ -10,8 +10,6 @@ public class TopDownController : MonoBehaviour {
 
 	private Quaternion targetRotation;
 
-    public Gun gun;
-
 	private CharacterController controller;
 	private Camera cam;
 
@@ -26,10 +24,6 @@ public class TopDownController : MonoBehaviour {
 		ControlMouse ();
 		//ControlWASD ();
 
-		if (Input.GetButtonDown("Shoot")) 
-		{
-			gun.Shoot();
-		}
 	}
 
 	void ControlMouse()
