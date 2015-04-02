@@ -1,0 +1,43 @@
+Initialize engine version: 5.0.0f4 (5b98b70ebeb9)
+GfxDevice: creating device client; threaded=1
+Direct3D:
+    Version:  Direct3D 11.0 [level 11.0]
+    Renderer: NVIDIA NVS 315 (ID=0x107c)
+    Vendor:   NVIDIA
+    VRAM:     978 MB
+Begin MonoManager ReloadAssembly
+Platform assembly: M:\Desktop\år2\SystemProgramvaruutveckling\CNGP\Builds\spel_Data\Managed\UnityEngine.dll (this message is harmless)
+Loading M:\Desktop\år2\SystemProgramvaruutveckling\CNGP\Builds\spel_Data\Managed\UnityEngine.dll into Unity Child Domain
+Platform assembly: M:\Desktop\år2\SystemProgramvaruutveckling\CNGP\Builds\spel_Data\Managed\Assembly-CSharp-firstpass.dll (this message is harmless)
+Loading M:\Desktop\år2\SystemProgramvaruutveckling\CNGP\Builds\spel_Data\Managed\Assembly-CSharp-firstpass.dll into Unity Child Domain
+Platform assembly: M:\Desktop\år2\SystemProgramvaruutveckling\CNGP\Builds\spel_Data\Managed\Assembly-CSharp.dll (this message is harmless)
+Loading M:\Desktop\år2\SystemProgramvaruutveckling\CNGP\Builds\spel_Data\Managed\Assembly-CSharp.dll into Unity Child Domain
+Platform assembly: M:\Desktop\år2\SystemProgramvaruutveckling\CNGP\Builds\spel_Data\Managed\UnityEngine.UI.dll (this message is harmless)
+Loading M:\Desktop\år2\SystemProgramvaruutveckling\CNGP\Builds\spel_Data\Managed\UnityEngine.UI.dll into Unity Child Domain
+Platform assembly: M:\Desktop\år2\SystemProgramvaruutveckling\CNGP\Builds\spel_Data\Managed\Photon3Unity3D.dll (this message is harmless)
+Loading M:\Desktop\år2\SystemProgramvaruutveckling\CNGP\Builds\spel_Data\Managed\Photon3Unity3D.dll into Unity Child Domain
+- Completed reload, in  0.890 seconds
+desktop: 1920x1080 60Hz; virtual: 1920x1080 at 0,0
+<RI> Initializing input.
+<RI> Input initialized.
+<RI> Initialized touch support.
+Platform assembly: M:\Desktop\år2\SystemProgramvaruutveckling\CNGP\Builds\spel_Data\Managed\System.Core.dll (this message is harmless)
+Platform assembly: M:\Desktop\år2\SystemProgramvaruutveckling\CNGP\Builds\spel_Data\Managed\System.dll (this message is harmless)
+The referenced script on this Behaviour is missing!
+ 
+(Filename:  Line: 1713)
+
+The referenced script on this Behaviour is missing!
+ 
+(Filename:  Line: 1713)
+
+Connect() failed: System.Net.Sockets.SocketException: An invalid argument was supplied.
+
+  at System.Net.Sockets.Socket..ctor (AddressFamily family, SocketType type, ProtocolType proto) [0x00000] in <filename unknown>:0 
+  at ExitGames.Client.Photon.SocketUdp.DnsAndConnect () [0x00000] in <filename unknown>:0 
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebug.gen.cpp Line: 56)
+
+Setting up 2 worker threads for Enlighten.
+  Thread -> id: 27c4 -> priority: 1 
+  Thread -> id: 25e4 -> priority: 1 
