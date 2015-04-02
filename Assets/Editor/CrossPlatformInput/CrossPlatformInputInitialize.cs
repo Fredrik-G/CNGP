@@ -27,6 +27,7 @@ namespace UnityStandardAssets.CrossPlatformInput.Inspector
         [MenuItem("Mobile Input/Enable")]
         private static void Enable()
         {
+            
             SetEnabled("MOBILE_INPUT", true, true);
             switch (EditorUserBuildSettings.activeBuildTarget)
             {
