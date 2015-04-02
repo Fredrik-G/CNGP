@@ -1,12 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Spelprojekt
+﻿
+namespace Engine
 {
     class PassiveSkill
     {
+        public string Name { get; set; }
+        public double Cooldown { get; set; }
+
+
+        public PassiveSkill(string name, double cooldown)
+        {
+            Name = name;
+            Cooldown = cooldown;
+        }
     }
 }
