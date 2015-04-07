@@ -7,6 +7,7 @@ public class ProjectileShooter : MonoBehaviour
     private GameObject prefab;
     public Transform spawn;
     private int _shotDistance = 20;
+    public int velocity;
 
 	// Use this for initialization
 	void Start ()
@@ -22,7 +23,7 @@ public class ProjectileShooter : MonoBehaviour
 	        var projectile = Instantiate(prefab) as GameObject;
 	        projectile.transform.position = spawn.position;
 	        var rb = projectile.GetComponent<Rigidbody>();
-	        rb.velocity = spawn.transform.forward*5;
+	        rb.velocity = spawn.transform.forward*velocity;
 	    }
 	}
 }
