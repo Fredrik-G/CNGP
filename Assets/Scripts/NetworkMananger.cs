@@ -1,63 +1,75 @@
-﻿using System;
+﻿using System.Collections;
 using UnityEngine;
-using System.Collections;
-using System.Collections.Generic;
 
 public class NetworkMananger : MonoBehaviour
 {
     #region Data
 
-    private readonly string _gameName = "CNGP-Server2";
+    private readonly string _gameName = "CNGP-Server";
     private readonly float _refreshRequestLength = 3f;
-    private HostData[] hostData;
+    private HostData[] _hostData;
 
     #endregion
+   
+    #region Server Events
 
-
-    private void StartServer()
-    {
-        Network.InitializeServer(10, 50005, false);
-        MasterServer.RegisterHost(_gameName, "Mega server osv2", "CNGP server2");
-    }
-
-    private void SpawnPlayer()
-    {
-        Debug.Log("Spawning player");
-        Network.Instantiate(
-            Resources.Load("Prefabs/TestPlayer"),
-            new Vector3(0f, 2.5f, 0f), Quaternion.identity, 0);
-    }
-
-    void OnServerInitialized()
+    private void OnServerInitialized()
     {
         Debug.Log("Server started");
         SpawnPlayer();
     }
-    void OnMasterServerEvent(MasterServerEvent masterServerEvent)
+
+    private void OnConnectedToServer()
     {
-        if (masterServerEvent == MasterServerEvent.RegistrationSucceeded)
-        {
-            Debug.Log("Registration successful");
-        }
+        Debug.Log("Connected to server.");
     }
-    void OnFailedToConnectToMasterServer(NetworkConnectionError error)
+
+    private void OnDisconnectedFromServer(NetworkDisconnection error)
+    {
+        Debug.Log("Disconnected from server");
+    }
+
+    void OnFailedToConnect(NetworkConnectionError error)
+    {
+        Debug.Log("Failed to connect to server." + error);
+    }
+
+    #endregion
+
+    #region Master Server Events
+
+    private void OnMasterServerEvent(MasterServerEvent masterServerEvent)
+    {
+        Debug.Log(masterServerEvent == MasterServerEvent.RegistrationSucceeded
+            ? "Registration successful"
+            : "Registration unsuccessful");
+    }
+
+    private void OnFailedToConnectToMasterServer(NetworkConnectionError error)
     {
         Debug.Log("Failed to connect to master server" + error);
     }
-    void OnFailedToConnect(NetworkConnectionError error)
-    {
-        Debug.Log("Failed to connect." + error);
-    }
+
+    /// <summary>
+    /// Called on objects which have been network instantiated with Network.Instantiate.
+    /// </summary>
+    /// <param name="info"></param>
     void OnNetworkInstantiate(NetworkMessageInfo info)
     {
         Debug.Log("Network Instantiated" + info.sender);
     }
-    void OnPlayerConnected(NetworkPlayer player)
+
+    #endregion
+
+    #region Player Events
+
+    private void OnPlayerConnected(NetworkPlayer player)
     {
         Debug.Log("Player connected.");
-       // UpdatePlayerList();
+        // UpdatePlayerList();
     }
-    void OnPlayerDisconnected(NetworkPlayer player)
+
+    private void OnPlayerDisconnected(NetworkPlayer player)
     {
         Debug.Log("Player disconnected." + player.ipAddress);
 
@@ -66,14 +78,10 @@ public class NetworkMananger : MonoBehaviour
 
         // UpdatePlayerList();
     }
-    void OnConnectedToServer()
-    {
-        Debug.Log("Connected to server.");
-    }
-    void OnDisconnectedFromServer(NetworkDisconnection error)
-    {
-        Debug.Log("Disconnected from server");
-    }
+
+    #endregion
+
+    #region Application Events
 
     void OnApplicationQuit()
     {
@@ -90,30 +98,6 @@ public class NetworkMananger : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// Returns all registered servers in the master server.
-    /// </summary>
-    /// <returns></returns>
-    public IEnumerator RefreshHostList()
-    {
-        Debug.Log("Refreshing");
-        MasterServer.RequestHostList(_gameName);
-
-        var endTime = Time.time + _refreshRequestLength;
-
-        while (Time.time < endTime)
-        {
-            hostData = MasterServer.PollHostList();
-            yield return new WaitForEndOfFrame();
-        }
-
-        if (hostData == null || hostData.Length == 0)
-        {
-            GUI.Label(new Rect(40, 20f, 150f, 30f), "No servers found");
-            Debug.Log("No active servers were found.");
-        }
-    }
-
     public void OnGUI()
     {
         if (Network.isServer)
@@ -123,43 +107,101 @@ public class NetworkMananger : MonoBehaviour
         else if (Network.isClient)
         {
             GUILayout.Label("Running as a client.");
-        }
-
-        if (Network.isClient)
-        {
             if (GUI.Button(new Rect(25f, 25f, 150f, 30f), "Spawn"))
             {
                 SpawnPlayer();
             }
         }
 
-        UpdatePlayerList();
+        // UpdatePlayerList();
 
-        if (!Network.isServer && !Network.isClient)
+        if (Network.isServer || Network.isClient)
         {
-            if (GUI.Button(new Rect(25f, 25f, 150f, 30f), "Start server"))
-            {
-                StartServer();
-            }
-            if (GUI.Button(new Rect(25f, 55f, 150f, 30f), "Refresh"))
-            {
-                StartCoroutine("RefreshHostList");
-            }
+            return;
+        }
+        if (GUI.Button(new Rect(25f, 25f, 150f, 30f), "Start server"))
+        {
+            StartServer();
+        }
+        if (GUI.Button(new Rect(25f, 55f, 150f, 30f), "Refresh"))
+        {
+            StartCoroutine("RefreshHostList");
+        }
 
-            if (hostData != null)
+        ShowServerList();
+    }
+
+    #endregion
+
+    #region Methods
+
+    /// <summary>
+    /// Starts a new server and registers it with Unity Master Server.
+    /// </summary>
+    private void StartServer()
+    {
+        Network.InitializeServer(10, 50005, false);
+        MasterServer.RegisterHost(_gameName, "Mega server osv", "CNGP server");
+    }
+
+    /// <summary>
+    /// Loads a prefab and instantiate it in the network.
+    /// </summary>
+    private void SpawnPlayer()
+    {
+        Debug.Log("Spawning player");
+        Network.Instantiate(
+            Resources.Load("Prefabs/TestPlayer"),
+            new Vector3(0f, 2.5f, 0f), Quaternion.identity, 0);
+    }
+
+    /// <summary>
+    /// Returns all registered servers in the master server.
+    /// </summary>
+    /// <returns></returns>
+    private IEnumerator RefreshHostList()
+    {
+        Debug.Log("Refreshing");
+        MasterServer.RequestHostList(_gameName);
+
+        var endTime = Time.time + _refreshRequestLength;
+
+        while (Time.time < endTime)
+        {
+            _hostData = MasterServer.PollHostList();
+            yield return new WaitForEndOfFrame();
+        }
+
+        if (_hostData == null || _hostData.Length == 0)
+        {
+            GUI.Label(new Rect(40, 20f, 150f, 30f), "No servers found");
+            Debug.Log("No active servers were found.");
+        }
+    }
+
+    /// <summary>
+    /// Creates a button for each server
+    /// and lets the user connect by clicking on it.
+    /// </summary>
+    private void ShowServerList()
+    {
+        if (_hostData == null)
+        {
+            return;
+        }
+        for (var i = 0; i < _hostData.Length; i++)
+        {
+            if (GUI.Button(new Rect(Screen.width/2, 65f + (30f*i), 300f, 30f), _hostData[i].gameName))
             {
-                for (var i = 0; i < hostData.Length; i++)
-                {
-                    if (GUI.Button(new Rect(Screen.width / 2, 65f + (30f * i), 300f, 30f), hostData[i].gameName))
-                    {
-                        Network.Connect(hostData[i]);
-                        Debug.Log("Connected to server " + hostData[i].gameName);
-                    }
-                }
+                Network.Connect(_hostData[i]);
+                Debug.Log("Connected to server " + _hostData[i].gameName);
             }
         }
     }
 
+    /// <summary>
+    /// Displays current players in a list.
+    /// </summary>
     private void UpdatePlayerList()
     {
         var i = 0;
@@ -168,7 +210,10 @@ public class NetworkMananger : MonoBehaviour
         {
             Debug.Log("asd");
             var playerInfo = player.guid + " " + player.ipAddress + " " + player.externalIP;
-            GUI.Label(new Rect(Screen.width/2, 20 * i++, 400, 50), playerInfo);
+            GUI.Label(new Rect(Screen.width/2, 20*i++, 400, 50), playerInfo);
         }
     }
+
+    #endregion
+
 }
