@@ -1,9 +1,10 @@
-﻿namespace Engine
+﻿using UnityEngine;
+namespace Engine
 {
     /// <summary>
     /// Class that contains information about one buff/effect.
     /// </summary>
-    class BuffEffect
+	public class BuffEffect : MonoBehaviour
     {
         public int Duration { get; set; }
         public string Info { get; set; }

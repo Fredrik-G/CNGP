@@ -1,9 +1,10 @@
-﻿namespace Engine
+﻿using UnityEngine;
+namespace Engine
 {
     /// <summary>
     /// Class that contains all possible effects.
     /// </summary>
-    class Effect
+	public class Effect : MonoBehaviour
     {
         public bool Stun { get; set; }
         public bool Root { get; set; }

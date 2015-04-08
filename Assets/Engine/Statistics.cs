@@ -1,9 +1,10 @@
-﻿namespace Engine
+﻿using UnityEngine;
+namespace Engine
 {
     /// <summary>
     /// Class that contains statistic information.
     /// </summary>
-    class Statistics
+	public class Statistics : MonoBehaviour
     {
         public int Wins { get; set; }
         public int GamesPlayed { get; set; }

@@ -1,7 +1,7 @@
-﻿
+﻿using UnityEngine;
 namespace Engine
 {
-    class Map
+	public class Map : MonoBehaviour
     {
         public string Name { get; set; }
         private Size size;

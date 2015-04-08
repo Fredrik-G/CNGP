@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
-
+using UnityEngine;
 namespace Engine
 {
     /// <summary>
     /// Class that contains information about a team.
     /// </summary>
-    class Team
+	public class Team : MonoBehaviour
     {
         public string Name { get; set; }
         public int Points { get; set; }

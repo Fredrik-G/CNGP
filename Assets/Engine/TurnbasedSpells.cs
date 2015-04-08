@@ -1,9 +1,10 @@
-﻿namespace Engine
+﻿using UnityEngine;
+namespace Engine
 {
     /// <summary>
     /// Class that contains information about turnbased spells.
     /// </summary>
-    class TurnbasedSpells
+	public class TurnbasedSpells : MonoBehaviour
     {
         public string Name { get; set; }
 

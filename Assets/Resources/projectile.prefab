@@ -12,9 +12,10 @@ GameObject:
   - 135: {fileID: 13567314}
   - 23: {fileID: 2359952}
   - 54: {fileID: 5410770}
+  - 114: {fileID: 11412948}
   m_Layer: 0
   m_Name: projectile
-  m_TagString: Untagged
+  m_TagString: projectile
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -77,6 +78,18 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &11412948
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 154532}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e806c702142f9c242be48c15e38575ee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ProjectileActiveSkill: {fileID: 0}
 --- !u!135 &13567314
 SphereCollider:
   m_ObjectHideFlags: 1
@@ -84,7 +97,7 @@ SphereCollider:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 154532}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: .5

@@ -1,7 +1,7 @@
-﻿
+﻿using UnityEngine;
 namespace Engine
 {
-    class PassiveSkill
+	public class PassiveSkill : MonoBehaviour
     {
         public string Name { get; set; }
         public double Cooldown { get; set; }

@@ -1,25 +1,26 @@
-﻿namespace Engine
+﻿using UnityEngine;
+namespace Engine
 {
     /// <summary>
     /// Class that contains information about an active skill.
     /// </summary>
-    class ActiveSkill
+	public class ActiveSkill
     {
         public string Name { get; set; }
         public string Info { get; set; }
-        public string DamageHealingPower { get; set; }
-        public string ChiCost { get; set; }
-        public string Radius { get; set; }
+        public double DamageHealingPower { get; set; }
+        public double ChiCost { get; set; }
+        public double Radius { get; set; }
         public bool SingleTarget { get; set; }
         public bool SelfTarget { get; set; }
         public bool AllyTarget { get; set; }
 		public bool DoCollide { get; set;}
-        public int Cooldown { get; set; }
-        public int Range { get; set; }
-        public int ChannelingTime { get; set; }
-        public int CastSpeed { get; set; }
+        public double Cooldown { get; set; }
+        public double Range { get; set; }
+        public double ChannelingTime { get; set; }
+        public double CastSpeed { get; set; }
 
-        public ActiveSkill(string name, string info, string damageHealingPower, string chiCost, string radius, bool singleTarget, bool selfTarget, bool doCollide, bool allyTarget, int cooldown, int range, int channelingTime, int castSpeed)
+        public ActiveSkill(string name, string info, double damageHealingPower, double chiCost, double radius, bool singleTarget, bool selfTarget, bool doCollide, bool allyTarget, double cooldown, double range, double channelingTime, double castSpeed)
         {
             Name = name;
             Info = info;
@@ -35,5 +36,25 @@
             ChannelingTime = channelingTime;
             CastSpeed = castSpeed;
         }
+
+		public ActiveSkill()
+		{
+			Name = "";
+			Info = "";
+			DamageHealingPower = 0;
+			ChiCost = 0;
+			Radius = 0;
+			SingleTarget = false;
+			SelfTarget = false;
+			AllyTarget = false;
+			DoCollide = false;
+			Cooldown = 0;
+			Range = 0;
+			ChannelingTime = 0;
+			CastSpeed = 0;
+
+		}
+
+
     }
 }

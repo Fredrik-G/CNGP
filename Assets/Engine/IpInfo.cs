@@ -1,9 +1,10 @@
-﻿namespace Engine
+﻿using UnityEngine;
+namespace Engine
 {
     /// <summary>
     /// Class that contains information about IP.
     /// </summary>
-    class IpInfo
+    public class IpInfo
     {
         public string CurrentIp { get; set; }
         public string RegisteredIp { get; set; }

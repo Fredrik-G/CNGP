@@ -1,9 +1,10 @@
-﻿namespace Engine
+﻿using UnityEngine;
+namespace Engine
 {
     /// <summary>
     /// Class that contains information about a user/account.
     /// </summary>
-    public class User
+	public class User : MonoBehaviour
     {
         public string Name { get; set; }
         public string Password { get; set; }
