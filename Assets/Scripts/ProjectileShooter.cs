@@ -18,7 +18,7 @@ public class ProjectileShooter : MonoBehaviour
 	// Update is called once per frame
 	void Update () {
 
-	    if (Input.GetButtonDown("Shoot"))
+	    if (Input.GetButton("Shoot"))
 	    {
 	        var projectile = Instantiate(prefab) as GameObject;
 	        projectile.transform.position = spawn.position;
