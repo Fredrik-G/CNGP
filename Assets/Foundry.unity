@@ -1350,9 +1350,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c9013244c44a0f047bbeb057d0487d39, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rotationSpeed: 450
-  walkSpeed: 5
-  runSpeed: 8
 --- !u!143 &1823181527
 CharacterController:
   m_ObjectHideFlags: 0
@@ -1382,6 +1379,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spawn: {fileID: 1468403615}
+--- !u!148 &1823181529
+NetworkView:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1823181523}
+  m_Enabled: 1
+  m_StateSynchronization: 1
+  m_Observed: {fileID: 1823181524}
+  m_ViewID:
+    m_ID: 1
+    m_Type: 1
 --- !u!1 &2097970061
 GameObject:
   m_ObjectHideFlags: 0
