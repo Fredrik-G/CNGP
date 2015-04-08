@@ -19,6 +19,7 @@ public class TopDownController : MonoBehaviour
         controller = GetComponent<CharacterController>();
         cam = Camera.main;
 
+        //Makes sure the player is only able to control his own character.
         //if (!GetComponent<NetworkView>().isMine)
         //{
         //    enabled = false;
@@ -34,6 +35,7 @@ public class TopDownController : MonoBehaviour
 
     void ControlMouse()
     {
+        //Makes sure the player is only able to control his own character.
         if (!GetComponent<NetworkView>().isMine)
         {
             return;

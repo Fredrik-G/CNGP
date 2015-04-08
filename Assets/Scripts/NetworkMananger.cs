@@ -1,12 +1,18 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
 public class NetworkMananger : MonoBehaviour
 {
+    #region Data
+
     private readonly string _gameName = "CNGP-Server2";
     private readonly float _refreshRequestLength = 3f;
     private HostData[] hostData;
+
+    #endregion
+
 
     private void StartServer()
     {
@@ -49,6 +55,7 @@ public class NetworkMananger : MonoBehaviour
     void OnPlayerConnected(NetworkPlayer player)
     {
         Debug.Log("Player connected.");
+       // UpdatePlayerList();
     }
     void OnPlayerDisconnected(NetworkPlayer player)
     {
@@ -56,6 +63,8 @@ public class NetworkMananger : MonoBehaviour
 
         Network.RemoveRPCs(player);
         Network.DestroyPlayerObjects(player);
+
+        // UpdatePlayerList();
     }
     void OnConnectedToServer()
     {
@@ -81,6 +90,10 @@ public class NetworkMananger : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Returns all registered servers in the master server.
+    /// </summary>
+    /// <returns></returns>
     public IEnumerator RefreshHostList()
     {
         Debug.Log("Refreshing");
@@ -112,13 +125,15 @@ public class NetworkMananger : MonoBehaviour
             GUILayout.Label("Running as a client.");
         }
 
-        if(Network.isClient)
+        if (Network.isClient)
         {
             if (GUI.Button(new Rect(25f, 25f, 150f, 30f), "Spawn"))
             {
                 SpawnPlayer();
             }
         }
+
+        UpdatePlayerList();
 
         if (!Network.isServer && !Network.isClient)
         {
@@ -140,11 +155,20 @@ public class NetworkMananger : MonoBehaviour
                         Network.Connect(hostData[i]);
                         Debug.Log("Connected to server " + hostData[i].gameName);
                     }
-
                 }
             }
         }
     }
 
-
+    private void UpdatePlayerList()
+    {
+        var i = 0;
+        Debug.Log("Updating player list");
+        foreach (var player in Network.connections)
+        {
+            Debug.Log("asd");
+            var playerInfo = player.guid + " " + player.ipAddress + " " + player.externalIP;
+            GUI.Label(new Rect(Screen.width/2, 20 * i++, 400, 50), playerInfo);
+        }
+    }
 }
