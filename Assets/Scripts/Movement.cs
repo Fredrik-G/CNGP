@@ -1,47 +1,52 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 public class Movement : MonoBehaviour
 {
-
-    int moveSpeed = 8;
-    float horiz = 0;
-    float vert = 0;
-    public bool haveControl = false;
-
+    public int MoveSpeed = 8;
+    private float _horizontal = 0;
+    private float _vertical = 0;
+    public bool HaveControl = false;
+ 
+    /// <summary>
+    /// This function is called every fixed framerate frame, if the MonoBehaviour is enabled.
+    /// FixedUpdate should be used instead of Update when dealing with Rigidbody.
+    /// For example when adding a force to a rigidbody, you have to apply the force every fixed frame
+    /// inside FixedUpdate instead of every frame inside Update.
+    /// </summary>
     void FixedUpdate()
     {
-        if (haveControl)
-        {
-            vert = Input.GetAxis("Vertical");
-            horiz = Input.GetAxis("Horizontal");
-            Vector3 newVelocity = (transform.right * horiz * moveSpeed) + (transform.forward * vert * moveSpeed);
-            Vector3 myVelocity = GetComponent<Rigidbody>().velocity;
-            myVelocity.x = newVelocity.x;
-            myVelocity.z = newVelocity.z;
+        if (!HaveControl) return;
 
-            if (myVelocity != GetComponent<Rigidbody>().velocity)
+        _vertical = Input.GetAxis("Vertical");
+        _horizontal = Input.GetAxis("Horizontal");
+
+        var newVelocity = (transform.right * _horizontal * MoveSpeed) + (transform.forward * _vertical * MoveSpeed);
+        var myVelocity = GetComponent<Rigidbody>().velocity;
+        myVelocity.x = newVelocity.x;
+        myVelocity.z = newVelocity.z;
+
+        //Checks if the velocity is different and needs to be updated.
+        if (myVelocity != GetComponent<Rigidbody>().velocity)
+        {
+            if (Network.isServer)
             {
-                if (Network.isServer)
-                {
-                    movePlayer(myVelocity);
-                }
-                else
-                {
-                    GetComponent<NetworkView>().RPC("movePlayer", RPCMode.Server, myVelocity);
-                }
+                MovePlayer(myVelocity);
+            }
+            else
+            {
+                GetComponent<NetworkView>().RPC("MovePlayer", RPCMode.Server, myVelocity);
             }
         }
     }
 
     [RPC]
-    void movePlayer(Vector3 playerVelocity)
+    void MovePlayer(Vector3 playerVelocity)
     {
         GetComponent<Rigidbody>().velocity = playerVelocity;
-        GetComponent<NetworkView>().RPC("updatePlayer", RPCMode.OthersBuffered, transform.position);
+        GetComponent<NetworkView>().RPC("UpdatePlayer", RPCMode.OthersBuffered, transform.position);
     }
     [RPC]
-    void updatePlayer(Vector3 playerPos)
+    void UpdatePlayer(Vector3 playerPos)
     {
         transform.position = playerPos;
     }

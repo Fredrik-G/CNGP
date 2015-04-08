@@ -26,5 +26,15 @@ namespace Engine
             return style;
         }
 
+        /// <summary>
+        /// Returns a centered rect.
+        /// </summary>
+        /// <param name="y">Y value</param>
+        /// <returns>The centered rect</returns>
+        public static Rect CreateCenteredRect(int y)
+        {
+            return new Rect(Screen.width / 2 - Screen.width / 10, Screen.height / 2 - Screen.height / 20 - y, Screen.width / 5,
+                Screen.height / 20);
+        }
     }
 }

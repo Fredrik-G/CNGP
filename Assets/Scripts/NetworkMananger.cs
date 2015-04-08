@@ -1,77 +1,109 @@
 ﻿using System;
 using UnityEngine;
 using System.Collections;
+using System.Linq;
+using Engine;
 
 public class NetworkMananger : MonoBehaviour
 {
-    public Transform player;
-    string registeredName = "CNGPspel";
-    float refreshRequestLength = 3.0f;
-    HostData[] hostData;
-    public string chosenGameName = "";
-    public NetworkPlayer myPlayer;
+    #region Data
 
+    public Transform PlayerPrefab;
+    public NetworkPlayer Player;
+
+    private readonly float _refreshRequestLength = 3.0f;
+    private readonly string _registeredName = "CNGPspel";
+    public string InputGameName = String.Empty;
+    public int MaxPlayers = 10;
+
+    private HostData[] _hostData;
+
+    #endregion
+      
+    /// <summary>
+    /// Starts a new server and register it with the Unity Master Server.
+    /// </summary>
     private void StartServer()
     {
-        Network.InitializeServer(16, 50005, false);
-        MasterServer.RegisterHost(registeredName, chosenGameName);
+        Network.InitializeServer(MaxPlayers, 50005, false);
+        MasterServer.RegisterHost(_registeredName, InputGameName);
     }
 
     void OnServerInitialized()
     {
         if (Network.isServer)
         {
-            myPlayer = Network.player;
-            makePlayer(myPlayer);
+            Player = Network.player;
+            MakePlayer(Player);
         }
     }
 
     void OnConnectedToServer()
     {
-        myPlayer = Network.player;
-        GetComponent<NetworkView>().RPC("makePlayer", RPCMode.Server, myPlayer);
+        Player = Network.player;
+        GetComponent<NetworkView>().RPC("MakePlayer", RPCMode.Server, Player);
     }
 
+    /// <summary>
+    /// Creates and instantiates a new player.
+    /// </summary>
+    /// <param name="player">The player to instantiate</param>
     [RPC]
-    void makePlayer(NetworkPlayer thisPlayer)
+    void MakePlayer(NetworkPlayer player)
     {
-        Transform newPlayer = Network.Instantiate(player, transform.position, transform.rotation, 0) as Transform;
-        if (thisPlayer != myPlayer)
+        //Instantiates a new player on the network.
+        var newPlayer = Network.Instantiate(PlayerPrefab, new Vector3(0f, 2.5f, 0f), Quaternion.identity, 0) as Transform;
+
+        //Checks if the sent player is a server.
+        if (player == Player)
         {
-            GetComponent<NetworkView>().RPC("enableCamera", thisPlayer, newPlayer.GetComponent<NetworkView>().viewID);
+            EnableCamera(newPlayer.GetComponent<NetworkView>().viewID);           
         }
         else
         {
-            enableCamera(newPlayer.GetComponent<NetworkView>().viewID);
+            GetComponent<NetworkView>().RPC("EnableCamera", player, newPlayer.GetComponent<NetworkView>().viewID);
         }
     }
 
+    /// <summary>
+    /// Enables the camera for a player.
+    /// </summary>
+    /// <param name="playerId"></param>
     [RPC]
-    void enableCamera(NetworkViewID playerID)
+    void EnableCamera(NetworkViewID playerId)
     {
-        GameObject[] players;
-        players = GameObject.FindGameObjectsWithTag("Player");
-        foreach (GameObject thisPlayer in players)
+        var players = GameObject.FindGameObjectsWithTag("Player");
+
+        //Goes through every player until it finds one with the same ID and enables his camera.
+        foreach (var player in players.Where(player => player.GetComponent<NetworkView>().viewID == playerId))
         {
-            if (thisPlayer.GetComponent<NetworkView>().viewID == playerID)
-            {
-                thisPlayer.GetComponent<Movement>().haveControl = true;
-                Transform myCamera = thisPlayer.transform.Find("Camera");
-                myCamera.GetComponent<Camera>().enabled = true;
-                myCamera.GetComponent<Camera>().GetComponent<AudioListener>().enabled = true;
-                break;
-            }
+            player.GetComponent<Movement>().HaveControl = true;
+            var myCamera = player.transform.Find("Camera");
+            myCamera.GetComponent<Camera>().enabled = true;
+            myCamera.GetComponent<Camera>().GetComponent<AudioListener>().enabled = true;
+            break;
         }
     }
 
+    /// <summary>
+    /// Refreshs the host list using Unity Master Server.
+    /// </summary>
+    /// <returns></returns>
     public IEnumerator RefreshHostList()
     {
-        MasterServer.RequestHostList(registeredName);
-        float timeEnd = Time.time + refreshRequestLength;
-        while (Time.time < timeEnd)
+        Debug.Log("Refreshing");
+        MasterServer.RequestHostList(_registeredName);
+        var endTime = Time.time + _refreshRequestLength;
+
+        while (Time.time < endTime)
         {
-            hostData = MasterServer.PollHostList();
+            _hostData = MasterServer.PollHostList();
             yield return new WaitForEndOfFrame();
+        }
+
+        if (_hostData == null || _hostData.Length == 0)
+        {
+            Debug.Log("No active servers were found.");
         }
     }
 
@@ -81,27 +113,42 @@ public class NetworkMananger : MonoBehaviour
         {
             return;
         }
-        if (chosenGameName == "")
+
+        if (InputGameName == "")
         {
-            GUI.Label(new Rect(Screen.width / 2 - Screen.width / 10, Screen.height / 2 - Screen.height / 20, Screen.width / 5, Screen.height / 20), "Game Name");
+            GUI.Label(UIFormat.CreateCenteredRect(0), "Game Name");
         }
-        chosenGameName = GUI.TextField(new Rect(Screen.width / 2 - Screen.width / 10, Screen.height / 2 - Screen.height / 20, Screen.width / 5, Screen.height / 20), chosenGameName, 25);
-        if (GUI.Button(new Rect(Screen.width / 2 - Screen.width / 10, Screen.height / 2, Screen.width / 5, Screen.height / 10), "Start New Server"))
+
+        InputGameName = GUI.TextField(UIFormat.CreateCenteredRect(0), InputGameName);
+
+        if (GUI.Button(UIFormat.CreateCenteredRect(-20), "Start New Server"))
         {
-            StartServer();
+            if (!String.IsNullOrEmpty(InputGameName))
+            {
+                StartServer();
+            }
         }
-        if (GUI.Button(new Rect(Screen.width / 2 - Screen.width / 10, Screen.height / 2 + Screen.height / 10, Screen.width / 5, Screen.height / 10), "Find Servers"))
+
+        if (GUI.Button(UIFormat.CreateCenteredRect(-40), "Find Servers"))
         {
             StartCoroutine(RefreshHostList());
         }
-        if (hostData != null)
+
+        ShowServerList();
+    }
+
+    /// <summary>
+    /// Displays all servers inside the Unity Master Server.
+    /// </summary>
+    private void ShowServerList()
+    {
+        if (_hostData == null) return;
+
+        for(var i = 0; i<_hostData.Length; i++)
         {
-            for (int i = 0; i < hostData.Length; i++)
+            if (GUI.Button(UIFormat.CreateCenteredRect(-i*10-60), _hostData[i].gameName))
             {
-                if (GUI.Button(new Rect(Screen.width / 2 - Screen.width / 10, Screen.height / 2 + ((Screen.height / 20) * (i + 4)), Screen.width / 5, Screen.height / 20), hostData[i].gameName))
-                {
-                    Network.Connect(hostData[i]);
-                }
+                Network.Connect(_hostData[i]);
             }
         }
     }
