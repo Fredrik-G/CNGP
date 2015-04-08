@@ -13,7 +13,7 @@ public class GameCamera : MonoBehaviour {
 
 	void Update () 
 	{
-		cameraTarget = new Vector3 (target.position.x, transform.position.y, target.position.z-3);
+        cameraTarget = new Vector3(target.position.x, transform.position.y, target.position.z - 3);
 		
 		transform.position = Vector3.Lerp (transform.position, cameraTarget, Time.deltaTime*8);
 	}
