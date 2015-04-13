@@ -2,53 +2,42 @@
 using System.Collections;
 using Engine;
 
-public class ProjectileSpell : MonoBehaviour{
+public class CylinderSpell : MonoBehaviour {
 
 	public string Name = "";
 	public double Scale { get; set; } 
-	public ActiveSkill ProjectileActiveSkill = new ActiveSkill();
+	public ActiveSkill CylinderActiveSkill = new ActiveSkill();
 	// Use this for initialization
-	void Start (){
-
-
+	void Start () {
+		
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		if (Name.CompareTo("Firestream") == 0) 
-		{
-			transform.localScale = Vector3.one * (float)Scale;
-			Scale +=  5 * Time.deltaTime;
-		}
-
+		
 	}
-
+	
 	public void Init(ActiveSkill AS)
 	{
-		ProjectileActiveSkill.Name = AS.Name;
-		ProjectileActiveSkill.Info = AS.Info;
-		ProjectileActiveSkill.DamageHealingPower = AS.DamageHealingPower;
-		ProjectileActiveSkill.ChiCost = AS.ChiCost;
-		ProjectileActiveSkill.Radius = AS.Radius;
-		ProjectileActiveSkill.SingleTarget = AS.SingleTarget;
-		ProjectileActiveSkill.SelfTarget = AS.SelfTarget;
-		ProjectileActiveSkill.AllyTarget = AS.AllyTarget;
-		ProjectileActiveSkill.DoCollide = AS.DoCollide;
-		ProjectileActiveSkill.Cooldown = AS.Cooldown;
-		ProjectileActiveSkill.Range = AS.Range;
-		ProjectileActiveSkill.ChannelingTime = AS.ChannelingTime;
-		ProjectileActiveSkill.CastSpeed = AS.CastSpeed;
+		CylinderActiveSkill.Name = AS.Name;
+		CylinderActiveSkill.Info = AS.Info;
+		CylinderActiveSkill.DamageHealingPower = AS.DamageHealingPower;
+		CylinderActiveSkill.ChiCost = AS.ChiCost;
+		CylinderActiveSkill.Radius = AS.Radius;
+		CylinderActiveSkill.SingleTarget = AS.SingleTarget;
+		CylinderActiveSkill.SelfTarget = AS.SelfTarget;
+		CylinderActiveSkill.AllyTarget = AS.AllyTarget;
+		CylinderActiveSkill.DoCollide = AS.DoCollide;
+		CylinderActiveSkill.Cooldown = AS.Cooldown;
+		CylinderActiveSkill.Range = AS.Range;
+		CylinderActiveSkill.ChannelingTime = AS.ChannelingTime;
+		CylinderActiveSkill.CastSpeed = AS.CastSpeed;
 	}
-
-	/// <summary>
-	/// Korrigerar skillens värden enligt spelarens stats.
-	/// </summary>
-	/// <returns>The skill values.</returns>
-	/// <param name="AS">A.</param>
+	
 	public ActiveSkill AdjustActiveSkillValues(ActiveSkill AS, PlayerStats PS)
 	{
 		ActiveSkill AdjustedActiveSkill = new ActiveSkill ();
-
+		
 		AdjustedActiveSkill.Name = AS.Name;
 		AdjustedActiveSkill.Info = AS.Info;
 		AdjustedActiveSkill.DamageHealingPower = AS.DamageHealingPower * (PS.stats.Damage / 100);
@@ -62,8 +51,7 @@ public class ProjectileSpell : MonoBehaviour{
 		AdjustedActiveSkill.Range = AS.Range * (PS.stats.Skillrange / 100);
 		AdjustedActiveSkill.ChannelingTime = AS.ChannelingTime;
 		AdjustedActiveSkill.CastSpeed = AS.CastSpeed;
-
+		
 		return AdjustedActiveSkill;
 	}
-
 }

@@ -71,7 +71,7 @@ namespace Engine
 			Debuffeffectduration = 100;
 			Cooldownduration = 100;
 			Skillradius = 100;
-			Skillrange = 500;
+			Skillrange = 100;
 		}
 
     }

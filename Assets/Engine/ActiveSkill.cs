@@ -16,11 +16,13 @@ namespace Engine
         public bool AllyTarget { get; set; }
 		public bool DoCollide { get; set;}
         public double Cooldown { get; set; }
+		public double CurrentCooldown { get; set; }
         public double Range { get; set; }
         public double ChannelingTime { get; set; }
         public double CastSpeed { get; set; }
+		public int NumberOfProjectiles { get; set; }
 
-        public ActiveSkill(string name, string info, double damageHealingPower, double chiCost, double radius, bool singleTarget, bool selfTarget, bool doCollide, bool allyTarget, double cooldown, double range, double channelingTime, double castSpeed)
+        public ActiveSkill(string name, string info, double damageHealingPower, double chiCost, double radius, bool singleTarget, bool selfTarget, bool doCollide, bool allyTarget, double cooldown, double currentcooldown, double range, double channelingTime, double castSpeed, int numberOfProjectiles)
         {
             Name = name;
             Info = info;
@@ -31,10 +33,12 @@ namespace Engine
             SelfTarget = selfTarget;
             AllyTarget = allyTarget;
 			DoCollide = doCollide;
+			CurrentCooldown = currentcooldown;
             Cooldown = cooldown;
             Range = range;
             ChannelingTime = channelingTime;
             CastSpeed = castSpeed;
+			NumberOfProjectiles = numberOfProjectiles;
         }
 
 		public ActiveSkill()
@@ -48,10 +52,12 @@ namespace Engine
 			SelfTarget = false;
 			AllyTarget = false;
 			DoCollide = false;
+			CurrentCooldown = 0;
 			Cooldown = 0;
 			Range = 0;
 			ChannelingTime = 0;
 			CastSpeed = 0;
+			NumberOfProjectiles = 1;
 
 		}
 
