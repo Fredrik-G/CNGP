@@ -1,66 +1,25 @@
-Initialize engine version: 5.0.1f1 (5a2e8fe35a68)
+Initialize engine version: 5.0.0f4 (5b98b70ebeb9)
 GfxDevice: creating device client; threaded=1
 Direct3D:
     Version:  Direct3D 11.0 [level 11.0]
-    Renderer: NVIDIA GeForce GTX 760 (ID=0x1187)
+    Renderer: NVIDIA NVS 315 (ID=0x107c)
     Vendor:   NVIDIA
-    VRAM:     1990 MB
+    VRAM:     978 MB
 Begin MonoManager ReloadAssembly
-Platform assembly: C:\Users\asd\Desktop\CNGP\Builds\spel_Data\Managed\UnityEngine.dll (this message is harmless)
-Loading C:\Users\asd\Desktop\CNGP\Builds\spel_Data\Managed\UnityEngine.dll into Unity Child Domain
-Platform assembly: C:\Users\asd\Desktop\CNGP\Builds\spel_Data\Managed\Assembly-CSharp-firstpass.dll (this message is harmless)
-Loading C:\Users\asd\Desktop\CNGP\Builds\spel_Data\Managed\Assembly-CSharp-firstpass.dll into Unity Child Domain
-Platform assembly: C:\Users\asd\Desktop\CNGP\Builds\spel_Data\Managed\Assembly-CSharp.dll (this message is harmless)
-Loading C:\Users\asd\Desktop\CNGP\Builds\spel_Data\Managed\Assembly-CSharp.dll into Unity Child Domain
-Platform assembly: C:\Users\asd\Desktop\CNGP\Builds\spel_Data\Managed\UnityEngine.UI.dll (this message is harmless)
-Loading C:\Users\asd\Desktop\CNGP\Builds\spel_Data\Managed\UnityEngine.UI.dll into Unity Child Domain
-- Completed reload, in  0.061 seconds
-desktop: 1920x1080 120Hz; virtual: 3840x1080 at -1920,0
+Platform assembly: M:\Desktop\år2\SystemProgramvaruutveckling\CNGP2\Builds\spel_Data\Managed\UnityEngine.dll (this message is harmless)
+Loading M:\Desktop\år2\SystemProgramvaruutveckling\CNGP2\Builds\spel_Data\Managed\UnityEngine.dll into Unity Child Domain
+Platform assembly: M:\Desktop\år2\SystemProgramvaruutveckling\CNGP2\Builds\spel_Data\Managed\Assembly-CSharp-firstpass.dll (this message is harmless)
+Loading M:\Desktop\år2\SystemProgramvaruutveckling\CNGP2\Builds\spel_Data\Managed\Assembly-CSharp-firstpass.dll into Unity Child Domain
+Platform assembly: M:\Desktop\år2\SystemProgramvaruutveckling\CNGP2\Builds\spel_Data\Managed\Assembly-CSharp.dll (this message is harmless)
+Loading M:\Desktop\år2\SystemProgramvaruutveckling\CNGP2\Builds\spel_Data\Managed\Assembly-CSharp.dll into Unity Child Domain
+Platform assembly: M:\Desktop\år2\SystemProgramvaruutveckling\CNGP2\Builds\spel_Data\Managed\UnityEngine.UI.dll (this message is harmless)
+Loading M:\Desktop\år2\SystemProgramvaruutveckling\CNGP2\Builds\spel_Data\Managed\UnityEngine.UI.dll into Unity Child Domain
+- Completed reload, in  0.871 seconds
+desktop: 1920x1080 60Hz; virtual: 1920x1080 at 0,0
 <RI> Initializing input.
 <RI> Input initialized.
 <RI> Initialized touch support.
-Platform assembly: C:\Users\asd\Desktop\CNGP\Builds\spel_Data\Managed\System.Core.dll (this message is harmless)
-Setting up 1 worker threads for Enlighten.
-  Thread -> id: 47ac -> priority: 1 
-Connected to master server at 67.225.180.24:23466
- 
-(Filename:  Line: 2493)
-
-Incoming host list query response from master server.
- 
-(Filename:  Line: 2493)
-
-Received pong from 10.0.0.2:50005
- 
-(Filename:  Line: 845)
-
-Running as client. No player ID set yet.
- 
-(Filename:  Line: 2493)
-
-Received pong from 192.168.216.1:50005
- 
-(Filename:  Line: 845)
-
-Received pong from 192.168.222.1:50005
- 
-(Filename:  Line: 845)
-
-Connected to 10.0.0.2:50005
-
- 
-(Filename:  Line: 2493)
-
-Set player ID to 1
-
- 
-(Filename:  Line: 2493)
-
-Receiving state for an object whose network view exists but the observed object no longer exists
- 
-(Filename:  Line: 315)
-
-The server has disconnected from the client. Most likely the server has shut down.
- 
-(Filename:  Line: 754)
-
+Platform assembly: M:\Desktop\år2\SystemProgramvaruutveckling\CNGP2\Builds\spel_Data\Managed\System.Core.dll (this message is harmless)
+Setting up 2 worker threads for Enlighten.
+  Thread -> id: 1a3c -> priority: 1 
+  Thread -> id: 1980 -> priority: 1 

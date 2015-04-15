@@ -35,11 +35,11 @@ public class TopDownController : MonoBehaviour
 
     void ControlMouse()
     {
-        //Makes sure the player is only able to control his own character.
-        if (!GetComponent<NetworkView>().isMine)
-        {
-            return;
-        }
+        ////Makes sure the player is only able to control his own character.
+        //if (!GetComponent<NetworkView>().isMine)
+        //{
+        //    return;
+        //}
 
         Vector3 mousePos = Input.mousePosition;
         mousePos = cam.ScreenToWorldPoint(new Vector3(mousePos.x, mousePos.y, cam.transform.position.y - transform.position.y));

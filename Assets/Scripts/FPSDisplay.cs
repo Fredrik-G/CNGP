@@ -19,7 +19,5 @@ public class FPSDisplay : MonoBehaviour
         var fps = 1.0f / deltaTime;
         var text = string.Format("{0:0.}fps", fps);
         GUI.Label(rect, text, guiStyle);
-
-
     }
 }

@@ -114,7 +114,7 @@ public class NetworkMananger : MonoBehaviour
             return;
         }
 
-        if (InputGameName == "")
+        if (String.IsNullOrEmpty(InputGameName))
         {
             GUI.Label(UIFormat.CreateCenteredRect(0), "Game Name");
         }
