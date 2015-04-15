@@ -276,10 +276,6 @@ public class ThirdPersonController : MonoBehaviour {
 			Input.ResetInputAxes();
 		}
 	
-		if (Input.GetButtonDown ("Jump"))
-		{
-			lastJumpButtonTime = Time.time;
-		}
 	
 		UpdateSmoothedMovementDirection();
 		

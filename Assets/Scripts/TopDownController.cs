@@ -11,12 +11,12 @@ public class TopDownController : MonoBehaviour {
 	private Quaternion targetRotation;
 
 	private CharacterController controller;
-	private Camera cam;
+	public Camera cam;
 
 	void Start()
 	{
 		controller = GetComponent<CharacterController> ();
-		cam = Camera.main;
+        
 	}
 
 	void Update() 
