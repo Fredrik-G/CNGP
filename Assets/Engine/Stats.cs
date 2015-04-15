@@ -8,10 +8,17 @@ namespace Engine
     public class Stats
     {  
         public double Damage { get; set; }
-        public double Chi { get; set; }
+
+        public double MaxChi { get; set; }
+
+		public double CurrentChi { get; set; }
+
+		public double Chireg { get; set; }
 
 		public double MaxHealthpoints { get; set; }
-        public double Healthpoints { get; set; }
+
+        public double CurrentHealthpoints { get; set; }
+
         public double Healthreg { get; set; }
 
         public double Healingpower { get; set; }
@@ -36,12 +43,14 @@ namespace Engine
 
 		public List<ActiveSkill> SkillList = new List<ActiveSkill>();
 
-        public Stats(double damage, double chi, double maxhealthpoints, double healthpoints, double healthreg, double healingpower, double movementspeed, double armor, double physicalresistance, double magicalresistance, double buffeffectduration, double debuffeffectduration, double cooldownduration, double skillradius, double skillrange)
+        public Stats(double damage, double maxchi, double currentchi, double chireg, double maxhealthpoints, double currenthealthpoints, double healthreg, double healingpower, double movementspeed, double armor, double physicalresistance, double magicalresistance, double buffeffectduration, double debuffeffectduration, double cooldownduration, double skillradius, double skillrange)
         {
             Damage = damage;
-            Chi = chi;
+            MaxChi = maxchi;
+			CurrentChi = currentchi;
+			Chireg = chireg;
 			MaxHealthpoints = maxhealthpoints;
-            Healthpoints = healthpoints;
+			CurrentHealthpoints = currenthealthpoints;
             Healthreg = healthreg;
             Healingpower = healingpower;
             Movementspeed = movementspeed;
@@ -58,9 +67,11 @@ namespace Engine
 		public Stats()
 		{
 			Damage = 100;
-			Chi = 100;
+			MaxChi = 100;
+			CurrentChi = 100;
+			Chireg = 100;
 			MaxHealthpoints = 100;
-			Healthpoints = 100;
+			CurrentHealthpoints = 100;
 			Healthreg = 100;
 			Healingpower = 100;
 			Movementspeed = 100;
@@ -70,7 +81,7 @@ namespace Engine
 			Buffeffectduration = 100;
 			Debuffeffectduration = 100;
 			Cooldownduration = 100;
-			Skillradius = 100;
+			Skillradius = 300;
 			Skillrange = 100;
 		}
 

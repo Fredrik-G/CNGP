@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.Collections.Generic;
 namespace Engine
 {
     /// <summary>
@@ -21,6 +22,7 @@ namespace Engine
         public double ChannelingTime { get; set; }
         public double CastSpeed { get; set; }
 		public int NumberOfProjectiles { get; set; }
+		public List<BuffEffect> BuffEffectList = new List<BuffEffect>();
 
         public ActiveSkill(string name, string info, double damageHealingPower, double chiCost, double radius, bool singleTarget, bool selfTarget, bool doCollide, bool allyTarget, double cooldown, double currentcooldown, double range, double channelingTime, double castSpeed, int numberOfProjectiles)
         {

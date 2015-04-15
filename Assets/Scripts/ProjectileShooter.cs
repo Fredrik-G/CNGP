@@ -50,7 +50,8 @@ public class ProjectileShooter : MonoBehaviour
 			PlayerStats.stats.SkillList [i].CurrentCooldown -= Time.deltaTime;
 		}
 	}
-	
+
+	//Anpassad för de fyra mainskillsen
 	void SkillCast(int skillSlot, PlayerStats playerStats)
 	{
 		var oldSpawn = spawn.localRotation;
@@ -60,22 +61,22 @@ public class ProjectileShooter : MonoBehaviour
 		}
 
 		for (int i = 0; i < playerStats.stats.SkillList[skillSlot].NumberOfProjectiles; i++) 
-		{
-			var projectile = Instantiate (_projectilePrefab) as GameObject;
-		
+		{	
+			var projectile = Instantiate (_projectilePrefab, spawn.position, Quaternion.Euler(0, 0, 0)) as GameObject;
+
 			var Controller = projectile.GetComponent<ProjectileSpell> ();
 
 			Controller.Init (Controller.AdjustActiveSkillValues (playerStats.stats.SkillList [skillSlot], playerStats));
 			playerStats.stats.SkillList [skillSlot].CurrentCooldown = Controller.ProjectileActiveSkill.Cooldown;
 			Controller.Name = playerStats.stats.SkillList [skillSlot].Name;
-			Controller.Scale = playerStats.stats.SkillList [skillSlot].Radius;
-			projectile.transform.localScale = new Vector3 ((float)Controller.ProjectileActiveSkill.Radius, (float)Controller.ProjectileActiveSkill.Radius, (float)Controller.ProjectileActiveSkill.Radius);
+			Controller.Scale = Controller.ProjectileActiveSkill.Radius;
+
+			projectile.transform.localScale = new Vector3 ((float)Controller.Scale , (float)Controller.Scale , (float)Controller.Scale);
 		
 			if (playerStats.stats.SkillList [skillSlot].Name == "Waterbullets")
 			{
 				spawn.transform.Rotate (Vector3.up, 5);
 			}
-			projectile.transform.position = spawn.position;
 
 			var rb = projectile.GetComponent<Rigidbody> ();
 			rb.velocity = spawn.transform.forward * (Convert.ToInt32 ((Controller.ProjectileActiveSkill.CastSpeed)));
@@ -86,32 +87,33 @@ public class ProjectileShooter : MonoBehaviour
 		spawn.localRotation = oldSpawn;
 	}
 
+
+	//Anpassad för earthquake atm
 	void SkillOnMouseCast(int skillSlot, PlayerStats playerStats)
 	{
-		var cylinder = Instantiate (_cylinderPrefab) as GameObject;
+		if (playerStats.stats.CurrentChi >= playerStats.stats.SkillList [skillSlot].ChiCost) {
+			var ray = Camera.main.ScreenPointToRay (Input.mousePosition);
+			RaycastHit hit = new RaycastHit ();
+			if (Physics.Raycast (ray, out hit, (float)playerStats.stats.SkillList [skillSlot].Range)) {
+				var cylinderPosition = new Vector3 (hit.point.x, 0, hit.point.z);
 
-		var Controller = cylinder.GetComponent<CylinderSpell> ();
-		Controller.Init (Controller.AdjustActiveSkillValues (playerStats.stats.SkillList [skillSlot], playerStats));
 
-		// FÅ IN RÄTT MUSKOORDINATER
-		var ray = Camera.main.ScreenPointToRay (Input.mousePosition);
-		RaycastHit hit = new RaycastHit ();
+				var cylinder = Instantiate (_cylinderPrefab, cylinderPosition, Quaternion.Euler (0, 0, 0)) as GameObject;
 
-		if (Physics.Raycast(ray, out hit,Mathf.Infinity)){
-			
-			if(hit.collider.tag == "Terrain"){
-				var placePos = hit.point;
-				placePos.y += (float)0.5;
-				placePos.x = Mathf.Round(placePos.x);
-				placePos.z = Mathf.Round(placePos.z);
-				Debug.Log("World point: " + placePos);
+				var Controller = cylinder.GetComponent<CylinderSpell> ();
+				Controller.Init (Controller.AdjustActiveSkillValues (playerStats.stats.SkillList [skillSlot], playerStats));
+
+				playerStats.stats.SkillList [skillSlot].CurrentCooldown = Controller.CylinderActiveSkill.Cooldown;
+
+				var rb = cylinder.GetComponent<Rigidbody> ();
+				rb.velocity = cylinder.transform.up * 2;
+
+				playerStats.stats.CurrentChi -= playerStats.stats.SkillList[skillSlot].ChiCost;
+
+				Debug.Log("" + playerStats.stats.CurrentChi);
+
+				Destroy (cylinder.gameObject, 2);
 			}
 		}
-		Debug.Log("World point: " + hit.point);
-		//cylinder.transform.position = new Vector3 (point.x, point.y, point.z);
-
-		var rb = cylinder.GetComponent<Rigidbody> ();
-		rb.velocity = cylinder.transform.up * 2;
-		Destroy (cylinder.gameObject, 10);
 	}
 }

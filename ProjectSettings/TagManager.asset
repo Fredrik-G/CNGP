@@ -5,7 +5,7 @@ TagManager:
   serializedVersion: 2
   tags:
   - projectile
-  - map
+  - cylinder
   layers:
   - Default
   - TransparentFX

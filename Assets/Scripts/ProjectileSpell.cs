@@ -18,7 +18,8 @@ public class ProjectileSpell : MonoBehaviour{
 		if (Name.CompareTo("Firestream") == 0) 
 		{
 			transform.localScale = Vector3.one * (float)Scale;
-			Scale +=  5 * Time.deltaTime;
+
+			Scale +=  (10 * Time.deltaTime);
 		}
 
 	}
