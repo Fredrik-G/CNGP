@@ -5,6 +5,17 @@ using Engine;
 public class PlayerStats : MonoBehaviour {
 
 	public Stats stats = new Stats();
+    public GameObject HealthBar;
+    public GameObject ChiBar;
+
+    public float HealthBarMaxScale;
+    public float HealthBarCurrentScale;
+    public float ChiBarMaxScale;
+    public float ChiBarCurrentScale;
+
+    private double _healthPointPercentage;
+    private double _chiPointPercentage;
+
 	// Use this for initialization
 	void Start () {
 		//stats.SkillList.Add (new ActiveSkill ("Earthquake", "Creates localized earthquakes or fissures to throw opponents off-balance", 7, 20, 1, false, false, true, false, 1.9, 0, 15, 0, 30, 10));
@@ -16,12 +27,58 @@ public class PlayerStats : MonoBehaviour {
 		stats.SkillList.Add(new ActiveSkill ("Firestream", "Basic firebending ability, firebenders can shoot continues streams of fire from there fingertips, fists, palms or legs", 0.2, 0, 0.5, false, false, false, false, 0.05, 0, 4, 0, 15,1));
 		stats.SkillList.Add (new ActiveSkill ("Waterbullets", "The waterbullet is a move where a waterbender bends a large amount and shoots in a forcefull blow", 1.5, 0, 0.3, false, false, true, false, 1.9, 0, 9, 0, 12, 5));
 
+        HealthBarMaxScale = HealthBar.transform.localScale.y;
+        HealthBarCurrentScale = HealthBarMaxScale;
+
+        ChiBarMaxScale = ChiBar.transform.localScale.y;
+        ChiBarCurrentScale = ChiBarMaxScale;
 	}
 	
 	// Update is called once per frame
 	void Update () {
 		if (stats.CurrentChi < stats.MaxChi) {
+            ChiScale();
 			stats.CurrentChi += ((stats.Chireg / 100) * Time.deltaTime);
 		}
 	}
+
+    void ChiScale()
+    {
+        //stats.CurrentChi -= (amount / (stats.Armor / 100));
+        _chiPointPercentage = (stats.CurrentChi / stats.MaxChi);
+        ChiBarCurrentScale = (float)(_chiPointPercentage * ChiBarMaxScale);
+        ChiBar.transform.localScale = new Vector3(ChiBar.transform.localScale.x, ChiBarCurrentScale, ChiBar.transform.localScale.z);
+	
+    }
+
+    private void TakeDamage(double amount)
+    {
+        stats.CurrentHealthpoints -= (amount / (stats.Armor / 100));
+        _healthPointPercentage = (stats.CurrentHealthpoints / stats.MaxHealthpoints);
+        HealthBarCurrentScale = (float)(_healthPointPercentage * HealthBarMaxScale);
+        HealthBar.transform.localScale = new Vector3(HealthBar.transform.localScale.x, HealthBarCurrentScale, HealthBar.transform.localScale.z);
+    }
+
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("projectile"))
+        {
+            var projectile = other.gameObject.GetComponent<ProjectileSpell>();
+
+            if (projectile != null)
+            {
+                TakeDamage(projectile.ProjectileActiveSkill.DamageHealingPower);
+            }
+        }
+
+        if (other.gameObject.CompareTag("cylinder"))
+        {
+            var cylinder = other.gameObject.GetComponent<CylinderSpell>();
+
+            if (cylinder != null)
+            {
+                TakeDamage(cylinder.CylinderActiveSkill.DamageHealingPower);
+            }
+        }
+    }
 }
