@@ -3,67 +3,39 @@ using System.Collections;
 using Engine;
 
 public class EnemyDummyController : MonoBehaviour {
-
-	public Stats stats = new Stats();
-
-	public GameObject HealthBar;
-	public GameObject Frame;
-	public float HealthBarMaxScale;
-	public float HealthBarCurrentScale;
-
-	private double _healthPointPercentage;
-
+	private Quaternion targetRotation;
+	public float rotationSpeed = 450;
+	public float walkSpeed = 5;
+	public float runSpeed = 8;
+	private CharacterController controller;
 
 
 	// Use this for initialization
 	void Start () {
-		stats.CurrentHealthpoints = 20;
-		stats.MaxHealthpoints = 20;
-		HealthBarMaxScale = HealthBar.transform.localScale.y;
-		HealthBarCurrentScale = HealthBarMaxScale;
+
+		controller = GetComponent<CharacterController> ();
 	}
 	
 	// Update is called once per frame
 	void Update () {
 
-	}
-
-	private void TakeDamage(double amount)
-	{
-
-		stats.CurrentHealthpoints -= (amount / (stats.Armor / 100));
-		_healthPointPercentage = (stats.CurrentHealthpoints / stats.MaxHealthpoints);
-		HealthBarCurrentScale = (float)(_healthPointPercentage * HealthBarMaxScale); 
-		HealthBar.transform.localScale = new Vector3(HealthBar.transform.localScale.x, HealthBarCurrentScale, HealthBar.transform.localScale.z);
-	
-
-		if (stats.CurrentHealthpoints <= 0)
-		{
-			Destroy(gameObject);
-		}
+		ControlWASD ();
 	}
 	
-	
-	void OnTriggerEnter(Collider other)
+	void ControlWASD()
 	{
-		if (other.gameObject.CompareTag("projectile"))
-		{	
-			var projectile = other.gameObject.GetComponent<ProjectileSpell>();            
-			
-			if (projectile != null)
-			{
-				TakeDamage(projectile.ProjectileActiveSkill.DamageHealingPower);
-			}
+		Vector3 input = new Vector3 (Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical"));
+		
+		if (input != Vector3.zero) {
+			targetRotation = Quaternion.LookRotation (input);
+			transform.eulerAngles = Vector2.up * Mathf.MoveTowardsAngle (transform.eulerAngles.y, targetRotation.eulerAngles.y, rotationSpeed * Time.deltaTime);
 		}
-
-		if (other.gameObject.CompareTag ("cylinder"))
-		{
-			var cylinder = other.gameObject.GetComponent<CylinderSpell>();            
-			
-			if (cylinder != null)
-			{
-				TakeDamage(cylinder.CylinderActiveSkill.DamageHealingPower);
-			}
-		}
+		
+		Vector3 motion = input;
+		motion *= (Mathf.Abs (input.x) == 1 && Mathf.Abs (input.z) == 1) ? .7f : 1;
+		motion *= (Input.GetButton ("Run")) ? runSpeed : walkSpeed;
+		motion += Vector3.up * -8;
+		
+		controller.Move (motion * Time.deltaTime);
 	}
 }

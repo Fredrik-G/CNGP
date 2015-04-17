@@ -79,9 +79,9 @@ namespace Engine
 			Physicalresistance = 100;
 			Magicalresistance = 100;
 			Buffeffectduration = 100;
-			Debuffeffectduration = 100;
+			Debuffeffectduration = 400;
 			Cooldownduration = 100;
-			Skillradius = 300;
+			Skillradius = 100;
 			Skillrange = 100;
 		}
 

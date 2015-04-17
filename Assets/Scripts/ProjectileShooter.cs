@@ -10,6 +10,8 @@ public class ProjectileShooter : MonoBehaviour
 	private GameObject _cubePrefab;
 	private GameObject _cylinderPrefab;
 	public Transform spawn;
+	private AudioSource _audioSource;
+
 
 	// Use this for initialization
 	void Start ()
@@ -17,6 +19,7 @@ public class ProjectileShooter : MonoBehaviour
 		_projectilePrefab = Resources.Load("projectile") as GameObject;
 		_cubePrefab = Resources.Load ("cube") as GameObject;
 		_cylinderPrefab = Resources.Load ("cylinder") as GameObject;
+		_audioSource = GetComponent<AudioSource> ();
 
 	}
 
@@ -26,13 +29,11 @@ public class ProjectileShooter : MonoBehaviour
 	
 		if (Input.GetButton("LeftClick") && (PlayerStats.stats.SkillList[0].CurrentCooldown <= 0))
 	    {
-			SkillOnMouseCast(0, PlayerStats);
+			SkillSpawnOnPlayerCast(0, PlayerStats);
 	    }
 
-		if (Input.GetButton("RightClick") && (PlayerStats.stats.SkillList[1].CurrentCooldown <= 0))
-		{
-			SkillCast(1,PlayerStats);	
-
+		if (Input.GetButton ("RightClick") && (PlayerStats.stats.SkillList [1].CurrentCooldown <= 0)) {
+			SkillCast (1, PlayerStats);	
 		}
 
 		if (Input.GetButton ("ButtonQ") && (PlayerStats.stats.SkillList [2].CurrentCooldown <= 0))
@@ -54,6 +55,7 @@ public class ProjectileShooter : MonoBehaviour
 	//Anpassad för de fyra mainskillsen
 	void SkillCast(int skillSlot, PlayerStats playerStats)
 	{
+		_audioSource.PlayOneShot (Resources.Load("SoundEffects/" + playerStats.stats.SkillList[skillSlot].Name) as AudioClip);
 		var oldSpawn = spawn.localRotation;
 		if (playerStats.stats.SkillList [skillSlot].Name == "Waterbullets")
 		{
@@ -95,25 +97,52 @@ public class ProjectileShooter : MonoBehaviour
 			var ray = Camera.main.ScreenPointToRay (Input.mousePosition);
 			RaycastHit hit = new RaycastHit ();
 			if (Physics.Raycast (ray, out hit, (float)playerStats.stats.SkillList [skillSlot].Range)) {
-				var cylinderPosition = new Vector3 (hit.point.x, 0, hit.point.z);
 
+				_audioSource.PlayOneShot (Resources.Load("SoundEffects/" + playerStats.stats.SkillList[skillSlot].Name) as AudioClip);
+				var cylinderPosition = new Vector3 (hit.point.x, 0, hit.point.z);
 
 				var cylinder = Instantiate (_cylinderPrefab, cylinderPosition, Quaternion.Euler (0, 0, 0)) as GameObject;
 
 				var Controller = cylinder.GetComponent<CylinderSpell> ();
 				Controller.Init (Controller.AdjustActiveSkillValues (playerStats.stats.SkillList [skillSlot], playerStats));
+				Controller.Name = playerStats.stats.SkillList [skillSlot].Name;
 
 				playerStats.stats.SkillList [skillSlot].CurrentCooldown = Controller.CylinderActiveSkill.Cooldown;
+
+				cylinder.transform.localScale = new Vector3 ((float)Controller.CylinderActiveSkill.Radius , cylinder.transform.localScale.y , (float)Controller.CylinderActiveSkill.Radius);
 
 				var rb = cylinder.GetComponent<Rigidbody> ();
 				rb.velocity = cylinder.transform.up * 2;
 
 				playerStats.stats.CurrentChi -= playerStats.stats.SkillList[skillSlot].ChiCost;
 
-				Debug.Log("" + playerStats.stats.CurrentChi);
-
 				Destroy (cylinder.gameObject, 2);
 			}
+		}
+	}
+
+	void SkillSpawnOnPlayerCast(int skillSlot, PlayerStats playerStats)
+	{
+		if (playerStats.stats.CurrentChi >= playerStats.stats.SkillList [skillSlot].ChiCost) 
+		{
+			var cylinderPosition = new Vector3(gameObject.transform.position.x, (float)(gameObject.transform.position.y + 0.3), gameObject.transform.position.z);
+			var cylinder = Instantiate (_cylinderPrefab, cylinderPosition , Quaternion.Euler (0, 0, 0)) as GameObject;
+
+
+			var Controller = cylinder.GetComponent<CylinderSpell> ();
+			Controller.Init (Controller.AdjustActiveSkillValues (playerStats.stats.SkillList [skillSlot], playerStats));
+			Controller.Name = playerStats.stats.SkillList [skillSlot].Name;
+			Controller.Scale = Controller.CylinderActiveSkill.Radius;
+
+			playerStats.stats.SkillList [skillSlot].CurrentCooldown = Controller.CylinderActiveSkill.Cooldown;
+
+			var rb = cylinder.GetComponent<Rigidbody> ();
+			rb.useGravity = false;
+
+			playerStats.stats.CurrentChi -= playerStats.stats.SkillList[skillSlot].ChiCost;
+
+			Destroy(cylinder.gameObject, (float)(Controller.CylinderActiveSkill.Range / Controller.CylinderActiveSkill.CastSpeed));
+
 		}
 	}
 }
