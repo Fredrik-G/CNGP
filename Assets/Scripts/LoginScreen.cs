@@ -24,13 +24,15 @@ public class LoginScreen : MonoBehaviour
     /// <summary>
     /// Account information
     /// </summary>
+    /// 
+    /// Borde använda klassen User
     private string _accountEmail = String.Empty;
     private string _accountPassword = String.Empty;
     private string _registeredIp = String.Empty;
 
     private string _hash = string.Empty;
     private string _salt = string.Empty;
-    private static RNGCryptoServiceProvider rngCrypto = new RNGCryptoServiceProvider();
+    private static readonly RNGCryptoServiceProvider RngCrypto = new RNGCryptoServiceProvider();
 
     /// <summary>
     /// The currently selected menu
@@ -99,7 +101,7 @@ public class LoginScreen : MonoBehaviour
     {
         GUI.Box(_menuRect, "Login Screen");
 
-        ShowInfoText();
+        DisplayInfoText();
 
         if (GUI.Button(_leftButtonRect, "Login"))
         {
@@ -134,7 +136,7 @@ public class LoginScreen : MonoBehaviour
 
         GUI.Box(_menuRect, "Create New Account");
 
-        ShowInfoText();
+        DisplayInfoText();
 
         if (GUI.Button(_leftButtonRect, "Create Account"))
         {
@@ -179,6 +181,7 @@ public class LoginScreen : MonoBehaviour
 
         try
         {
+            Debug.Log("Adding to database");
             _database.AddAccountToDatabase(_accountEmail, _salt, _hash, _registeredIp);
             _message = String.Empty;
         }
@@ -218,7 +221,7 @@ public class LoginScreen : MonoBehaviour
     /// <summary>
     /// Shows a centered text label with various information.
     /// </summary>
-    private void ShowInfoText()
+    private void DisplayInfoText()
     {
         var guiStyle = UIFormat.FormatGuiStyle(TextAnchor.UpperLeft, UIFormat.FontSize.Small, Color.red);
         var rect = UIFormat.CreateCenteredRect(-Screen.height/5);
@@ -230,7 +233,7 @@ public class LoginScreen : MonoBehaviour
     /// Returns the public IP for the user.
     /// </summary>
     /// <returns></returns>
-    private string GetUserPublicIp()
+    private static string GetUserPublicIp()
     {
         var ipHost = Dns.GetHostEntry(Dns.GetHostName());
         return ipHost.AddressList[0].ToString();
@@ -246,7 +249,7 @@ public class LoginScreen : MonoBehaviour
         const int SALT_SIZE = 5;
 
         var saltBytes = new byte[SALT_SIZE];
-        rngCrypto.GetNonZeroBytes(saltBytes);
+        RngCrypto.GetNonZeroBytes(saltBytes);
 
         return saltBytes.Aggregate("", (current, x) => current + String.Format("{0:x2}", x));
     }

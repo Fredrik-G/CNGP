@@ -1,4 +1,5 @@
-﻿using System.Data;
+﻿using System.Collections.Generic;
+using System.Data;
 using System.IO;
 using Mono.Data.Sqlite;
 using UnityEngine;
@@ -30,6 +31,7 @@ namespace Engine
         // + Application.dataPath + Path.DirectorySeparatorChar
         //  + SQL_DB_NAME + ".db";
 
+        //Använd ej denna, använd den ovanför.
         private static readonly string SQL_DB_LOCATION = "URI=file:M:/Desktop/CNGP.db";
 
         /// <summary>
@@ -42,6 +44,8 @@ namespace Engine
 
         public bool DebugMode = true;
         #endregion
+
+        #region Enums
 
         /// <summary>
         /// String "enum" for all available tables.
@@ -59,6 +63,8 @@ namespace Engine
             public const string Accounts = "Email";
         }
 
+        #endregion
+
         /// <summary>
         /// Initilizes the database connection.
         /// </summary>
@@ -69,26 +75,32 @@ namespace Engine
             _dbCommand = _dbConnection.CreateCommand();
         }
 
+        #region SQL Queries
+
         /// <summary>
-        /// Inserts a new account.
+        /// Inserts given columns to the current table.
         /// </summary>
-        /// <param name="email">Account email</param>
-        /// <param name="salt">Account salt</param>
-        /// <param name="hash">Account hash</param>
-        /// <param name="registeredIp">Account registered ip</param>
-        private void InsertAccount(string email, string salt, string hash, string registeredIp)
+        /// <param name="columns">The columns to be inserted</param>
+        private void InsertIntoCurrentTable(string[] columns)
         {
-            SQL_TABLE_NAME = Tables.Accounts;
             _sqlQuery = "INSERT INTO " + SQL_TABLE_NAME
-                + " VALUES ("
-                + "'" + email + "',"
-                + "'" + salt + "',"
-                + "'" + hash + "',"
-                + "'" + registeredIp + "');";
+                        + " VALUES (";
+
+            for(var column = 0; column < columns.Length; column++)
+            {
+                if (column + 1 == columns.Length)
+                {
+                    _sqlQuery += "'" + columns[column];
+                }
+                else
+                {
+                    _sqlQuery += "'" + columns[column] + "',";
+                }
+            }
+            _sqlQuery += "');";
 
             DebugText(_sqlQuery);
-
-            ExecuteNonQuery(_sqlQuery);
+            ExecuteNonQuery(_sqlQuery);           
         }
 
         /// <summary>
@@ -102,10 +114,11 @@ namespace Engine
         {
             var text = "Not Found";
 
-            if(_dbConnection.State != ConnectionState.Open)
+            if (_dbConnection.State != ConnectionState.Open)
                 _dbConnection.Open();
 
-            _dbCommand.CommandText = "SELECT " + column + " FROM " + SQL_TABLE_NAME + " WHERE " + primaryKey + "='" + value + "'";
+            _dbCommand.CommandText = "SELECT " + column + " FROM " + SQL_TABLE_NAME + " WHERE " + primaryKey + "='" +
+                                     value + "'";
             _reader = _dbCommand.ExecuteReader();
 
             if (_reader.Read())
@@ -133,6 +146,8 @@ namespace Engine
             _dbConnection.Close();
         }
 
+        #endregion
+
         /// <summary>
         /// 
         /// </summary>
@@ -144,7 +159,11 @@ namespace Engine
         {
             //Should check for sql injection here.
 
-            InsertAccount(email, salt, hash, registeredIp);
+            string[] accountInfo = { email, salt, hash, registeredIp };
+
+            SQL_TABLE_NAME = Tables.Accounts;
+
+            InsertIntoCurrentTable(accountInfo);
         }
 
         /// <summary>
