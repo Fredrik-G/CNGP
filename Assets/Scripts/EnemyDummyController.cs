@@ -17,7 +17,7 @@ public class EnemyDummyController : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		stats.Healthpoints = 20;
+		stats.CurrentHealthpoints = 20;
 		stats.MaxHealthpoints = 20;
 		HealthBarMaxScale = HealthBar.transform.localScale.y;
 		HealthBarCurrentScale = HealthBarMaxScale;
@@ -31,13 +31,13 @@ public class EnemyDummyController : MonoBehaviour {
 	private void TakeDamage(double amount)
 	{
 
-		stats.Healthpoints -= (amount / (stats.Armor / 100));
-		_healthPointPercentage = (stats.Healthpoints / stats.MaxHealthpoints);
+		stats.CurrentHealthpoints -= (amount / (stats.Armor / 100));
+		_healthPointPercentage = (stats.CurrentHealthpoints / stats.MaxHealthpoints);
 		HealthBarCurrentScale = (float)(_healthPointPercentage * HealthBarMaxScale); 
 		HealthBar.transform.localScale = new Vector3(HealthBar.transform.localScale.x, HealthBarCurrentScale, HealthBar.transform.localScale.z);
 	
 
-		if (stats.Healthpoints <= 0)
+		if (stats.CurrentHealthpoints <= 0)
 		{
 			Destroy(gameObject);
 		}
@@ -53,6 +53,16 @@ public class EnemyDummyController : MonoBehaviour {
 			if (projectile != null)
 			{
 				TakeDamage(projectile.ProjectileActiveSkill.DamageHealingPower);
+			}
+		}
+
+		if (other.gameObject.CompareTag ("cylinder"))
+		{
+			var cylinder = other.gameObject.GetComponent<CylinderSpell>();            
+			
+			if (cylinder != null)
+			{
+				TakeDamage(cylinder.CylinderActiveSkill.DamageHealingPower);
 			}
 		}
 	}
