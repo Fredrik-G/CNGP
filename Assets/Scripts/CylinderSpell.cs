@@ -3,25 +3,23 @@ using System.Collections;
 using Engine;
 
 public class CylinderSpell : MonoBehaviour {
-
-	public string Name = "";
-	public double Scale { get; set; } 
+	
 	public ActiveSkill CylinderActiveSkill = new ActiveSkill();
 	// Use this for initialization
 	void Start () {
-		
+
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		Debug.Log ("FrameRate = " + (int)(1.0f / Time.smoothDeltaTime));
-		if (Name.CompareTo("Ice floor") == 0) 
+		if (CylinderActiveSkill.Name.CompareTo("Ice floor") == 0) 
 		{
 			//Debug.Log("local scale = " + transform.localScale);
 			//transform.localScale = new Vector3(transform.localScale.x * (float)Scale,  transform.localScale.y, transform.localScale.z * (float)Scale);
-			transform.localScale = Vector3.one * (float)Scale;
+
+			transform.localScale = Vector3.one * (float)CylinderActiveSkill.Radius;
 			
-			Scale +=  (1 * Time.deltaTime);
+			CylinderActiveSkill.Radius +=  (1 * Time.deltaTime);
 			
 
 		}

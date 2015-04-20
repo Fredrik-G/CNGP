@@ -70,10 +70,8 @@ public class ProjectileShooter : MonoBehaviour
 
 			Controller.Init (Controller.AdjustActiveSkillValues (playerStats.stats.SkillList [skillSlot], playerStats));
 			playerStats.stats.SkillList [skillSlot].CurrentCooldown = Controller.ProjectileActiveSkill.Cooldown;
-			Controller.Name = playerStats.stats.SkillList [skillSlot].Name;
-			Controller.Scale = Controller.ProjectileActiveSkill.Radius;
 
-			projectile.transform.localScale = new Vector3 ((float)Controller.Scale , (float)Controller.Scale , (float)Controller.Scale);
+			projectile.transform.localScale = new Vector3 ((float)Controller.ProjectileActiveSkill.Radius , (float)Controller.ProjectileActiveSkill.Radius , (float)Controller.ProjectileActiveSkill.Radius);
 		
 			if (playerStats.stats.SkillList [skillSlot].Name == "Waterbullets")
 			{
@@ -105,7 +103,6 @@ public class ProjectileShooter : MonoBehaviour
 
 				var Controller = cylinder.GetComponent<CylinderSpell> ();
 				Controller.Init (Controller.AdjustActiveSkillValues (playerStats.stats.SkillList [skillSlot], playerStats));
-				Controller.Name = playerStats.stats.SkillList [skillSlot].Name;
 
 				playerStats.stats.SkillList [skillSlot].CurrentCooldown = Controller.CylinderActiveSkill.Cooldown;
 
@@ -121,6 +118,7 @@ public class ProjectileShooter : MonoBehaviour
 		}
 	}
 
+	//Anpassad för skillen Ice Floor
 	void SkillSpawnOnPlayerCast(int skillSlot, PlayerStats playerStats)
 	{
 		if (playerStats.stats.CurrentChi >= playerStats.stats.SkillList [skillSlot].ChiCost) 
@@ -128,11 +126,8 @@ public class ProjectileShooter : MonoBehaviour
 			var cylinderPosition = new Vector3(gameObject.transform.position.x, (float)(gameObject.transform.position.y + 0.3), gameObject.transform.position.z);
 			var cylinder = Instantiate (_cylinderPrefab, cylinderPosition , Quaternion.Euler (0, 0, 0)) as GameObject;
 
-
 			var Controller = cylinder.GetComponent<CylinderSpell> ();
 			Controller.Init (Controller.AdjustActiveSkillValues (playerStats.stats.SkillList [skillSlot], playerStats));
-			Controller.Name = playerStats.stats.SkillList [skillSlot].Name;
-			Controller.Scale = Controller.CylinderActiveSkill.Radius;
 
 			playerStats.stats.SkillList [skillSlot].CurrentCooldown = Controller.CylinderActiveSkill.Cooldown;
 

@@ -71,6 +71,7 @@ public class EnemyStats : MonoBehaviour {
 					if (cylinder.CylinderActiveSkill.BuffEffectList[i].Effect.Stun > 0)
 					{
 						StartCoroutine(WaitForStunToEnd(cylinder.CylinderActiveSkill.BuffEffectList[i].Effect.Stun));
+
 					}
 					if (cylinder.CylinderActiveSkill.BuffEffectList[i].Effect.Root > 0)
 					{
@@ -99,9 +100,10 @@ public class EnemyStats : MonoBehaviour {
 
 	IEnumerator WaitForStunToEnd(double duration) {
 		GetComponent<EnemyDummyController> ().enabled = false;
-		// Wait 0.2 seconds
+		Debug.Log("Stunned");
 		yield return new WaitForSeconds((float)duration);
 		GetComponent<EnemyDummyController> ().enabled = true;
+		Debug.Log("Not-Stunned");
 	}
 
 }
