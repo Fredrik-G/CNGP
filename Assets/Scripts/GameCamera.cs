@@ -7,15 +7,15 @@ public class GameCamera : MonoBehaviour {
 	private Transform target;
 	
 	void Start () 
-	{ 
+	{
 		target = GameObject.FindGameObjectWithTag ("Player").transform;
 	}
 
-	void LateUpdate () 
+	void Update () 
 	{
         cameraTarget = new Vector3(target.position.x, transform.position.y, target.position.z - 4);
 		
-		transform.position = Vector3.Lerp (transform.position, cameraTarget, Time.deltaTime*9999);
+		transform.position = Vector3.Lerp (transform.position, cameraTarget, Time.deltaTime*8);
 	}
 }
 
