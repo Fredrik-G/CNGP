@@ -4,8 +4,6 @@ using Engine;
 
 public class ProjectileSpell : MonoBehaviour{
 
-	public string Name = "";
-	public double Scale { get; set; } 
 	public ActiveSkill ProjectileActiveSkill = new ActiveSkill();
 	// Use this for initialization
 	void Start (){
@@ -13,13 +11,13 @@ public class ProjectileSpell : MonoBehaviour{
 
 	}
 	
-	// Update is called once per frame
+	// Update is called once per framej
 	void Update () {
-		if (Name.CompareTo("Firestream") == 0) 
+		if (ProjectileActiveSkill.Name.CompareTo("Firestream") == 0) 
 		{
-			transform.localScale = Vector3.one * (float)Scale;
+			transform.localScale = Vector3.one * (float)ProjectileActiveSkill.Radius;
 
-			Scale +=  (10 * Time.deltaTime);
+			ProjectileActiveSkill.Radius +=  (10 * Time.deltaTime);
 		}
 
 	}

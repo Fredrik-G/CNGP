@@ -4,11 +4,25 @@ namespace Engine
     /// <summary>
     /// Class that contains all possible effects.
     /// </summary>
-	public class Effect : MonoBehaviour
+	public class Effect 
     {
-        public bool Stun { get; set; }
-        public bool Root { get; set; }
-        public bool Silence { get; set; }
+		/// <summary>
+		/// Stunduration.
+		/// </summary>
+		/// <value>The stun.</value>
+        public double Stun { get; set; }
+
+		/// <summary>
+		/// Rootduration.
+		/// </summary>
+		/// <value>The root.</value>
+        public double Root { get; set; }
+
+		/// <summary>
+		/// Silenceduration.
+		/// </summary>
+		/// <value>The silence.</value>
+        public double Silence { get; set; }
 
         /// <summary>
         /// Dot damage per second.
@@ -25,7 +39,7 @@ namespace Engine
         /// </summary>
         public double Slow { get; set; }
 
-        public Effect(bool stun, bool root, bool silence, double dot, double hot, double slow)
+		public Effect(double stun, double root, double silence, double dot, double hot, double slow)
         {
             Stun = stun;
             Root = root;
