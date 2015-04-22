@@ -3,7 +3,7 @@ using System.Collections;
 using Engine;
 
 public class EnemyStats : MonoBehaviour {
-
+/*
 	public Stats stats = new Stats();
 
 	public GameObject HealthBar;
@@ -103,5 +103,5 @@ public class EnemyStats : MonoBehaviour {
 		yield return new WaitForSeconds((float)duration);
 		GetComponent<EnemyDummyController> ().enabled = true;
 	}
-
+*/
 }

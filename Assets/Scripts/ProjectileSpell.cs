@@ -13,7 +13,7 @@ public class ProjectileSpell : MonoBehaviour{
 
 	}
 	
-	// Update is called once per framej
+	// Update is called once per frame
 	void Update () {
 		if (Name.CompareTo("Firestream") == 0) 
 		{
