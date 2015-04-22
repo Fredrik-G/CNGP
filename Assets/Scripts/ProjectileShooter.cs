@@ -10,8 +10,6 @@ public class ProjectileShooter : MonoBehaviour
 	private GameObject _cubePrefab;
 	private GameObject _cylinderPrefab;
 	public Transform spawn;
-	private AudioSource _audioSource;
-
 
 	// Use this for initialization
 	void Start ()
@@ -19,7 +17,6 @@ public class ProjectileShooter : MonoBehaviour
 		_projectilePrefab = Resources.Load("projectile") as GameObject;
 		_cubePrefab = Resources.Load ("cube") as GameObject;
 		_cylinderPrefab = Resources.Load ("cylinder") as GameObject;
-		_audioSource = GetComponent<AudioSource> ();
 
 	}
 
@@ -32,8 +29,10 @@ public class ProjectileShooter : MonoBehaviour
 			SkillOnMouseCast(0, PlayerStats);
 	    }
 
-		if (Input.GetButton ("RightClick") && (PlayerStats.stats.SkillList [1].CurrentCooldown <= 0)) {
-			SkillCast (1, PlayerStats);	
+		if (Input.GetButton("RightClick") && (PlayerStats.stats.SkillList[1].CurrentCooldown <= 0))
+		{
+			SkillCast(1,PlayerStats);	
+
 		}
 
 		if (Input.GetButton ("ButtonQ") && (PlayerStats.stats.SkillList [2].CurrentCooldown <= 0))
@@ -55,7 +54,6 @@ public class ProjectileShooter : MonoBehaviour
 	//Anpassad för de fyra mainskillsen
 	void SkillCast(int skillSlot, PlayerStats playerStats)
 	{
-		_audioSource.PlayOneShot (Resources.Load("SoundEffects/" + playerStats.stats.SkillList[skillSlot].Name) as AudioClip);
 		var oldSpawn = spawn.localRotation;
 		if (playerStats.stats.SkillList [skillSlot].Name == "Waterbullets")
 		{
@@ -70,8 +68,10 @@ public class ProjectileShooter : MonoBehaviour
 
 			Controller.Init (Controller.AdjustActiveSkillValues (playerStats.stats.SkillList [skillSlot], playerStats));
 			playerStats.stats.SkillList [skillSlot].CurrentCooldown = Controller.ProjectileActiveSkill.Cooldown;
+			Controller.Name = playerStats.stats.SkillList [skillSlot].Name;
+			Controller.Scale = Controller.ProjectileActiveSkill.Radius;
 
-			projectile.transform.localScale = new Vector3 ((float)Controller.ProjectileActiveSkill.Radius , (float)Controller.ProjectileActiveSkill.Radius , (float)Controller.ProjectileActiveSkill.Radius);
+			projectile.transform.localScale = new Vector3 ((float)Controller.Scale , (float)Controller.Scale , (float)Controller.Scale);
 		
 			if (playerStats.stats.SkillList [skillSlot].Name == "Waterbullets")
 			{
@@ -95,9 +95,8 @@ public class ProjectileShooter : MonoBehaviour
 			var ray = Camera.main.ScreenPointToRay (Input.mousePosition);
 			RaycastHit hit = new RaycastHit ();
 			if (Physics.Raycast (ray, out hit, (float)playerStats.stats.SkillList [skillSlot].Range)) {
-
-				_audioSource.PlayOneShot (Resources.Load("SoundEffects/" + playerStats.stats.SkillList[skillSlot].Name) as AudioClip);
 				var cylinderPosition = new Vector3 (hit.point.x, 0, hit.point.z);
+
 
 				var cylinder = Instantiate (_cylinderPrefab, cylinderPosition, Quaternion.Euler (0, 0, 0)) as GameObject;
 
@@ -127,10 +126,13 @@ public class ProjectileShooter : MonoBehaviour
 
 				playerStats.stats.CurrentChi -= playerStats.stats.SkillList[skillSlot].ChiCost;
 
+				Debug.Log("" + playerStats.stats.CurrentChi);
+
 				Destroy (cylinder.gameObject, 2);
 			}
 		}
 	}
+<<<<<<< HEAD
 
 	//Anpassad för skillen Ice Floor och Blazing Ring
 	void SkillSpawnOnPlayerCast(int skillSlot, PlayerStats playerStats)
@@ -154,4 +156,6 @@ public class ProjectileShooter : MonoBehaviour
 			Destroy(cylinder.gameObject, (float)0.5);
 		}
 	}
+=======
+>>>>>>> 2b43b92b4df6773d8f06fb2a36599a1f6ccdedb6
 }

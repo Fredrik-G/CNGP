@@ -22,6 +22,8 @@ public class TopDownController : MonoBehaviour {
 	void Update() 
 	{
 		ControlMouse ();
+
+        Debug.Log(PhotonNetwork.GetPing().ToString());
 		//ControlWASD ();
 
 	}
@@ -47,10 +49,10 @@ public class TopDownController : MonoBehaviour {
 	{
 		Vector3 input = new Vector3 (Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical"));
 		
-        //if (input != Vector3.zero) {
-        //    targetRotation = Quaternion.LookRotation (input);
-        //    transform.eulerAngles = Vector2.up * Mathf.MoveTowardsAngle (transform.eulerAngles.y, targetRotation.eulerAngles.y, rotationSpeed * Time.deltaTime);
-        //}
+		if (input != Vector3.zero) {
+			targetRotation = Quaternion.LookRotation (input);
+			transform.eulerAngles = Vector2.up * Mathf.MoveTowardsAngle (transform.eulerAngles.y, targetRotation.eulerAngles.y, rotationSpeed * Time.deltaTime);
+		}
 		
 		Vector3 motion = input;
 		motion *= (Mathf.Abs (input.x) == 1 && Mathf.Abs (input.z) == 1) ? .7f : 1;

@@ -4,6 +4,7 @@ using Engine;
 
 public class CylinderSpell : MonoBehaviour {
 
+<<<<<<< HEAD
 	public Vector3 OriginalScale = new Vector3 (1, (float)0.3, 1);
 	public double OriginalRadius = 1;
 	private double GrowRate;
@@ -16,16 +17,28 @@ public class CylinderSpell : MonoBehaviour {
 			GrowRate = (CylinderActiveSkill.Radius - OriginalRadius) / 0.5;
 		}
 
+=======
+	public string Name = "";
+	public double Scale { get; set; } 
+	public ActiveSkill CylinderActiveSkill = new ActiveSkill();
+	// Use this for initialization
+	void Start () {
+		
+>>>>>>> 2b43b92b4df6773d8f06fb2a36599a1f6ccdedb6
 	}
 	
 	// Update is called once per frame
 	void Update () {
+<<<<<<< HEAD
 		if (CylinderActiveSkill.Name.Equals("Ice floor") || CylinderActiveSkill.Name.Equals("Blazing ring")) 
 		{
 			transform.localScale = new Vector3((float)OriginalRadius, transform.localScale.y, (float)OriginalRadius);
 			
 			OriginalRadius +=  (GrowRate * Time.deltaTime);
 		}
+=======
+		
+>>>>>>> 2b43b92b4df6773d8f06fb2a36599a1f6ccdedb6
 	}
 	
 	public void Init(ActiveSkill AS)
@@ -43,7 +56,6 @@ public class CylinderSpell : MonoBehaviour {
 		CylinderActiveSkill.Range = AS.Range;
 		CylinderActiveSkill.ChannelingTime = AS.ChannelingTime;
 		CylinderActiveSkill.CastSpeed = AS.CastSpeed;
-		CylinderActiveSkill.BuffEffectList = AS.BuffEffectList;
 	}
 	
 	public ActiveSkill AdjustActiveSkillValues(ActiveSkill AS, PlayerStats PS)
@@ -63,6 +75,7 @@ public class CylinderSpell : MonoBehaviour {
 		AdjustedActiveSkill.Range = AS.Range * (PS.stats.Skillrange / 100);
 		AdjustedActiveSkill.ChannelingTime = AS.ChannelingTime;
 		AdjustedActiveSkill.CastSpeed = AS.CastSpeed;
+<<<<<<< HEAD
 		AdjustedActiveSkill.BuffEffectList = AS.BuffEffectList;
 
 		if(AdjustedActiveSkill.BuffEffectList.Count != 0)
@@ -100,6 +113,8 @@ public class CylinderSpell : MonoBehaviour {
 				}
 			}
 		}
+=======
+>>>>>>> 2b43b92b4df6773d8f06fb2a36599a1f6ccdedb6
 		
 		return AdjustedActiveSkill;
 	}
