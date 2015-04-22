@@ -1,8 +1,9 @@
-﻿using System.Collections.Generic;
-using System.Data;
-using System.IO;
-using Mono.Data.Sqlite;
+﻿using System;
 using UnityEngine;
+using System.Data;
+using Mono.Data.SqliteClient;
+using System.IO;
+using System.Text;
 
 namespace Engine
 {
@@ -32,7 +33,7 @@ namespace Engine
         //  + SQL_DB_NAME + ".db";
 
         //Använd ej denna, använd den ovanför.
-        private static readonly string SQL_DB_LOCATION = "URI=file:M:/Desktop/CNGP.db";
+        private const string SQL_DB_LOCATION = "URI=file:M:/Desktop/CNGP.db";
 
         /// <summary>
         /// DB objects
@@ -53,6 +54,7 @@ namespace Engine
         private static class Tables
         {
             public const string Accounts = "Accounts";
+            public const string Statistics = "Statistics";
         }
 
         /// <summary>
@@ -60,7 +62,15 @@ namespace Engine
         /// </summary>
         private static class PrimaryKeys
         {
+            /// <summary>
+            /// Primary key for table Accounts.
+            /// </summary>
             public const string Accounts = "Email";
+
+            /// <summary>
+            /// Primary key for table Statistics.
+            /// </summary>
+            public const string Statistics = "Email";
         }
 
         #endregion
@@ -81,12 +91,21 @@ namespace Engine
         /// Inserts given columns to the current table.
         /// </summary>
         /// <param name="columns">The columns to be inserted</param>
-        private void InsertIntoCurrentTable(string[] columns)
+        /// <param name="updateIfExists">Tells the database to update if a value already exists</param>
+        private void InsertIntoCurrentTable(string[] columns, bool updateIfExists = false)
         {
-            _sqlQuery = "INSERT INTO " + SQL_TABLE_NAME
-                        + " VALUES (";
+            if (!updateIfExists)
+            {
+                _sqlQuery = "INSERT INTO " + SQL_TABLE_NAME
+                            + " VALUES (";
+            }
+            else
+            {
+                _sqlQuery = "INSERT or REPLACE INTO " + SQL_TABLE_NAME
+                            + " VALUES (";
+            }
 
-            for(var column = 0; column < columns.Length; column++)
+            for (var column = 0; column < columns.Length; column++)
             {
                 if (column + 1 == columns.Length)
                 {
@@ -100,31 +119,42 @@ namespace Engine
             _sqlQuery += "');";
 
             DebugText(_sqlQuery);
-            ExecuteNonQuery(_sqlQuery);           
+            ExecuteNonQuery(_sqlQuery);
         }
 
         /// <summary>
-        /// 
+        /// Returns the column value for a given column based on primary key.
         /// </summary>
-        /// <param name="primaryKey"></param>
-        /// <param name="column"></param>
-        /// <param name="value"></param>
+        /// <param name="primaryKey">The primary key to read from</param>
+        /// <param name="value">The value of the primary key</param>
+        /// <param name="column">The column to read from</param>
         /// <returns></returns>
-        private string GetColumnValue(string primaryKey, string column, string value)
+        private string GetColumnValue(string primaryKey, string value, string column)
         {
+            if (String.IsNullOrEmpty(SQL_TABLE_NAME))
+            {
+                throw new Exception("Table name is not set!");
+            }
+
             var text = "Not Found";
 
             if (_dbConnection.State != ConnectionState.Open)
+            {
                 _dbConnection.Open();
+            }
 
             _dbCommand.CommandText = "SELECT " + column + " FROM " + SQL_TABLE_NAME + " WHERE " + primaryKey + "='" +
                                      value + "'";
             _reader = _dbCommand.ExecuteReader();
 
             if (_reader.Read())
+            {
                 text = _reader.GetString(0);
+            }
             else
-                Debug.Log("Nothing to read...");
+            {
+                DebugText("Primay key " + primaryKey + " in table " + SQL_TABLE_NAME + " was not found");
+            }
 
             _reader.Close();
             _dbConnection.Close();
@@ -133,13 +163,62 @@ namespace Engine
         }
 
         /// <summary>
+        /// Returns all column values for a given column based on primary key.
+        /// </summary>
+        /// <param name="primaryKey">The primary key to read from</param>
+        /// <param name="value">The value of the primary key</param>
+        /// <returns></returns>
+        private string GetAllColumnsValue(string primaryKey, string value, int numberOfColumns)
+        {
+            if (String.IsNullOrEmpty(SQL_TABLE_NAME))
+            {
+                throw new Exception("Table name is not set!");
+            }
+
+            if (_dbConnection.State != ConnectionState.Open)
+            {
+                _dbConnection.Open();
+            }
+
+            _dbCommand.CommandText = "SELECT * FROM " + SQL_TABLE_NAME + " WHERE " + primaryKey + "='" + value + "'";
+
+            DebugText(_dbCommand.CommandText);
+
+            _reader = _dbCommand.ExecuteReader();
+
+            var text = new StringBuilder();
+            while (_reader.Read())
+            {
+                for (var i = 0; i < numberOfColumns; i++)
+                {
+                    text.Append(_reader.GetString(i)).Append(" ");
+                }
+                text.AppendLine();
+                
+                DebugText(text.ToString());
+            }
+
+            _reader.Close();
+            _dbConnection.Close();
+
+            return "a";
+        }
+
+        /// <summary>
         /// Basic execute command - open, create command, execute, close
         /// </summary>
         /// <param name="commandText">SQL Query to execute</param>
         private void ExecuteNonQuery(string commandText)
-        {
+        { 
+            if (String.IsNullOrEmpty(SQL_TABLE_NAME))
+            {
+                throw new Exception("Table name is not set!");
+            }
+
             if (_dbConnection.State != ConnectionState.Open)
+            {
                 _dbConnection.Open();
+            }
 
             _dbCommand.CommandText = commandText;
             _dbCommand.ExecuteNonQuery();
@@ -147,6 +226,8 @@ namespace Engine
         }
 
         #endregion
+
+        #region Account Methods
 
         /// <summary>
         /// 
@@ -174,7 +255,7 @@ namespace Engine
         public string GetSaltForAccount(string accountEmail)
         {
             SQL_TABLE_NAME = Tables.Accounts;
-            return GetColumnValue(PrimaryKeys.Accounts, "Salt", accountEmail);
+            return GetColumnValue(PrimaryKeys.Accounts, accountEmail, "Salt");
         }
 
         /// <summary>
@@ -185,8 +266,38 @@ namespace Engine
         public string GetHashForAccount(string accountEmail)
         {
             SQL_TABLE_NAME = Tables.Accounts;
-            return GetColumnValue(PrimaryKeys.Accounts, "Hash", accountEmail);
+            return GetColumnValue(PrimaryKeys.Accounts, accountEmail, "Hash");
         }
+
+        #endregion
+
+        #region Statistics Methods
+
+        public void UpdateStatisticsForAccount(string email, int wins, int gamesPlayed, int rating,
+            int kills, int deaths)
+        {
+            string[] statistics =
+            {
+                email, wins.ToString(), gamesPlayed.ToString(), rating.ToString(), kills.ToString(),
+                deaths.ToString()
+            };
+
+            SQL_TABLE_NAME = Tables.Statistics;
+
+            InsertIntoCurrentTable(statistics, true);
+        }
+
+        public void GetStatisticsForAccount(string email)
+        {
+            SQL_TABLE_NAME = Tables.Statistics;
+
+            var numberOfColumns = 6;
+
+            GetAllColumnsValue(PrimaryKeys.Statistics, email, numberOfColumns);
+        }
+
+        #endregion
+
 
         /// <summary>
         /// Logs debug text if DebugMode is true.

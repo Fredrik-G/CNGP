@@ -6,7 +6,7 @@ using System.Net;
 using System.Security.Cryptography;
 using System.Text;
 using Engine;
-using Mono.Data.Sqlite;
+using Mono.Data.SqliteClient;
 
 public class LoginScreen : MonoBehaviour
 {
@@ -24,8 +24,8 @@ public class LoginScreen : MonoBehaviour
     /// <summary>
     /// Account information
     /// </summary>
-    /// 
-    /// Borde använda klassen User
+
+    /// !!!Borde använda klassen User!!!
     private string _accountEmail = String.Empty;
     private string _accountPassword = String.Empty;
     private string _registeredIp = String.Empty;
@@ -40,9 +40,14 @@ public class LoginScreen : MonoBehaviour
     private Menus _currentMenu = Menus.Login;
 
     /// <summary>
+    /// Warning message to be shown
+    /// </summary>
+    private string _warningMessage = String.Empty;
+
+    /// <summary>
     /// Info message to be shown
     /// </summary>
-    private string _message = String.Empty;
+    private string _infoMessage = String.Empty;
 
     /// <summary>
     /// Rect used for menu/left/right-buttons.
@@ -77,10 +82,6 @@ public class LoginScreen : MonoBehaviour
         _database.Initilize();
     }
 
-    #endregion
-
-    #region GUI Menus
-
     public void OnGUI()
     {
         switch (_currentMenu)
@@ -94,14 +95,28 @@ public class LoginScreen : MonoBehaviour
         }
     }
 
+    #endregion
+
+    #region GUI Menus
+
     /// <summary>
     /// Login menu.
     /// </summary>
     private void LoginGUI()
     {
+        if (GUI.Button(new Rect(0, 0, 300, 100), "TEST:Lägg till statistics"))
+        {
+            _database.UpdateStatisticsForAccount("asd", 10, 10, 10, 20, 10);
+        }
+
+        if (GUI.Button(new Rect(320, 0, 300, 100), "TEST:Läs statistics"))
+        {
+            _database.GetStatisticsForAccount("asd");
+        }
+
         GUI.Box(_menuRect, "Login Screen");
 
-        DisplayInfoText();
+        DisplayMessage();
 
         if (GUI.Button(_leftButtonRect, "Login"))
         {
@@ -109,7 +124,7 @@ public class LoginScreen : MonoBehaviour
         }
         if (GUI.Button(_rightButtonRect, "Create Account"))
         {
-            _message = String.Empty;
+            ClearMessagesAndPassword();
             _currentMenu = Menus.CreateAccount;
         }
 
@@ -128,15 +143,23 @@ public class LoginScreen : MonoBehaviour
     }
 
     /// <summary>
+    /// Clears warning and info messages and password.
+    /// </summary>
+    private void ClearMessagesAndPassword()
+    {
+        _warningMessage = String.Empty;
+        _infoMessage = String.Empty;
+        _accountPassword = String.Empty;
+    }
+
+    /// <summary>
     /// Account creation menu.
     /// </summary>
     private void CreateAccountGUI()
     {
-        // _accountPassword = String.Empty;
-
         GUI.Box(_menuRect, "Create New Account");
 
-        DisplayInfoText();
+        DisplayMessage();
 
         if (GUI.Button(_leftButtonRect, "Create Account"))
         {
@@ -144,7 +167,7 @@ public class LoginScreen : MonoBehaviour
         }
         if (GUI.Button(_rightButtonRect, "Back"))
         {
-            _message = String.Empty;
+            ClearMessagesAndPassword();
             _currentMenu = Menus.Login;
         }
 
@@ -172,6 +195,7 @@ public class LoginScreen : MonoBehaviour
     {
         if (String.IsNullOrEmpty(_accountEmail) || String.IsNullOrEmpty(_accountPassword))
         {
+            _warningMessage = "Email or password can not be empty.";
             return;
         }
 
@@ -183,11 +207,12 @@ public class LoginScreen : MonoBehaviour
         {
             Debug.Log("Adding to database");
             _database.AddAccountToDatabase(_accountEmail, _salt, _hash, _registeredIp);
-            _message = String.Empty;
+            _warningMessage = String.Empty;
+            _infoMessage = "Account was successfully created!";
         }
-        catch (SqliteException)
+        catch (SqliteExecutionException)
         {
-            _message = "An account with that email already exists.";
+            _warningMessage = "An account with that email already exists.";
         }
     }
 
@@ -207,12 +232,12 @@ public class LoginScreen : MonoBehaviour
         if (correctHash == inputHash)
         {
             Debug.Log("Correct login");
-            _message = String.Empty;
+            _infoMessage = "Correct login!";
         }
         else
         {
             Debug.Log("Incorrect login");
-            _message = "Invalid email or password.";
+            _warningMessage = "Invalid email or password.";
         }
     }
 
@@ -221,12 +246,22 @@ public class LoginScreen : MonoBehaviour
     /// <summary>
     /// Shows a centered text label with various information.
     /// </summary>
-    private void DisplayInfoText()
+    private void DisplayMessage()
     {
-        var guiStyle = UIFormat.FormatGuiStyle(TextAnchor.UpperLeft, UIFormat.FontSize.Small, Color.red);
-        var rect = UIFormat.CreateCenteredRect(-Screen.height/5);
+        if (!String.IsNullOrEmpty(_warningMessage))
+        {
+            var guiStyle = UIFormat.FormatGuiStyle(TextAnchor.UpperLeft, UIFormat.FontSize.Small, Color.red);
+            var rect = UIFormat.CreateCenteredRect(-Screen.height/5);
 
-        GUI.Label(rect, _message, guiStyle);
+            GUI.Label(rect, _warningMessage, guiStyle);
+        }
+        else
+        {
+            var guiStyle = UIFormat.FormatGuiStyle(TextAnchor.UpperLeft, UIFormat.FontSize.Small, Color.green);
+            var rect = UIFormat.CreateCenteredRect(-Screen.height / 5);
+
+            GUI.Label(rect, _infoMessage, guiStyle);
+        }
     }
 
     /// <summary>

@@ -95,7 +95,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 2133495740}
-  - 114: {fileID: 2133495742}
+  - 114: {fileID: 2133495741}
   m_Layer: 0
   m_Name: LoginScreen
   m_TagString: Untagged
@@ -115,7 +115,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
---- !u!114 &2133495742
+--- !u!114 &2133495741
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
@@ -123,6 +123,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 2133495739}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 099760fc722ebec48be7b6ecb9e7b7dd, type: 3}
+  m_Script: {fileID: 11500000, guid: 176c1266bb7968e4c83acc61ef1c4838, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
