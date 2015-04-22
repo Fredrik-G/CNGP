@@ -29,7 +29,7 @@ public class ProjectileShooter : MonoBehaviour
 	
 		if (Input.GetButton("LeftClick") && (PlayerStats.stats.SkillList[0].CurrentCooldown <= 0))
 	    {
-			SkillSpawnOnPlayerCast(0, PlayerStats);
+			SkillOnMouseCast(0, PlayerStats);
 	    }
 
 		if (Input.GetButton ("RightClick") && (PlayerStats.stats.SkillList [1].CurrentCooldown <= 0)) {
@@ -88,7 +88,7 @@ public class ProjectileShooter : MonoBehaviour
 	}
 
 
-	//Anpassad för earthquake atm
+	//Anpassad för skillen EarthQuake
 	void SkillOnMouseCast(int skillSlot, PlayerStats playerStats)
 	{
 		if (playerStats.stats.CurrentChi >= playerStats.stats.SkillList [skillSlot].ChiCost) {
@@ -101,15 +101,29 @@ public class ProjectileShooter : MonoBehaviour
 
 				var cylinder = Instantiate (_cylinderPrefab, cylinderPosition, Quaternion.Euler (0, 0, 0)) as GameObject;
 
+
 				var Controller = cylinder.GetComponent<CylinderSpell> ();
 				Controller.Init (Controller.AdjustActiveSkillValues (playerStats.stats.SkillList [skillSlot], playerStats));
+				cylinder.transform.localScale = new Vector3 ((float)Controller.CylinderActiveSkill.Radius , cylinder.transform.localScale.y, (float)Controller.CylinderActiveSkill.Radius);
 
 				playerStats.stats.SkillList [skillSlot].CurrentCooldown = Controller.CylinderActiveSkill.Cooldown;
 
-				cylinder.transform.localScale = new Vector3 ((float)Controller.CylinderActiveSkill.Radius , cylinder.transform.localScale.y , (float)Controller.CylinderActiveSkill.Radius);
-
 				var rb = cylinder.GetComponent<Rigidbody> ();
-				rb.velocity = cylinder.transform.up * 2;
+				if(Controller.CylinderActiveSkill.Name.Equals("Earthquake"))
+				{
+					rb.velocity = cylinder.transform.up * 2;
+				}
+
+				if(Controller.CylinderActiveSkill.Name.Equals("Air vortex"))
+				{
+					rb.useGravity = false;
+					cylinder.transform.localScale = new Vector3 ((float)Controller.CylinderActiveSkill.Radius , 5, (float)Controller.CylinderActiveSkill.Radius);
+				}
+				else
+				{
+					cylinder.transform.localScale = new Vector3 ((float)Controller.CylinderActiveSkill.Radius , cylinder.transform.localScale.y, (float)Controller.CylinderActiveSkill.Radius);
+				}
+
 
 				playerStats.stats.CurrentChi -= playerStats.stats.SkillList[skillSlot].ChiCost;
 
@@ -118,12 +132,13 @@ public class ProjectileShooter : MonoBehaviour
 		}
 	}
 
-	//Anpassad för skillen Ice Floor
+	//Anpassad för skillen Ice Floor och Blazing Ring
 	void SkillSpawnOnPlayerCast(int skillSlot, PlayerStats playerStats)
 	{
 		if (playerStats.stats.CurrentChi >= playerStats.stats.SkillList [skillSlot].ChiCost) 
 		{
-			var cylinderPosition = new Vector3(gameObject.transform.position.x, (float)(gameObject.transform.position.y + 0.3), gameObject.transform.position.z);
+			_audioSource.PlayOneShot (Resources.Load("SoundEffects/" + playerStats.stats.SkillList[skillSlot].Name) as AudioClip);
+			var cylinderPosition = new Vector3(gameObject.transform.position.x, (float)(gameObject.transform.position.y ), gameObject.transform.position.z);
 			var cylinder = Instantiate (_cylinderPrefab, cylinderPosition , Quaternion.Euler (0, 0, 0)) as GameObject;
 
 			var Controller = cylinder.GetComponent<CylinderSpell> ();
@@ -136,8 +151,7 @@ public class ProjectileShooter : MonoBehaviour
 
 			playerStats.stats.CurrentChi -= playerStats.stats.SkillList[skillSlot].ChiCost;
 
-			Destroy(cylinder.gameObject, (float)(Controller.CylinderActiveSkill.Range / Controller.CylinderActiveSkill.CastSpeed));
-
+			Destroy(cylinder.gameObject, (float)0.5);
 		}
 	}
 }

@@ -13,7 +13,7 @@ public class ProjectileSpell : MonoBehaviour{
 	
 	// Update is called once per framej
 	void Update () {
-		if (ProjectileActiveSkill.Name.CompareTo("Firestream") == 0) 
+		if (ProjectileActiveSkill.Name.Equals("Firestream")) 
 		{
 			transform.localScale = Vector3.one * (float)ProjectileActiveSkill.Radius;
 

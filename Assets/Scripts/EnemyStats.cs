@@ -81,29 +81,87 @@ public class EnemyStats : MonoBehaviour {
 					{
 						
 					}
-					if (cylinder.CylinderActiveSkill.BuffEffectList[i].Effect.Dot > 0)
+					if (cylinder.CylinderActiveSkill.BuffEffectList[i].Effect.DotStruct.dotamount > 0)
 					{
 						
 					}
-					if (cylinder.CylinderActiveSkill.BuffEffectList[i].Effect.Hot > 0)
+					if (cylinder.CylinderActiveSkill.BuffEffectList[i].Effect.HotStruct.hotamount > 0)
 					{
 						
 					}
-					if (cylinder.CylinderActiveSkill.BuffEffectList[i].Effect.Slow > 0)
+					if (cylinder.CylinderActiveSkill.BuffEffectList[i].Effect.SlowStruct.slowamount > 0)
 					{
-						
+						GetComponent<EnemyDummyController> ().currentwalkSpeed = (float)(GetComponent<EnemyDummyController> ().currentwalkSpeed * (1 - (cylinder.CylinderActiveSkill.BuffEffectList[i].Effect.SlowStruct.slowamount / 100)));
+						Debug.Log("Walk Speed = " + GetComponent<EnemyDummyController> ().currentwalkSpeed);
 					}
 				}
 			}
 		}
 	}
 
+	void OnTriggerExit(Collider other)
+	{
+		if (other.gameObject.CompareTag ("cylinder")) 
+		{
+			var cylinder = other.gameObject.GetComponent<CylinderSpell>();  
+			if (cylinder != null)
+			{
+				TakeDamage(cylinder.CylinderActiveSkill.DamageHealingPower);
+				
+				for(int i = 0; i < cylinder.CylinderActiveSkill.BuffEffectList.Count; i++)
+				{
+					if (cylinder.CylinderActiveSkill.BuffEffectList[i].Effect.Stun > 0)
+					{
+						StartCoroutine(WaitForStunToEnd(cylinder.CylinderActiveSkill.BuffEffectList[i].Effect.Stun));
+						
+					}
+					if (cylinder.CylinderActiveSkill.BuffEffectList[i].Effect.Root > 0)
+					{
+						
+					}
+					if (cylinder.CylinderActiveSkill.BuffEffectList[i].Effect.Silence > 0)
+					{
+						
+					}
+					if (cylinder.CylinderActiveSkill.BuffEffectList[i].Effect.DotStruct.dotamount > 0)
+					{
+						
+					}
+					if (cylinder.CylinderActiveSkill.BuffEffectList[i].Effect.HotStruct.hotamount > 0)
+					{
+						
+					}
+					if (cylinder.CylinderActiveSkill.BuffEffectList[i].Effect.SlowStruct.slowamount> 0)
+					{
+						StartCoroutine(WaitForSlowToEnd(cylinder.CylinderActiveSkill.BuffEffectList[i].Effect.SlowStruct.duration,cylinder.CylinderActiveSkill.BuffEffectList[i].Effect.SlowStruct.slowamount ));
+					}
+				}
+			}
+		}
+	}
+
+
 	IEnumerator WaitForStunToEnd(double duration) {
-		GetComponent<EnemyDummyController> ().enabled = false;
-		Debug.Log("Stunned");
+		GetComponent<EnemyDummyController> ().enabled = false;;
 		yield return new WaitForSeconds((float)duration);
 		GetComponent<EnemyDummyController> ().enabled = true;
-		Debug.Log("Not-Stunned");
 	}
+
+	IEnumerator WaitForSlowToEnd(double duration, double amount) {
+		double IncreaseAmountPerHundrethMilliSecond = (GetComponent<EnemyDummyController> ().maxWalkSpeed - GetComponent<EnemyDummyController> ().currentwalkSpeed) / (duration);
+
+		double time = 1;
+		Debug.Log("Tid innan" + Time.time);
+		while( time <= duration)
+		{
+			yield return new WaitForSeconds(1);
+			GetComponent<EnemyDummyController> ().currentwalkSpeed += (float)IncreaseAmountPerHundrethMilliSecond;
+			time++;
+		}
+
+		Debug.Log("Tid efter" + Time.time);
+
+	}
+
 
 }

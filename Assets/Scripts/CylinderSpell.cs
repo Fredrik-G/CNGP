@@ -3,25 +3,28 @@ using System.Collections;
 using Engine;
 
 public class CylinderSpell : MonoBehaviour {
-	
+
+	public Vector3 OriginalScale = new Vector3 (1, (float)0.3, 1);
+	public double OriginalRadius = 1;
+	private double GrowRate;
 	public ActiveSkill CylinderActiveSkill = new ActiveSkill();
 	// Use this for initialization
 	void Start () {
+		if (CylinderActiveSkill.Name.Equals ("Ice floor") || CylinderActiveSkill.Name.Equals ("Blazing ring"))
+		{
+			transform.localScale = OriginalScale;
+			GrowRate = (CylinderActiveSkill.Radius - OriginalRadius) / 0.5;
+		}
 
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		if (CylinderActiveSkill.Name.CompareTo("Ice floor") == 0) 
+		if (CylinderActiveSkill.Name.Equals("Ice floor") || CylinderActiveSkill.Name.Equals("Blazing ring")) 
 		{
-			//Debug.Log("local scale = " + transform.localScale);
-			//transform.localScale = new Vector3(transform.localScale.x * (float)Scale,  transform.localScale.y, transform.localScale.z * (float)Scale);
-
-			transform.localScale = Vector3.one * (float)CylinderActiveSkill.Radius;
+			transform.localScale = new Vector3((float)OriginalRadius, transform.localScale.y, (float)OriginalRadius);
 			
-			CylinderActiveSkill.Radius +=  (1 * Time.deltaTime);
-			
-
+			OriginalRadius +=  (GrowRate * Time.deltaTime);
 		}
 	}
 	
@@ -81,19 +84,19 @@ public class CylinderSpell : MonoBehaviour {
 					AdjustedActiveSkill.BuffEffectList[i].Effect.Silence = AdjustedActiveSkill.BuffEffectList[i].Effect.Silence * (PS.stats.Debuffeffectduration / 100);
 				}
 
-				if(AdjustedActiveSkill.BuffEffectList[i].Effect.Dot > 0)
+				if(AdjustedActiveSkill.BuffEffectList[i].Effect.DotStruct.dotamount > 0)
 				{
-					AdjustedActiveSkill.BuffEffectList[i].Effect.Dot = AdjustedActiveSkill.BuffEffectList[i].Effect.Dot * (PS.stats.Debuffeffectduration / 100);
+					//FIXA
 				}
 
-				if(AdjustedActiveSkill.BuffEffectList[i].Effect.Hot > 0)
+				if(AdjustedActiveSkill.BuffEffectList[i].Effect.HotStruct.hotamount > 0)
 				{
-					AdjustedActiveSkill.BuffEffectList[i].Effect.Hot = AdjustedActiveSkill.BuffEffectList[i].Effect.Hot * (PS.stats.Buffeffectduration / 100);
+					//FIXA
 				}
 
-				if(AdjustedActiveSkill.BuffEffectList[i].Effect.Slow > 0)
+				if(AdjustedActiveSkill.BuffEffectList[i].Effect.SlowStruct.slowamount > 0)
 				{
-					AdjustedActiveSkill.BuffEffectList[i].Effect.Slow = AdjustedActiveSkill.BuffEffectList[i].Effect.Slow * (PS.stats.Debuffeffectduration / 100);
+					AdjustedActiveSkill.BuffEffectList[i].Effect.SlowStruct.slowamount = (1 - (( 100 - AdjustedActiveSkill.BuffEffectList[i].Effect.SlowStruct.slowamount) / PS.stats.Debuffeffectduration)) * 100;
 				}
 			}
 		}

@@ -5,7 +5,8 @@ using Engine;
 public class EnemyDummyController : MonoBehaviour {
 	private Quaternion targetRotation;
 	public float rotationSpeed = 450;
-	public float walkSpeed = 5;
+	public float currentwalkSpeed = 5;
+	public float maxWalkSpeed = 5;
 	public float runSpeed = 8;
 	private CharacterController controller;
 
@@ -33,7 +34,7 @@ public class EnemyDummyController : MonoBehaviour {
 		
 		Vector3 motion = input;
 		motion *= (Mathf.Abs (input.x) == 1 && Mathf.Abs (input.z) == 1) ? .7f : 1;
-		motion *= (Input.GetButton ("Run")) ? runSpeed : walkSpeed;
+		motion *= (Input.GetButton ("Run")) ? runSpeed : currentwalkSpeed;
 		motion += Vector3.up * -8;
 		
 		controller.Move (motion * Time.deltaTime);
