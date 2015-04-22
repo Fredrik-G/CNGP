@@ -16,5 +16,6 @@ public class PlayerHealthBarLocation : MonoBehaviour {
 	void LateUpdate () {
         HealthAndChiBarTarget = new Vector3(target.position.x, transform.position.y, target.position.z+0.5f);
         transform.position = Vector3.Lerp(transform.position, HealthAndChiBarTarget, Time.deltaTime * 9999);
+       
 	}
 }

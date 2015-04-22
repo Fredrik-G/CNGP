@@ -4,7 +4,7 @@ using System.Collections;
 [RequireComponent (typeof(CharacterController))]
 public class TopDownController : MonoBehaviour {
 
-	public float rotationSpeed = 450;
+	public float rotationSpeed = 5000;
 	public float walkSpeed = 5;
 	public float runSpeed = 8;
 

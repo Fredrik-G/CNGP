@@ -3,8 +3,19 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - New Tag
+  - map
   layers:
+  - Default
+  - TransparentFX
+  - Ignore Raycast
+  - 
+  - Water
+  - UI
+  - 
+  - 
+  - Marker
   - 
   - 
   - 
@@ -28,13 +39,7 @@ TagManager:
   - 
   - 
   - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  m_SortingLayers: []
+  m_SortingLayers:
+  - name: Default
+    uniqueID: 0
+    locked: 0
