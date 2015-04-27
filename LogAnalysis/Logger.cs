@@ -1,7 +1,7 @@
 ﻿using System.Reflection;
 using log4net;
 
-namespace UDPLog
+namespace LogAnalysis
 {
     /// <summary>
     /// Class used for logging.
@@ -10,11 +10,16 @@ namespace UDPLog
     /// </summary>
     public class Logger
     {
-        private static ILog _log;
+        private readonly ILog _log;
 
         public Logger(MethodBase methodBase)
         {
             _log = LogManager.GetLogger(methodBase.DeclaringType);
+        }
+
+        public Logger(string loggerName)
+        {
+            _log = LogManager.GetLogger(loggerName);
         }
 
         #region Logging methods

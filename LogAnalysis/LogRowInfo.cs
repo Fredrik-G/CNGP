@@ -1,11 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LogAnalysis
 {
+    /// <summary>
+    /// Class containing information about one row from a log file.
+    /// </summary>
     public class LogRowInfo
     {
         public string Thread { get; set; }
@@ -15,16 +14,14 @@ namespace LogAnalysis
         public DateTime DateTime { get; set; }
 
         /// <summary>
-        /// Formats a given line and saves relevant values;
+        /// Formats a given line and saves relevant values.
         /// </summary>
         /// <param name="line"></param>
         public void FormatLine(string line)
         {
             var splitLine = line.Split(';');
-            var tempDate = splitLine[0].Split(' ')[0];
-            var date = tempDate.Split('-');
-            var temptime = splitLine[0].Split(' ')[1];
-            var time = temptime.Split(':');
+            var date = splitLine[0].Split(' ')[0].Split('-');        
+            var time = splitLine[0].Split(' ')[1].Split(':');
 
             Thread = splitLine[1];
             Level = splitLine[2];
@@ -40,6 +37,23 @@ namespace LogAnalysis
             var seconds = Convert.ToInt16(time[2].Split(',')[0]);
             var milliseconds = Convert.ToInt16(time[2].Split(',')[1]);
             DateTime = new DateTime(year, month, day, hour, minutes, seconds, milliseconds);
+        }
+
+        public bool IsLoginMessage()
+        {
+            var splittedMessage = Message.Split(' ');
+            return String.Equals(splittedMessage[0], "Account") && String.Equals(splittedMessage[3], "on.");
+        }
+        public bool IsLogoffMessage()
+        {
+            var splittedMessage = Message.Split(' ');
+            return String.Equals(splittedMessage[0], "Account") && String.Equals(splittedMessage[3], "off.");
+        }
+
+        public string GetEmailFromMessage()
+        {
+            var splittedMessage = Message.Split(' ');
+            return String.Equals(splittedMessage[0], "Account") ? splittedMessage[1] : String.Empty;
         }
     }
 }
