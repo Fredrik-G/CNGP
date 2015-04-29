@@ -66,5 +66,14 @@ namespace LogAnalysis
         {
             return _hourInfos;
         }
+
+        /// <summary>
+        /// Removes all elements from _dayInfos & _hourInfos.
+        /// </summary>
+        public void Clear()
+        {
+            _dayInfos.Clear();
+            _hourInfos.Clear();
+        }
     }
 }

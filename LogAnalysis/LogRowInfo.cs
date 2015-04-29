@@ -41,13 +41,11 @@ namespace LogAnalysis
 
         public bool IsLoginMessage()
         {
-            var splittedMessage = Message.Split(' ');
-            return String.Equals(splittedMessage[0], "Account") && String.Equals(splittedMessage[3], "on.");
+            return Message.EndsWith("on.");
         }
         public bool IsLogoffMessage()
         {
-            var splittedMessage = Message.Split(' ');
-            return String.Equals(splittedMessage[0], "Account") && String.Equals(splittedMessage[3], "off.");
+            return Message.EndsWith("off.");
         }
 
         public string GetEmailFromMessage()
