@@ -29,6 +29,7 @@ public class LoginScreen : MonoBehaviour
     private string _accountEmail = String.Empty;
     private string _accountPassword = String.Empty;
     private string _registeredIp = String.Empty;
+    private string _currentIp = String.Empty;
 
     private string _hash = string.Empty;
     private string _salt = string.Empty;
@@ -202,11 +203,12 @@ public class LoginScreen : MonoBehaviour
         _salt = CalculateSalt();
         _hash = CalculateHash(_salt, _accountPassword);
         _registeredIp = GetUserPublicIp();
+        _currentIp = _registeredIp;
 
         try
         {
             Debug.Log("Adding to database");
-            _database.AddAccountToDatabase(_accountEmail, _salt, _hash, _registeredIp);
+            _database.AddAccountToDatabase(_accountEmail, _salt, _hash, _registeredIp, _currentIp);
             _warningMessage = String.Empty;
             _infoMessage = "Account was successfully created!";
         }
@@ -230,9 +232,14 @@ public class LoginScreen : MonoBehaviour
         var inputHash = CalculateHash(salt, _accountPassword);
 
         if (correctHash == inputHash)
-        {
+        { 
             Debug.Log("Correct login");
             _infoMessage = "Correct login!";
+
+            _currentIp = GetUserPublicIp();
+
+            Debug.Log(_currentIp);
+            _database.UpdateCurrentIpForAccount(_accountEmail, _currentIp);
         }
         else
         {

@@ -53,26 +53,46 @@ namespace Engine
         /// </summary>
         private static class Tables
         {
-            public const string Accounts = "Accounts";
-            public const string Statistics = "Statistics";
+            public const string Accounts = AccountsTable.TableName;
+            public const string Statistics = StatisticsTable.TableName;
         }
 
         /// <summary>
-        /// String "enum" for the primary key in every table.
+        /// Static class defining the accounts table.
         /// </summary>
-        private static class PrimaryKeys
+        private static class AccountsTable
         {
-            /// <summary>
-            /// Primary key for table Accounts.
-            /// </summary>
-            public const string Accounts = "Email";
+            public const string TableName = "Accounts";
+            public const string PrimaryKey = Columns.Email;
 
-            /// <summary>
-            /// Primary key for table Statistics.
-            /// </summary>
-            public const string Statistics = "Email";
+            public static class Columns
+            {
+                public const string Email = "Email";
+                public const string Hash = "Hash";
+                public const string Salt = "Salt";
+                public const string RegisteredIp = "RegisteredIP";
+                public const string CurrentIp = "CurrentIP";
+            }
         }
 
+        /// <summary>
+        /// Static class defining the statistics table.
+        /// </summary>
+        private static class StatisticsTable
+        {
+            public const string TableName = "Statistics";
+            public const string PrimaryKey = Columns.Email;
+
+            public static class Columns
+            {
+                public const string Email = "Email";
+                public const string Wins = "Wins";
+                public const string GamesPlayed = "GamesPlayed";
+                public const string Rating = "Rating";
+                public const string Kills = "Kills";
+                public const string Deaths = "Deaths";
+            }
+        }
         #endregion
 
         /// <summary>
@@ -83,6 +103,25 @@ namespace Engine
             DebugText("Opening connection to database " + SQL_DB_NAME);
             _dbConnection = new SqliteConnection(SQL_DB_LOCATION);
             _dbCommand = _dbConnection.CreateCommand();
+        }
+
+
+        /// <summary>
+        /// Gets the primary key for the given table.
+        /// </summary>
+        /// <returns>The primary key</returns>
+        private string GetPrimaryKeyForCurrentTable()
+        {
+            if (String.Equals(SQL_TABLE_NAME, AccountsTable.TableName))
+            {
+                return AccountsTable.PrimaryKey;
+            }
+            if (String.Equals(SQL_TABLE_NAME, StatisticsTable.TableName))
+            {
+                return StatisticsTable.PrimaryKey;
+            }
+
+            throw new Exception("Primary key was not found for table " + SQL_TABLE_NAME);
         }
 
         #region SQL Queries
@@ -117,6 +156,24 @@ namespace Engine
                 }
             }
             _sqlQuery += "');";
+
+            DebugText(_sqlQuery);
+            ExecuteNonQuery(_sqlQuery);
+        }
+
+        /// <summary>
+        /// Inserts given columns to the current table.
+        /// </summary>
+        /// <param name="primaryKey">The value of the primary key to update to</param>
+        /// <param name="column">The column to insert into</param>
+        /// <param name="columnValue">The value to be inserted</param>
+        private void UpdateColumnInCurrentTable(string primaryKey, string column, string columnValue)
+        {
+            _sqlQuery = "UPDATE " + SQL_TABLE_NAME
+                        + " SET "
+                        + column + "='" + columnValue
+                        + "' WHERE "
+                        + GetPrimaryKeyForCurrentTable() + "='" + primaryKey + "'";
 
             DebugText(_sqlQuery);
             ExecuteNonQuery(_sqlQuery);
@@ -194,7 +251,7 @@ namespace Engine
                     text.Append(_reader.GetString(i)).Append(" ");
                 }
                 text.AppendLine();
-                
+
                 DebugText(text.ToString());
             }
 
@@ -209,7 +266,7 @@ namespace Engine
         /// </summary>
         /// <param name="commandText">SQL Query to execute</param>
         private void ExecuteNonQuery(string commandText)
-        { 
+        {
             if (String.IsNullOrEmpty(SQL_TABLE_NAME))
             {
                 throw new Exception("Table name is not set!");
@@ -230,17 +287,18 @@ namespace Engine
         #region Account Methods
 
         /// <summary>
-        /// 
+        /// Add an account with given values to the database.
         /// </summary>
         /// <param name="email"></param>
         /// <param name="salt"></param>
         /// <param name="hash"></param>
         /// <param name="registeredIp"></param>
-        public void AddAccountToDatabase(string email, string salt, string hash, string registeredIp)
+        /// <param name="currentIp"></param>
+        public void AddAccountToDatabase(string email, string salt, string hash, string registeredIp, string currentIp)
         {
             //Should check for sql injection here.
 
-            string[] accountInfo = { email, salt, hash, registeredIp };
+            string[] accountInfo = { email, salt, hash, registeredIp,  currentIp};
 
             SQL_TABLE_NAME = Tables.Accounts;
 
@@ -255,7 +313,7 @@ namespace Engine
         public string GetSaltForAccount(string accountEmail)
         {
             SQL_TABLE_NAME = Tables.Accounts;
-            return GetColumnValue(PrimaryKeys.Accounts, accountEmail, "Salt");
+            return GetColumnValue(AccountsTable.PrimaryKey, accountEmail, "Salt");
         }
 
         /// <summary>
@@ -266,7 +324,19 @@ namespace Engine
         public string GetHashForAccount(string accountEmail)
         {
             SQL_TABLE_NAME = Tables.Accounts;
-            return GetColumnValue(PrimaryKeys.Accounts, accountEmail, "Hash");
+            return GetColumnValue(AccountsTable.PrimaryKey, accountEmail, "Hash");
+        }
+
+        /// <summary>
+        /// Updates the current IP-adress for a given account.
+        /// </summary>
+        /// <param name="email">The account email</param>
+        /// <param name="currentIp">The current IP to update to</param>
+        public void UpdateCurrentIpForAccount(string email, string currentIp)
+        {
+            SQL_TABLE_NAME = Tables.Accounts;
+            DebugText(SQL_TABLE_NAME);
+            UpdateColumnInCurrentTable(email, AccountsTable.Columns.CurrentIp, currentIp);
         }
 
         #endregion
@@ -291,13 +361,12 @@ namespace Engine
         {
             SQL_TABLE_NAME = Tables.Statistics;
 
-            var numberOfColumns = 6;
+            const int numberOfColumns = 6;
 
-            GetAllColumnsValue(PrimaryKeys.Statistics, email, numberOfColumns);
+            GetAllColumnsValue(StatisticsTable.PrimaryKey, email, numberOfColumns);
         }
 
         #endregion
-
 
         /// <summary>
         /// Logs debug text if DebugMode is true.
