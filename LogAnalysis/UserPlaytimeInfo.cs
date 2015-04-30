@@ -17,11 +17,25 @@ namespace LogAnalysis
         {
             public DateTime LoginTime { get; set; }
             public DateTime LogOffTime { get; set; }
-            public TimeSpan PlayTime { get; set; }
+            public double PlayTime { get; set; }
 
+            /// <summary>
+            /// Calculates the total time played
+            /// and rounds it to half hour/whole hour.
+            /// </summary>
             public void CalculatePlaytime()
             {
-                PlayTime = LogOffTime - LoginTime;
+                var totalHours = LogOffTime.Hour - LoginTime.Hour;
+                var totalMinutes = LogOffTime.Minute - LoginTime.Minute;
+
+                if (totalMinutes >= 30)
+                {
+                    PlayTime = totalHours + 0.5d;
+                }
+                else
+                {
+                    PlayTime = totalHours;
+                }
             }
         }
 
@@ -72,7 +86,7 @@ namespace LogAnalysis
             /// <returns>The login time for the latest play occasion.</returns>
             public DateTime GetLastLoginTime()
             {
-                foreach (var playtimeInfo in PlaytimeInfos.Where(playtimeInfo => playtimeInfo.PlayTime.TotalMilliseconds == 0.0d))
+                foreach (var playtimeInfo in PlaytimeInfos.Where(playtimeInfo => playtimeInfo.PlayTime == 0))
                 {
                     return playtimeInfo.LoginTime;
                 }

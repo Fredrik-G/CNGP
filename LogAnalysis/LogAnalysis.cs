@@ -16,7 +16,7 @@ namespace LogAnalysis
         private readonly List<LogRowInfo> _generalLogRowInfos = new List<LogRowInfo>();
         private readonly DayAndHourInfo _dayAndHourInfo = new DayAndHourInfo();
         private readonly UserPlaytimeInfo _userPlaytimeInfo = new UserPlaytimeInfo();
-        private List<IGrouping<TimeSpan, UserPlaytimeInfo.PlaytimeInfo>> _playOccasions = new List<IGrouping<TimeSpan, UserPlaytimeInfo.PlaytimeInfo>>();
+        private List<IGrouping<double, UserPlaytimeInfo.PlaytimeInfo>> _playOccasions = new List<IGrouping<double, UserPlaytimeInfo.PlaytimeInfo>>();
 
         #endregion
 
@@ -160,7 +160,7 @@ namespace LogAnalysis
             return account.PlaytimeInfos;
         }
 
-        public List<IGrouping<TimeSpan, UserPlaytimeInfo.PlaytimeInfo>> GetUsersPlayOccasions()
+        public List<IGrouping<double, UserPlaytimeInfo.PlaytimeInfo>> GetUsersPlayOccasions()
         {
             return _playOccasions;
         }

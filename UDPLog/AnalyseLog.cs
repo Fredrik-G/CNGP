@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
@@ -50,8 +51,8 @@ namespace UDPLog
 
             watch.Stop();
 
-            CalculatePlaytimeLabel.Visible = true;
-            CalculatePlaytimeLabel.Text = "Calculation took " + Math.Round(watch.Elapsed.TotalSeconds, 3) + " seconds.";
+            InformationLabel.Visible = true;
+            InformationLabel.Text = "Calculation took " + Math.Round(watch.Elapsed.TotalSeconds, 3) + " seconds.";
         }
 
         /// <summary>
@@ -66,8 +67,8 @@ namespace UDPLog
             _logAnalysis.SortMostFrequentDayAndHour();
 
             watch.Stop();
-            SortLabel.Visible = true;
-            SortLabel.Text = "Sorted information in " + Math.Round(watch.Elapsed.TotalSeconds, 3) + " seconds.";
+            InformationLabel.Visible = true;
+            InformationLabel.Text = "Sorted information in " + Math.Round(watch.Elapsed.TotalSeconds, 3) + " seconds.";
         }
 
         /// <summary>
@@ -118,7 +119,7 @@ namespace UDPLog
 
             DisplayUserPlaytimeInChart();
 
-            
+
         }
 
         /// <summary>
@@ -160,8 +161,8 @@ namespace UDPLog
                 }
 
                 watch.Stop();
-                ReadLogLabel.Visible = true;
-                ReadLogLabel.Text = "Read " + openFileDialog.SafeFileName + " in "
+                InformationLabel.Visible = true;
+                InformationLabel.Text = "Read " + openFileDialog.SafeFileName + " in "
                                     + Math.Round(watch.Elapsed.TotalSeconds, 3) + " seconds.";
             }
         }
@@ -187,7 +188,7 @@ namespace UDPLog
             if (daysInfo.Count == 0)
             {
                 return;
-            }          
+            }
 
             const string serieName = "Day of week";
 
@@ -237,7 +238,7 @@ namespace UDPLog
 
             foreach (var occasion in playOccasions)
             {
-                AnalyseDataChart.Series[serieName].Points.AddXY(occasion.Key.TotalHours, occasion.Count());
+                AnalyseDataChart.Series[serieName].Points.AddXY(occasion.Key, occasion.Count());
             }
         }
         /// <summary>
@@ -246,7 +247,7 @@ namespace UDPLog
         /// <param name="serieName">The name of the serie to be created.</param>
         private void FormatChart(string serieName)
         {
-            AnalyseDataChart.Series.Add(serieName);    
+            AnalyseDataChart.Series.Add(serieName);
             AnalyseDataChart.Series[serieName].YValueMembers = "Count";
 
             AnalyseDataChart.ChartAreas[0].AxisY.Title = "Count";
@@ -271,16 +272,56 @@ namespace UDPLog
         /// </summary>
         private void ResetGui()
         {
-            //AnalyseInfoGridView.Rows.Clear();
-            //UserPlaytimeGridView.Rows.Clear();
-            //TODO ^tar bort allt från bindinglist -> borde cleara datagrid utan att rensa listan.
             AnalyseInfoGridView.DataSource = UserPlaytimeGridView.DataSource = null;
+            UserPlaytimeGridView.DataSource = UserPlaytimeGridView.DataSource = null;
 
-
-            ReadLogLabel.Text = SortLabel.Text = CalculatePlaytimeLabel.Text = String.Empty;
-            ReadLogLabel.Visible = SortLabel.Visible = CalculatePlaytimeLabel.Visible = false;
+            InformationLabel.Text = String.Empty;
+            InformationLabel.Visible = false;
 
             ClearChartSeries();
+        }
+
+        private void saveGraphToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SaveGraphAsImage();
+        }
+
+        private void SaveGraphAsImage()
+        {
+            var saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Filter = "JPEG Image|*.jpg|Bitmap Image|*.bmp|GIF Image|*.gif";
+            saveFileDialog.Title = "Save an Image File";
+
+            if (saveFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                using (var fileStream = (FileStream)saveFileDialog.OpenFile())
+                {
+                    switch (saveFileDialog.FilterIndex)
+                    {
+                        case 1:
+                            AnalyseDataChart.SaveImage(fileStream, ChartImageFormat.Jpeg);
+                            break;
+                        case 2:
+                            AnalyseDataChart.SaveImage(fileStream, ChartImageFormat.Bmp);
+                            break;
+                        case 3:
+                            AnalyseDataChart.SaveImage(fileStream, ChartImageFormat.Gif);
+                            break;
+                    }
+                }
+            }
+
+        }
+
+        private void readLogFileToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ReadLog();
+        }
+
+        private void createDebugLogFileToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var createLogFile = new CreateDebugLogFile();
+            createLogFile.ShowDialog();
         }
     }
 }
