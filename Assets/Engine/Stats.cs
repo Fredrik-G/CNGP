@@ -9,6 +9,8 @@ namespace Engine
     {  
         public double Damage { get; set; }
 
+        public double DamageFactor { get; set; }
+
         public double MaxChi { get; set; }
 
 		public double CurrentChi { get; set; }
@@ -21,11 +23,19 @@ namespace Engine
 
         public double Healthreg { get; set; }
 
+        public double HealthRegFactor { get; set; }
+
         public double Healingpower { get; set; }
+
+        public double HealingPowerFactor { get; set; }
 
         public double Movementspeed { get; set; }
 
+		public double MovementSpeedFactor { get; set; }
+
         public double Armor { get; set; }
+
+        public double ArmorFactor { get; set; }
 
         public double Physicalresistance { get; set; }
 
@@ -62,6 +72,12 @@ namespace Engine
             Cooldownduration = cooldownduration;
             Skillradius = skillradius;
             Skillrange = skillrange;
+
+			MovementSpeedFactor = 1;
+            HealthRegFactor = 1;
+            HealingPowerFactor = 1;
+            DamageFactor = 1;
+            ArmorFactor = 1;
         }
 
 		public Stats()
@@ -81,8 +97,14 @@ namespace Engine
 			Buffeffectduration = 100;
 			Debuffeffectduration = 100;
 			Cooldownduration = 100;
-			Skillradius = 300;
+			Skillradius = 100;
 			Skillrange = 100;
+
+			MovementSpeedFactor = 1;
+            HealthRegFactor = 1;
+            HealingPowerFactor = 1;
+		    DamageFactor = 1;
+		    ArmorFactor = 1;
 		}
 
     }

@@ -23,7 +23,7 @@ public class TopDownController : MonoBehaviour {
 	{
 		ControlMouse ();
 
-        Debug.Log(PhotonNetwork.GetPing().ToString());
+   	    //Debug.Log(PhotonNetwork.GetPing().ToString());
 		//ControlWASD ();
 
 	}
@@ -39,7 +39,7 @@ public class TopDownController : MonoBehaviour {
 		
 		Vector3 motion = input;
 		motion *= (Mathf.Abs (input.x) == 1 && Mathf.Abs (input.z) == 1) ? .7f : 1;
-		motion *= (Input.GetButton ("Run")) ? runSpeed : walkSpeed;
+        motion *= (float)(walkSpeed * (GetComponent<PlayerStats>().stats.Movementspeed / 100) * GetComponent<PlayerStats>().stats.MovementSpeedFactor);
 		motion += Vector3.up * -8;
 		
 		controller.Move (motion * Time.deltaTime);
@@ -53,10 +53,10 @@ public class TopDownController : MonoBehaviour {
 			targetRotation = Quaternion.LookRotation (input);
 			transform.eulerAngles = Vector2.up * Mathf.MoveTowardsAngle (transform.eulerAngles.y, targetRotation.eulerAngles.y, rotationSpeed * Time.deltaTime);
 		}
-		
+
 		Vector3 motion = input;
 		motion *= (Mathf.Abs (input.x) == 1 && Mathf.Abs (input.z) == 1) ? .7f : 1;
-		motion *= (Input.GetButton ("Run")) ? runSpeed : walkSpeed;
+        motion *= (float)(walkSpeed * (GetComponent<PlayerStats>().stats.Movementspeed / 100) * GetComponent<PlayerStats>().stats.MovementSpeedFactor);
 		motion += Vector3.up * -8;
 		
 		controller.Move (motion * Time.deltaTime);

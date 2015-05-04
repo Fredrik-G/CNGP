@@ -3,8 +3,7 @@ using System.Collections;
 using Engine;
 
 public class ProjectileSpell : MonoBehaviour{
-
-	public string Name = "";
+	
 	public double Scale { get; set; } 
 	public ActiveSkill ProjectileActiveSkill = new ActiveSkill();
 	// Use this for initialization
@@ -15,11 +14,7 @@ public class ProjectileSpell : MonoBehaviour{
 	
 	// Update is called once per frame
 	void Update () {
-<<<<<<< HEAD
 		if (ProjectileActiveSkill.Name.Equals("Firestream")) 
-=======
-		if (Name.CompareTo("Firestream") == 0) 
->>>>>>> 2b43b92b4df6773d8f06fb2a36599a1f6ccdedb6
 		{
 			transform.localScale = Vector3.one * (float)Scale;
 
@@ -56,7 +51,7 @@ public class ProjectileSpell : MonoBehaviour{
 
 		AdjustedActiveSkill.Name = AS.Name;
 		AdjustedActiveSkill.Info = AS.Info;
-		AdjustedActiveSkill.DamageHealingPower = AS.DamageHealingPower * (PS.stats.Damage / 100);
+	    AdjustedActiveSkill.DamageHealingPower = AS.DamageHealingPower*(PS.stats.Damage/100)*(PS.stats.DamageFactor);
 		AdjustedActiveSkill.ChiCost = AS.ChiCost;
 		AdjustedActiveSkill.Radius = AS.Radius * (PS.stats.Skillradius / 100);
 		AdjustedActiveSkill.SingleTarget = AS.SingleTarget;
@@ -71,4 +66,12 @@ public class ProjectileSpell : MonoBehaviour{
 		return AdjustedActiveSkill;
 	}
 
+    /*void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("enemy"))
+        {
+            other.GetComponent<EnemyStats>().stats.CurrentHealthpoints -= ProjectileActiveSkill.DamageHealingPower;
+        }
+    }
+     * */
 }

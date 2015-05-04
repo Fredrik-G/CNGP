@@ -1,6 +1,7 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System;
+using System.Reflection;
 using Engine;
 
 public class ProjectileShooter : MonoBehaviour
@@ -10,6 +11,7 @@ public class ProjectileShooter : MonoBehaviour
 	private GameObject _cubePrefab;
 	private GameObject _cylinderPrefab;
 	public Transform spawn;
+	private AudioSource _audioSource;
 
 	// Use this for initialization
 	void Start ()
@@ -17,43 +19,54 @@ public class ProjectileShooter : MonoBehaviour
 		_projectilePrefab = Resources.Load("projectile") as GameObject;
 		_cubePrefab = Resources.Load ("cube") as GameObject;
 		_cylinderPrefab = Resources.Load ("cylinder") as GameObject;
+		_audioSource = GetComponent <AudioSource> () as AudioSource;
 
 	}
 
 	// Update is called once per frame
 	void Update (){
-		var PlayerStats = gameObject.GetComponent<PlayerStats>();
+		var playerStats = gameObject.GetComponent<PlayerStats>();
 	
-		if (Input.GetButton("LeftClick") && (PlayerStats.stats.SkillList[0].CurrentCooldown <= 0))
+		if (Input.GetButton("LeftClick") && (playerStats.stats.SkillList[0].CurrentCooldown <= 0))
 	    {
-			SkillOnMouseCast(0, PlayerStats);
+            var arguments = new object[2];
+            arguments[0] = 0;
+            arguments[1] = playerStats;
+            var skillName = "Skill" + playerStats.stats.SkillList[0].Name;
+
+	        StartCoroutine(skillName, arguments);
+
 	    }
 
-		if (Input.GetButton("RightClick") && (PlayerStats.stats.SkillList[1].CurrentCooldown <= 0))
+		if (Input.GetButton("RightClick") && (playerStats.stats.SkillList[1].CurrentCooldown <= 0))
 		{
-			SkillCast(1,PlayerStats);	
+            SkillCast(1, playerStats);	
 
 		}
 
-		if (Input.GetButton ("ButtonQ") && (PlayerStats.stats.SkillList [2].CurrentCooldown <= 0))
+		if (Input.GetButton ("ButtonQ") && (playerStats.stats.SkillList [2].CurrentCooldown <= 0))
 		{
-			SkillCast(2,PlayerStats);
+			SkillCast(2,playerStats);
 		}
 
-		if (Input.GetButton ("ButtonE") && (PlayerStats.stats.SkillList [3].CurrentCooldown <= 0))
+		if (Input.GetButton ("ButtonE") && (playerStats.stats.SkillList [3].CurrentCooldown <= 0))
 		{
-			SkillCast(3,PlayerStats);
+			SkillCast(3,playerStats);
 		}
 
+		for (int i = 0; i < playerStats.stats.SkillList.Count; i++) {
 
-		for (int i = 0; i < PlayerStats.stats.SkillList.Count; i++) {
-			PlayerStats.stats.SkillList [i].CurrentCooldown -= Time.deltaTime;
+		    if (playerStats.stats.SkillList[i].CurrentCooldown > 0)
+		    {
+		        playerStats.stats.SkillList[i].CurrentCooldown -= Time.deltaTime;
+		    }
 		}
 	}
 
 	//Anpassad för de fyra mainskillsen
 	void SkillCast(int skillSlot, PlayerStats playerStats)
 	{
+		_audioSource.PlayOneShot (Resources.Load ("SoundEffects/" + playerStats.stats.SkillList [skillSlot].Name) as AudioClip);
 		var oldSpawn = spawn.localRotation;
 		if (playerStats.stats.SkillList [skillSlot].Name == "Waterbullets")
 		{
@@ -68,7 +81,6 @@ public class ProjectileShooter : MonoBehaviour
 
 			Controller.Init (Controller.AdjustActiveSkillValues (playerStats.stats.SkillList [skillSlot], playerStats));
 			playerStats.stats.SkillList [skillSlot].CurrentCooldown = Controller.ProjectileActiveSkill.Cooldown;
-			Controller.Name = playerStats.stats.SkillList [skillSlot].Name;
 			Controller.Scale = Controller.ProjectileActiveSkill.Radius;
 
 			projectile.transform.localScale = new Vector3 ((float)Controller.Scale , (float)Controller.Scale , (float)Controller.Scale);
@@ -88,52 +100,60 @@ public class ProjectileShooter : MonoBehaviour
 	}
 
 
-	//Anpassad för skillen EarthQuake
+	//Anpassad för skillen EarthQuake och Air Vortex
 	void SkillOnMouseCast(int skillSlot, PlayerStats playerStats)
 	{
 		if (playerStats.stats.CurrentChi >= playerStats.stats.SkillList [skillSlot].ChiCost) {
 			var ray = Camera.main.ScreenPointToRay (Input.mousePosition);
 			RaycastHit hit = new RaycastHit ();
 			if (Physics.Raycast (ray, out hit, (float)playerStats.stats.SkillList [skillSlot].Range)) {
+				_audioSource.PlayOneShot (Resources.Load ("SoundEffects/" + playerStats.stats.SkillList [skillSlot].Name) as AudioClip);
 				var cylinderPosition = new Vector3 (hit.point.x, 0, hit.point.z);
 
 
-				var cylinder = Instantiate (_cylinderPrefab, cylinderPosition, Quaternion.Euler (0, 0, 0)) as GameObject;
+				var cylinder = (GameObject)Instantiate (_cylinderPrefab, cylinderPosition, Quaternion.Euler (0, 0, 0));
 
 
-				var Controller = cylinder.GetComponent<CylinderSpell> ();
-				Controller.Init (Controller.AdjustActiveSkillValues (playerStats.stats.SkillList [skillSlot], playerStats));
-				cylinder.transform.localScale = new Vector3 ((float)Controller.CylinderActiveSkill.Radius , cylinder.transform.localScale.y, (float)Controller.CylinderActiveSkill.Radius);
+				var controller = cylinder.gameObject.GetComponent<CylinderSpell> ();
+                
 
-				playerStats.stats.SkillList [skillSlot].CurrentCooldown = Controller.CylinderActiveSkill.Cooldown;
+				controller.Init (controller.AdjustActiveSkillValues (playerStats.stats.SkillList [skillSlot], playerStats));
+				cylinder.transform.localScale = new Vector3 ((float)controller.CylinderActiveSkill.Radius , cylinder.transform.localScale.y, (float)controller.CylinderActiveSkill.Radius);
+				playerStats.stats.SkillList [skillSlot].CurrentCooldown = controller.CylinderActiveSkill.Cooldown;
 
-				var rb = cylinder.GetComponent<Rigidbody> ();
-				if(Controller.CylinderActiveSkill.Name.Equals("Earthquake"))
+				var rb = cylinder.gameObject.GetComponent<Rigidbody> ();
+				if(controller.CylinderActiveSkill.Name.Equals("Earthquake"))
 				{
 					rb.velocity = cylinder.transform.up * 2;
 				}
 
-				if(Controller.CylinderActiveSkill.Name.Equals("Air vortex"))
+				if(controller.CylinderActiveSkill.Name.Equals("Air vortex"))
 				{
 					rb.useGravity = false;
-					cylinder.transform.localScale = new Vector3 ((float)Controller.CylinderActiveSkill.Radius , 5, (float)Controller.CylinderActiveSkill.Radius);
+					cylinder.transform.localScale = new Vector3 ((float)controller.CylinderActiveSkill.Radius , 5, (float)controller.CylinderActiveSkill.Radius);
 				}
 				else
 				{
-					cylinder.transform.localScale = new Vector3 ((float)Controller.CylinderActiveSkill.Radius , cylinder.transform.localScale.y, (float)Controller.CylinderActiveSkill.Radius);
+					cylinder.transform.localScale = new Vector3 ((float)controller.CylinderActiveSkill.Radius , cylinder.transform.localScale.y, (float)controller.CylinderActiveSkill.Radius);
 				}
 
 
 				playerStats.stats.CurrentChi -= playerStats.stats.SkillList[skillSlot].ChiCost;
 
-				Debug.Log("" + playerStats.stats.CurrentChi);
+				if(controller.CylinderActiveSkill.Name.Equals("Earthquake"))
+				{
+					Destroy (cylinder.gameObject, 2);
+				}
+				
+				if(controller.CylinderActiveSkill.Name.Equals("Air vortex"))
+				{
+					Destroy (cylinder.gameObject, 5);
+				}
 
-				Destroy (cylinder.gameObject, 2);
 			}
 		}
 	}
-<<<<<<< HEAD
-
+	
 	//Anpassad för skillen Ice Floor och Blazing Ring
 	void SkillSpawnOnPlayerCast(int skillSlot, PlayerStats playerStats)
 	{
@@ -143,10 +163,11 @@ public class ProjectileShooter : MonoBehaviour
 			var cylinderPosition = new Vector3(gameObject.transform.position.x, (float)(gameObject.transform.position.y ), gameObject.transform.position.z);
 			var cylinder = Instantiate (_cylinderPrefab, cylinderPosition , Quaternion.Euler (0, 0, 0)) as GameObject;
 
-			var Controller = cylinder.GetComponent<CylinderSpell> ();
-			Controller.Init (Controller.AdjustActiveSkillValues (playerStats.stats.SkillList [skillSlot], playerStats));
+			var controller = cylinder.GetComponent<CylinderSpell> ();
 
-			playerStats.stats.SkillList [skillSlot].CurrentCooldown = Controller.CylinderActiveSkill.Cooldown;
+			controller.Init (controller.AdjustActiveSkillValues (playerStats.stats.SkillList [skillSlot], playerStats));
+
+			playerStats.stats.SkillList [skillSlot].CurrentCooldown = controller.CylinderActiveSkill.Cooldown;
 
 			var rb = cylinder.GetComponent<Rigidbody> ();
 			rb.useGravity = false;
@@ -156,6 +177,125 @@ public class ProjectileShooter : MonoBehaviour
 			Destroy(cylinder.gameObject, (float)0.5);
 		}
 	}
-=======
->>>>>>> 2b43b92b4df6773d8f06fb2a36599a1f6ccdedb6
+
+
+    void SkillIceRamp(object[] arguments)
+    {
+        var skillSlot = (int)arguments[0];
+        var playerStats = arguments[1] as PlayerStats;
+        if (playerStats.stats.CurrentChi >= playerStats.stats.SkillList[skillSlot].ChiCost)
+        {
+            _audioSource.PlayOneShot(Resources.Load("SoundEffects/" + playerStats.stats.SkillList[skillSlot].Name) as AudioClip);
+
+
+            foreach (var item in playerStats.stats.SkillList[skillSlot].BuffEffectList)
+            {
+                var foundEffect = GetComponent<PlayerStats>().EffectList.Find(x => x.Effect.Skillname == item.Effect.Skillname);
+
+                if (foundEffect == null)
+                {
+                    GetComponent<PlayerStats>()
+                        .EffectList.Add(new BuffEffect(item.Info,
+                            new Effect(item.Effect.Skillname, item.Effect.Type, item.Effect.Timeleft,
+                                item.Effect.Duration, item.Effect.Amount)));
+                }
+                else
+                {
+                    if (foundEffect.Effect.Timeleft < item.Effect.Timeleft)
+                    {
+                        GetComponent<PlayerStats>().EffectList.Remove(foundEffect);
+                        GetComponent<PlayerStats>()
+                            .EffectList.Add(new BuffEffect(item.Info,
+                                new Effect(item.Effect.Skillname, item.Effect.Type, item.Effect.Timeleft,
+                                    item.Effect.Duration, item.Effect.Amount)));
+                    }
+                }
+            }
+            
+            playerStats.stats.CurrentChi -= playerStats.stats.SkillList[skillSlot].ChiCost;
+
+        }
+    }
+
+    void SkillRockShoes(object[] arguments)
+    {
+        var skillSlot = (int)arguments[0];
+        var playerStats = arguments[1] as PlayerStats;
+        if (playerStats.stats.CurrentChi >= playerStats.stats.SkillList[skillSlot].ChiCost)
+        {
+            _audioSource.PlayOneShot(Resources.Load("SoundEffects/" + playerStats.stats.SkillList[skillSlot].Name) as AudioClip);
+
+
+            foreach (var item in playerStats.stats.SkillList[skillSlot].BuffEffectList)
+            {
+                var foundEffect = GetComponent<PlayerStats>().EffectList.Find(x => x.Effect.Skillname == item.Effect.Skillname);
+
+                if (foundEffect == null)
+                {
+                    GetComponent<PlayerStats>()
+                        .EffectList.Add(new BuffEffect(item.Info,
+                            new Effect(item.Effect.Skillname, item.Effect.Type, item.Effect.Timeleft,
+                                item.Effect.Duration, item.Effect.Amount)));
+                }
+                else
+                {
+                    if (foundEffect.Effect.Timeleft < item.Effect.Timeleft)
+                    {
+                        GetComponent<PlayerStats>().EffectList.Remove(foundEffect);
+                        GetComponent<PlayerStats>()
+                            .EffectList.Add(new BuffEffect(item.Info,
+                                new Effect(item.Effect.Skillname, item.Effect.Type, item.Effect.Timeleft,
+                                    item.Effect.Duration, item.Effect.Amount)));
+                    }
+                }
+            }
+
+            playerStats.stats.CurrentChi -= playerStats.stats.SkillList[skillSlot].ChiCost;
+        }
+    }
+
+    void SkillEnhancedSpeed(object[] arguments)
+    {
+        var skillSlot = (int)arguments[0];
+        var playerStats = arguments[1] as PlayerStats;
+        if (playerStats.stats.CurrentChi >= playerStats.stats.SkillList[skillSlot].ChiCost)
+        {
+            _audioSource.PlayOneShot(Resources.Load("SoundEffects/" + playerStats.stats.SkillList[skillSlot].Name) as AudioClip);
+
+
+            foreach (var item in playerStats.stats.SkillList[skillSlot].BuffEffectList)
+            {
+                var foundEffect = GetComponent<PlayerStats>().EffectList.Find(x => x.Effect.Skillname == item.Effect.Skillname);
+
+                if (foundEffect == null)
+                {
+                    GetComponent<PlayerStats>()
+                        .EffectList.Add(new BuffEffect(item.Info,
+                            new Effect(item.Effect.Skillname, item.Effect.Type, item.Effect.Timeleft,
+                                item.Effect.Duration, item.Effect.Amount)));
+                }
+                else
+                {
+                    if (foundEffect.Effect.Timeleft < item.Effect.Timeleft)
+                    {
+                        GetComponent<PlayerStats>().EffectList.Remove(foundEffect);
+                        GetComponent<PlayerStats>()
+                            .EffectList.Add(new BuffEffect(item.Info,
+                                new Effect(item.Effect.Skillname, item.Effect.Type, item.Effect.Timeleft,
+                                    item.Effect.Duration, item.Effect.Amount)));
+                    }
+                }
+            }
+
+            playerStats.stats.CurrentChi -= playerStats.stats.SkillList[skillSlot].ChiCost;
+
+            var characterController = gameObject.GetComponent<CharacterController>();
+            //characterController.SimpleMove(new Vector3(20, 0, 0));
+            //characterController.velocity 
+
+        }
+    }
+
+    
+
 }

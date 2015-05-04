@@ -1,65 +1,27 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 namespace Engine
 {
     /// <summary>
     /// Class that contains all possible effects.
     /// </summary>
-	public class Effect : MonoBehaviour
+	public class Effect
     {
-        public bool Stun { get; set; }
-        public bool Root { get; set; }
-        public bool Silence { get; set; }
+		public string Skillname;
+		public string Type;
+		public double Timeleft;
+		public double Duration;
+		public double Amount;
 
-        /// <summary>
-        /// Dot damage per second.
-        /// </summary>
-        public struct Dot 
-		{ 
-			public double duration;
-			public double dotamount;
-		}
-
-		public Dot DotStruct = new Dot();
-
-        /// <summary>
-        /// Hot heal per second.
-        /// </summary>
-        public struct Hot 
-		{
-			public double duration;
-			public double hotamount;
-		}
-
-		public Hot HotStruct  = new Hot();
-
-        /// <summary>
-        /// Slow percentage.
-        /// </summary>
-        public struct Slow 
-		{
-			public double duration;
-			public double slowamount;
-		}
-
-		public Slow SlowStruct = new Slow();
-
-<<<<<<< HEAD
-		public Effect(double stun, double root, double silence, double dotDuration, double dotAmount, double hotDuration, double hotAmount, double slowDuration, double slowAmount)
-=======
-        public Effect(bool stun, bool root, bool silence, double dot, double hot, double slow)
->>>>>>> 2b43b92b4df6773d8f06fb2a36599a1f6ccdedb6
+		public Effect(string skillname, string type, double timeleft, double duration, double amount)
         {
-            Stun = stun;
-            Root = root;
-            Silence = silence;
-			DotStruct.duration = dotDuration;
-			DotStruct.dotamount = dotAmount;
-			HotStruct.duration = hotDuration;
-			HotStruct.hotamount = hotAmount;
-			SlowStruct.duration = slowDuration;
-			SlowStruct.slowamount = slowAmount;
-
-
+			Skillname = skillname;
+			Type = type;
+			Timeleft = timeleft;
+			Duration = duration;
+			Amount = amount;
         }
+
     }
+
 }

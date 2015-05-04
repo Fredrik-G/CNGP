@@ -212,6 +212,7 @@ GameObject:
   - 114: {fileID: 11490044}
   - 114: {fileID: 11429196}
   - 114: {fileID: 11474198}
+  - 136: {fileID: 13654900}
   m_Layer: 0
   m_Name: Ethan
   m_TagString: Player
@@ -2775,6 +2776,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67024893f3a834a41a51a4ce017cbb6c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  teamID: 
 --- !u!114 &11435960
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2871,6 +2873,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a68b64520b9a12549841201acb85d73e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  interpolationBackTime: .14999999999999999
 --- !u!124 &12425282
 Behaviour:
   m_ObjectHideFlags: 1
@@ -2878,6 +2881,19 @@ Behaviour:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 126058}
   m_Enabled: 1
+--- !u!136 &13654900
+CapsuleCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 113260}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: .5
+  m_Height: 2
+  m_Direction: 1
+  m_Center: {x: 0, y: 1, z: 0}
 --- !u!137 &13775390
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1
@@ -3046,7 +3062,7 @@ CharacterController:
   m_StepOffset: .300000012
   m_SkinWidth: .0799999982
   m_MinMoveDistance: .00100000005
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Center: {x: 0, y: 1, z: 0}
 --- !u!222 &22224770
 CanvasRenderer:
   m_ObjectHideFlags: 1

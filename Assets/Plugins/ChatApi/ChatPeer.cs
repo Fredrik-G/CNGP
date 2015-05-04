@@ -242,3 +242,4 @@ namespace ExitGames.Client.Photon.Chat
     }
 
 }
+

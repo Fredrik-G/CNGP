@@ -317,7 +317,8 @@ AnimatorState:
   m_Name: Jump_Start
   m_Speed: 1
   m_CycleOffset: 0
-  m_Transitions: []
+  m_Transitions:
+  - {fileID: 110172930}
   m_StateMachineBehaviours: []
   m_Position: {x: 24, y: 180, z: 0}
   m_IKOnFeet: 0
@@ -403,7 +404,8 @@ AnimatorState:
   m_Name: Jump_Land
   m_Speed: 1
   m_CycleOffset: 0
-  m_Transitions: []
+  m_Transitions:
+  - {fileID: 110174202}
   m_StateMachineBehaviours: []
   m_Position: {x: 612, y: 180, z: 0}
   m_IKOnFeet: 0

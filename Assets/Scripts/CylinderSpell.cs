@@ -1,46 +1,64 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using Engine;
 
 public class CylinderSpell : MonoBehaviour {
-
-<<<<<<< HEAD
 	public Vector3 OriginalScale = new Vector3 (1, (float)0.3, 1);
 	public double OriginalRadius = 1;
-	private double GrowRate;
+	private double _growRate;
 	public ActiveSkill CylinderActiveSkill = new ActiveSkill();
+	//private List<Collider> _colliders = new List<Collider>();
 	// Use this for initialization
 	void Start () {
-		if (CylinderActiveSkill.Name.Equals ("Ice floor") || CylinderActiveSkill.Name.Equals ("Blazing ring"))
-		{
+		if (CylinderActiveSkill.Name.Equals ("Ice floor") || CylinderActiveSkill.Name.Equals ("Blazing ring")) {
 			transform.localScale = OriginalScale;
-			GrowRate = (CylinderActiveSkill.Radius - OriginalRadius) / 0.5;
+			_growRate = (CylinderActiveSkill.Radius - OriginalRadius) / 0.5;
 		}
-
-=======
-	public string Name = "";
-	public double Scale { get; set; } 
-	public ActiveSkill CylinderActiveSkill = new ActiveSkill();
-	// Use this for initialization
-	void Start () {
-		
->>>>>>> 2b43b92b4df6773d8f06fb2a36599a1f6ccdedb6
 	}
+
 	
 	// Update is called once per frame
 	void Update () {
-<<<<<<< HEAD
-		if (CylinderActiveSkill.Name.Equals("Ice floor") || CylinderActiveSkill.Name.Equals("Blazing ring")) 
-		{
-			transform.localScale = new Vector3((float)OriginalRadius, transform.localScale.y, (float)OriginalRadius);
+		if (CylinderActiveSkill.Name.Equals ("Ice floor") || CylinderActiveSkill.Name.Equals ("Blazing ring")) {
+			transform.localScale = new Vector3 ((float)OriginalRadius, transform.localScale.y, (float)OriginalRadius);
 			
-			OriginalRadius +=  (GrowRate * Time.deltaTime);
+			OriginalRadius += (_growRate * Time.deltaTime);
 		}
-=======
-		
->>>>>>> 2b43b92b4df6773d8f06fb2a36599a1f6ccdedb6
+		//Debug.Log ("Timeleft: " + CylinderActiveSkill.BuffEffectList[1].Effect.Timeleft);
 	}
-	
+
+	/*
+	void OnTriggerStay(Collider other)
+	{
+		if (!_colliders.Contains (other)) 
+		{
+			_colliders.Add(other);
+		}
+	}
+
+	void OnTriggerExit(Collider other)
+	{
+		if (_colliders.Contains (other)) 
+		{
+			_colliders.Remove(other);
+		}
+	}
+
+	void OnDestroy()
+	{
+		foreach (Collider other in _colliders) 
+		{
+			if(other.gameObject.CompareTag ("enemy") && CylinderActiveSkill.Name.Equals("Air vortex"))
+			{
+				other.gameObject.GetComponent<EnemyDummyController>().currentWalkSpeed = other.gameObject.GetComponent<EnemyDummyController>().currentWalkSpeed / (1 - (CylinderActiveSkill.BuffEffectList[0].Effect.Slow.slowamount / 100));
+			}
+		}
+	}
+*/
+
 	public void Init(ActiveSkill AS)
 	{
 		CylinderActiveSkill.Name = AS.Name;
@@ -56,66 +74,57 @@ public class CylinderSpell : MonoBehaviour {
 		CylinderActiveSkill.Range = AS.Range;
 		CylinderActiveSkill.ChannelingTime = AS.ChannelingTime;
 		CylinderActiveSkill.CastSpeed = AS.CastSpeed;
+		CylinderActiveSkill.BuffEffectList = AS.BuffEffectList;
 	}
 	
 	public ActiveSkill AdjustActiveSkillValues(ActiveSkill AS, PlayerStats PS)
 	{
-		ActiveSkill AdjustedActiveSkill = new ActiveSkill ();
+		var adjustedActiveSkill = new ActiveSkill ();
 		
-		AdjustedActiveSkill.Name = AS.Name;
-		AdjustedActiveSkill.Info = AS.Info;
-		AdjustedActiveSkill.DamageHealingPower = AS.DamageHealingPower * (PS.stats.Damage / 100);
-		AdjustedActiveSkill.ChiCost = AS.ChiCost;
-		AdjustedActiveSkill.Radius = AS.Radius * (PS.stats.Skillradius / 100);
-		AdjustedActiveSkill.SingleTarget = AS.SingleTarget;
-		AdjustedActiveSkill.SelfTarget = AS.SelfTarget;
-		AdjustedActiveSkill.AllyTarget = AS.AllyTarget;
-		AdjustedActiveSkill.DoCollide = AS.DoCollide;
-		AdjustedActiveSkill.Cooldown = AS.Cooldown / (PS.stats.Cooldownduration / 100);
-		AdjustedActiveSkill.Range = AS.Range * (PS.stats.Skillrange / 100);
-		AdjustedActiveSkill.ChannelingTime = AS.ChannelingTime;
-		AdjustedActiveSkill.CastSpeed = AS.CastSpeed;
-<<<<<<< HEAD
-		AdjustedActiveSkill.BuffEffectList = AS.BuffEffectList;
+		adjustedActiveSkill.Name = AS.Name;
+		adjustedActiveSkill.Info = AS.Info;
+	    adjustedActiveSkill.DamageHealingPower = AS.DamageHealingPower*(PS.stats.Damage/100);
+		adjustedActiveSkill.ChiCost = AS.ChiCost;
+		adjustedActiveSkill.Radius = AS.Radius * (PS.stats.Skillradius / 100);
+		adjustedActiveSkill.SingleTarget = AS.SingleTarget;
+		adjustedActiveSkill.SelfTarget = AS.SelfTarget;
+		adjustedActiveSkill.AllyTarget = AS.AllyTarget;
+		adjustedActiveSkill.DoCollide = AS.DoCollide;
+		adjustedActiveSkill.Cooldown = AS.Cooldown / (PS.stats.Cooldownduration / 100);
+		adjustedActiveSkill.Range = AS.Range * (PS.stats.Skillrange / 100);
+		adjustedActiveSkill.ChannelingTime = AS.ChannelingTime;
+		adjustedActiveSkill.CastSpeed = AS.CastSpeed;
 
-		if(AdjustedActiveSkill.BuffEffectList.Count != 0)
+        foreach (var item in AS.BuffEffectList)
+        {
+            adjustedActiveSkill.BuffEffectList.Add(
+                (new BuffEffect(item.Info,
+                    new Effect(item.Effect.Skillname, item.Effect.Type, item.Effect.Timeleft, item.Effect.Duration,
+                        item.Effect.Amount))));
+        }
+
+
+
+
+		if(adjustedActiveSkill.BuffEffectList.Count != 0)
 		{
-			for(int i = 0; i < AdjustedActiveSkill.BuffEffectList.Count; i++)
+			for (int i = 0; i < adjustedActiveSkill.BuffEffectList.Count; i++)
 			{
-				if(AdjustedActiveSkill.BuffEffectList[i].Effect.Stun > 0)
+				if (adjustedActiveSkill.BuffEffectList[i].Effect.Type.Equals("Hot"))
 				{
-					AdjustedActiveSkill.BuffEffectList[i].Effect.Stun = AdjustedActiveSkill.BuffEffectList[i].Effect.Stun * (PS.stats.Debuffeffectduration / 100);
+                    adjustedActiveSkill.BuffEffectList[i].Effect.Amount = adjustedActiveSkill.BuffEffectList[i].Effect.Amount * (PS.stats.Healingpower / 100);
+					adjustedActiveSkill.BuffEffectList[i].Effect.Duration = adjustedActiveSkill.BuffEffectList[i].Effect.Duration * (PS.stats.Buffeffectduration / 100);
+                    adjustedActiveSkill.BuffEffectList[i].Effect.Timeleft = adjustedActiveSkill.BuffEffectList[i].Effect.Timeleft * (PS.stats.Buffeffectduration / 100);
 				}
-
-				if(AdjustedActiveSkill.BuffEffectList[i].Effect.Root > 0)
+				else
 				{
-					AdjustedActiveSkill.BuffEffectList[i].Effect.Root = AdjustedActiveSkill.BuffEffectList[i].Effect.Root * (PS.stats.Debuffeffectduration / 100);
-				}
 
-				if(AdjustedActiveSkill.BuffEffectList[i].Effect.Silence > 0)
-				{
-					AdjustedActiveSkill.BuffEffectList[i].Effect.Silence = AdjustedActiveSkill.BuffEffectList[i].Effect.Silence * (PS.stats.Debuffeffectduration / 100);
-				}
-
-				if(AdjustedActiveSkill.BuffEffectList[i].Effect.DotStruct.dotamount > 0)
-				{
-					//FIXA
-				}
-
-				if(AdjustedActiveSkill.BuffEffectList[i].Effect.HotStruct.hotamount > 0)
-				{
-					//FIXA
-				}
-
-				if(AdjustedActiveSkill.BuffEffectList[i].Effect.SlowStruct.slowamount > 0)
-				{
-					AdjustedActiveSkill.BuffEffectList[i].Effect.SlowStruct.slowamount = (1 - (( 100 - AdjustedActiveSkill.BuffEffectList[i].Effect.SlowStruct.slowamount) / PS.stats.Debuffeffectduration)) * 100;
+					adjustedActiveSkill.BuffEffectList[i].Effect.Duration = adjustedActiveSkill.BuffEffectList[i].Effect.Duration * (PS.stats.Debuffeffectduration / 100);
+                    adjustedActiveSkill.BuffEffectList[i].Effect.Timeleft = adjustedActiveSkill.BuffEffectList[i].Effect.Timeleft * (PS.stats.Debuffeffectduration / 100);
 				}
 			}
 		}
-=======
->>>>>>> 2b43b92b4df6773d8f06fb2a36599a1f6ccdedb6
-		
-		return AdjustedActiveSkill;
+		return adjustedActiveSkill;
+
 	}
 }

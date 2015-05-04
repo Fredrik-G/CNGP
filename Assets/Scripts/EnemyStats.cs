@@ -1,10 +1,13 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
+using System.Text;
 using Engine;
 
 public class EnemyStats : MonoBehaviour {
 
 	public Stats stats = new Stats();
+	public List<BuffEffect> EffectList = new List<BuffEffect>();
 
 	public GameObject HealthBar;
 	public GameObject Frame;
@@ -12,6 +15,7 @@ public class EnemyStats : MonoBehaviour {
 	public float HealthBarCurrentScale;
 	
 	private double _healthPointPercentage;
+	private double _airVortexTimer = 0;
 	
 	// Use this for initialization
 	void Start () {
@@ -30,6 +34,48 @@ public class EnemyStats : MonoBehaviour {
 			HealthBarCurrentScale = (float)(_healthPointPercentage * HealthBarMaxScale); 
 			HealthBar.transform.localScale = new Vector3(HealthBar.transform.localScale.x, HealthBarCurrentScale, HealthBar.transform.localScale.z);
 		}
+
+        if (stats.CurrentHealthpoints <= 0)
+        {
+            Destroy(gameObject);
+        }
+	}
+
+	void FixedUpdate()
+	{
+		SetFactorValues ();
+	}
+
+	private void SetFactorValues()
+	{
+		stats.MovementSpeedFactor = 1;
+		//GetComponent<EnemyDummyController> ().enabled = true;
+		for(int i = 0; i < EffectList.Count; i++) 
+		{
+			if(EffectList[i].Effect.Type.Equals("Slow"))
+			{
+				Debug.Log("" + EffectList[i].Effect.Timeleft );
+				stats.MovementSpeedFactor = stats.MovementSpeedFactor * (1 - (EffectList[i].Effect.Amount / 100));
+			}
+
+			if(EffectList[i].Effect.Type.Equals("Stun"))
+			{
+				GetComponent<EnemyDummyController> ().enabled = false;
+				Debug.Log("" + EffectList[i].Effect.Timeleft );
+			}
+
+            //if för alla effekttyper..
+			EffectList[i].Effect.Timeleft -= Time.deltaTime;
+			
+
+			if(EffectList[i].Effect.Timeleft <= 0)
+			{
+				EffectList.RemoveAt(i);
+			}
+
+		}
+
+
 	}
 
 	private void TakeDamage(double amount)
@@ -46,73 +92,97 @@ public class EnemyStats : MonoBehaviour {
 		}
 	}
 
-	void OnTriggerEnter(Collider other)
-	{
-		if (other.gameObject.CompareTag("projectile"))
-		{	
-			var projectile = other.gameObject.GetComponent<ProjectileSpell>();            
-			
-			if (projectile != null)
-			{
-				TakeDamage(projectile.ProjectileActiveSkill.DamageHealingPower);
-			}
-		}
-		
-		if (other.gameObject.CompareTag ("cylinder"))
-		{
-			var cylinder = other.gameObject.GetComponent<CylinderSpell>();            
-			
-			if (cylinder != null)
-			{
-				TakeDamage(cylinder.CylinderActiveSkill.DamageHealingPower);
-				
-				for(int i = 0; i < cylinder.CylinderActiveSkill.BuffEffectList.Count; i++)
-				{
-					if (cylinder.CylinderActiveSkill.BuffEffectList[i].Effect.Stun > 0)
-					{
-						StartCoroutine(WaitForStunToEnd(cylinder.CylinderActiveSkill.BuffEffectList[i].Effect.Stun));
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("projectile"))
+        {
+            var projectile = other.gameObject.GetComponent<ProjectileSpell>();
 
-					}
-					if (cylinder.CylinderActiveSkill.BuffEffectList[i].Effect.Root > 0)
-					{
-						
-					}
-					if (cylinder.CylinderActiveSkill.BuffEffectList[i].Effect.Silence > 0)
-					{
-						
-					}
-					if (cylinder.CylinderActiveSkill.BuffEffectList[i].Effect.DotStruct.dotamount > 0)
-					{
-						
-					}
-					if (cylinder.CylinderActiveSkill.BuffEffectList[i].Effect.HotStruct.hotamount > 0)
-					{
-						
-					}
-					if (cylinder.CylinderActiveSkill.BuffEffectList[i].Effect.SlowStruct.slowamount > 0)
-					{
-						GetComponent<EnemyDummyController> ().currentwalkSpeed = (float)(GetComponent<EnemyDummyController> ().currentwalkSpeed * (1 - (cylinder.CylinderActiveSkill.BuffEffectList[i].Effect.SlowStruct.slowamount / 100)));
-						Debug.Log("Walk Speed = " + GetComponent<EnemyDummyController> ().currentwalkSpeed);
-					}
-				}
-			}
-		}
-	}
+            if (projectile != null)
+            {
+                TakeDamage(projectile.ProjectileActiveSkill.DamageHealingPower);
+            }
+        }
 
+        if (other.gameObject.CompareTag("cylinder"))
+        {
+            var cylinder = other.gameObject.GetComponent<CylinderSpell>();
+
+            if (cylinder != null)
+            {
+
+                TakeDamage(cylinder.CylinderActiveSkill.DamageHealingPower);
+
+                for (int i = 0; i < cylinder.CylinderActiveSkill.BuffEffectList.Count; i++)
+                {
+                    var foundEffect = EffectList.Find(x => x.Effect.Skillname == cylinder.CylinderActiveSkill.BuffEffectList[i].Effect.Skillname);
+                    if (foundEffect == null)
+                    {
+                        EffectList.Add(cylinder.CylinderActiveSkill.BuffEffectList[i]);
+                    }
+                    else
+                    {
+                        if (foundEffect.Effect.Timeleft < cylinder.CylinderActiveSkill.BuffEffectList[i].Effect.Timeleft)
+                        {
+                            EffectList.Remove(foundEffect);
+                            EffectList.Add(cylinder.CylinderActiveSkill.BuffEffectList[i]);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    void OnTriggerStay(Collider other)
+    {
+        if (other.gameObject.CompareTag("cylinder"))
+        {
+            var cylinder = other.gameObject.GetComponent<CylinderSpell>();
+            if (cylinder.CylinderActiveSkill.Name.Equals("Air vortex"))
+            {
+                for (int i = 0; i < cylinder.CylinderActiveSkill.BuffEffectList.Count; i++)
+                {
+                    var foundEffect = EffectList.Find(x => x.Effect.Skillname == cylinder.CylinderActiveSkill.BuffEffectList[i].Effect.Skillname);
+                    if (foundEffect == null)
+                    {
+                        EffectList.Add(cylinder.CylinderActiveSkill.BuffEffectList[i]);
+                    }
+                    else
+                    {
+                        if (foundEffect.Effect.Timeleft < cylinder.CylinderActiveSkill.BuffEffectList[i].Effect.Timeleft)
+                        {
+                            EffectList.Remove(foundEffect);
+                            EffectList.Add(cylinder.CylinderActiveSkill.BuffEffectList[i]);
+                        }
+                    }
+                }
+
+                if (_airVortexTimer > 0.1)
+                {
+                    TakeDamage((other.gameObject.GetComponent<CylinderSpell>().CylinderActiveSkill.DamageHealingPower) / 10);
+
+                    _airVortexTimer = 0;
+                }
+
+                _airVortexTimer += Time.deltaTime;
+
+            }
+        }
+    }
+
+	/*
 	void OnTriggerExit(Collider other)
 	{
 		if (other.gameObject.CompareTag ("cylinder")) 
 		{
+
 			var cylinder = other.gameObject.GetComponent<CylinderSpell>();  
 			if (cylinder != null)
 			{
-				TakeDamage(cylinder.CylinderActiveSkill.DamageHealingPower);
-				
 				for(int i = 0; i < cylinder.CylinderActiveSkill.BuffEffectList.Count; i++)
 				{
 					if (cylinder.CylinderActiveSkill.BuffEffectList[i].Effect.Stun > 0)
 					{
-						StartCoroutine(WaitForStunToEnd(cylinder.CylinderActiveSkill.BuffEffectList[i].Effect.Stun));
 						
 					}
 					if (cylinder.CylinderActiveSkill.BuffEffectList[i].Effect.Root > 0)
@@ -133,13 +203,13 @@ public class EnemyStats : MonoBehaviour {
 					}
 					if (cylinder.CylinderActiveSkill.BuffEffectList[i].Effect.SlowStruct.slowamount> 0)
 					{
-						StartCoroutine(WaitForSlowToEnd(cylinder.CylinderActiveSkill.BuffEffectList[i].Effect.SlowStruct.duration,cylinder.CylinderActiveSkill.BuffEffectList[i].Effect.SlowStruct.slowamount ));
+						GetComponent<EnemyDummyController> ().currentWalkSpeed = (float)GetComponent<EnemyDummyController> ().maxWalkSpeed;
 					}
 				}
 			}
 		}
 	}
-
+*/
 
 	IEnumerator WaitForStunToEnd(double duration) {
 		GetComponent<EnemyDummyController> ().enabled = false;;
@@ -147,21 +217,23 @@ public class EnemyStats : MonoBehaviour {
 		GetComponent<EnemyDummyController> ().enabled = true;
 	}
 
+	/*
 	IEnumerator WaitForSlowToEnd(double duration, double amount) {
-		double IncreaseAmountPerHundrethMilliSecond = (GetComponent<EnemyDummyController> ().maxWalkSpeed - GetComponent<EnemyDummyController> ().currentwalkSpeed) / (duration);
+		double IncreaseAmountPerHundrethMilliSecond = (GetComponent<EnemyDummyController> ().maxWalkSpeed - GetComponent<EnemyDummyController> ().currentWalkSpeed) / (duration);
 
 		double time = 1;
 		Debug.Log("Tid innan" + Time.time);
 		while( time <= duration)
 		{
 			yield return new WaitForSeconds(1);
-			GetComponent<EnemyDummyController> ().currentwalkSpeed += (float)IncreaseAmountPerHundrethMilliSecond;
+			GetComponent<EnemyDummyController> ().currentWalkSpeed += (float)IncreaseAmountPerHundrethMilliSecond;
 			time++;
 		}
 
 		Debug.Log("Tid efter" + Time.time);
 
 	}
+	*/
 
 
 }
