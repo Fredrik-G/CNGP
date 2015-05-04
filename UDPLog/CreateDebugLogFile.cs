@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -102,7 +103,12 @@ namespace UDPLog
 
             if (saveFileDialog.ShowDialog() == DialogResult.OK)
             {
+                var watch = Stopwatch.StartNew();
                 CreateDebugLog(saveFileDialog.FileName);
+
+                watch.Stop();
+                InformationLabel.Visible = true;
+                InformationLabel.Text = "Created log file in " + Math.Round(watch.Elapsed.TotalSeconds, 3) + " seconds.";
             }
         }
     }

@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Security.AccessControl;
 using System.Text;
+using log4net.Core;
 
 namespace LogAnalysis
 {
@@ -19,6 +20,8 @@ namespace LogAnalysis
         private List<IGrouping<double, UserPlaytimeInfo.PlaytimeInfo>> _playOccasions = new List<IGrouping<double, UserPlaytimeInfo.PlaytimeInfo>>();
 
         #endregion
+
+        #region Log Analysis Methods
 
         /// <summary>
         /// Groups and sorts the gameplay log list based on most frequent days/hours.
@@ -42,43 +45,6 @@ namespace LogAnalysis
             }
         }
 
-        ///// <summary>
-        ///// Groups and sorts the gameplay log list based on most frequent days/hours.
-        ///// </summary>
-        //public void SortMostFrequentDayAndHour()
-        //{
-        //    var days = new DayOfWeek[_gameplayLogRowInfos.Count];
-        //    var hours = new int[_gameplayLogRowInfos.Count];
-
-        //    for (var i = 0; i < _gameplayLogRowInfos.Count; i++)
-        //    {
-        //        days[i] = _gameplayLogRowInfos[i].DateTime.DayOfWeek;
-        //        hours[i] = _gameplayLogRowInfos[i].DateTime.Hour;
-        //    }
-
-        //    //Groups and sorts the day of the week 
-        //    var sortedDays = (from day in days
-        //        group day by day into groupedDays
-        //        orderby groupedDays.Count() descending
-        //        select new { DayOfWeek = groupedDays.Key, Count = groupedDays.Count() });
-
-        //    //Groups and sorts the hour of the day 
-        //    var sortedHours = (from hour in hours
-        //                       group hour by hour into groupedHours
-        //                       orderby groupedHours.Count() descending
-        //                       select new { Hour = groupedHours.Key, Count = groupedHours.Count() });
-
-        //    //Goes through every day in sortedDays to add them to the bindinglist.
-        //    foreach (var day in sortedDays)
-        //    {
-        //        _dayAndHourInfo.AddDay(day.DayOfWeek, day.Count);
-        //    }
-        //    foreach (var hour in sortedHours)
-        //    {
-        //        _dayAndHourInfo.AddHour(hour.Hour, hour.Count);
-        //    }   
-        //}
-
         /// <summary>
         /// Calculates every users play time.
         /// </summary>
@@ -87,7 +53,7 @@ namespace LogAnalysis
         {
             _userPlaytimeInfo.Clear();
 
-            var debugLevelName = log4net.Core.Level.Debug + " ";
+            var debugLevelName = Level.Debug + " ";
             var userInfoRows = _gameplayLogRowInfos.Where(row => String.Equals(debugLevelName, row.Level)).ToList();
             //same as foreach(var row in _gameplayLogRowInfos){ if(String.Equals(debugLevelName, row.Level)) userInfoRows.Add(row);}
 
@@ -116,11 +82,40 @@ namespace LogAnalysis
             }
         }
 
-        public void SortUsersPlayTime()
+        /// <summary>
+        /// Groups every users play occasions
+        /// and sort it based on the count.
+        /// Count = number of times that a certain play time (for example 2h) is found.
+        /// Sort = Descending, highest count to lowest.
+        /// </summary>
+        /// <param name="numberOfPlayTimesToList">How many play times to add to the list. Adds every element if this variable is set to 0. Default value = 0</param>
+        public void SortUsersPlayTime(int numberOfPlayTimesToList = 0)
         {
             //Groups all play occasions found for every account.
-            _playOccasions = _userPlaytimeInfo.Accounts.SelectMany(account => account.PlaytimeInfos).ToList().GroupBy(x => x.PlayTime).ToList();
+            if (numberOfPlayTimesToList == 0)
+            {
+                _playOccasions = _userPlaytimeInfo.Accounts
+                    .SelectMany(account => account.PlaytimeInfos)
+                    .ToList()
+                    .GroupBy(x => x.PlayTime)
+                    .OrderByDescending(x => x.Count())
+                    .ToList();
+            }
+            else
+            {
+                _playOccasions = _userPlaytimeInfo.Accounts
+                    .SelectMany(account => account.PlaytimeInfos)
+                    .ToList()
+                    .GroupBy(x => x.PlayTime)
+                    .OrderByDescending(x => x.Count())
+                    .Take(numberOfPlayTimesToList)
+                    .ToList();
+            }
         }
+
+        #endregion
+
+        #region Getters
 
         /// <summary>
         /// Gets the BindingList containing day information.
@@ -160,10 +155,16 @@ namespace LogAnalysis
             return account.PlaytimeInfos;
         }
 
+        /// <summary>
+        /// Gets the list containing users play time information.
+        /// </summary>
+        /// <returns>The list containing users play time information.</returns>
         public List<IGrouping<double, UserPlaytimeInfo.PlaytimeInfo>> GetUsersPlayOccasions()
         {
             return _playOccasions;
         }
+
+        #endregion
 
         /// <summary>
         /// Reads a log file and saves each row in a list.
@@ -172,6 +173,8 @@ namespace LogAnalysis
         /// <param name="isGameplayLog">Tells the function that this log file is a gameplay log file.</param>
         public void ReadLogFile(string fileLocation, bool isGameplayLog)
         {
+            //Clear necessary lists.
+            _playOccasions.Clear();
             if (isGameplayLog)
             {
                 _gameplayLogRowInfos.Clear();

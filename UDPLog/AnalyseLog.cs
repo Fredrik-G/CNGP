@@ -11,30 +11,59 @@ namespace UDPLog
 {
     public partial class AnalyseLog : Form
     {
+        #region Data
+
         private LogAnalysis.LogAnalysis _logAnalysis = new LogAnalysis.LogAnalysis();
         private bool _showingPlaytime = false;
+
+        #endregion
+
+        #region Constructor
 
         public AnalyseLog()
         {
             InitializeComponent();
 
             //DEBUG!! REMOVE THIS
-            _logAnalysis.ReadLogFile("M:/Desktop/år2/SystemProgramvaruutveckling/UDPLog/UDPLog/UDPLog/bin/Debug/logs/gameplay-login-logoff.log",
+            _logAnalysis.ReadLogFile(
+                "M:/Desktop/år2/SystemProgramvaruutveckling/UDPLog/UDPLog/UDPLog/bin/Debug/logs/gameplay LoginAndDay.log",
                 true);
             //DEBUG!! REMOVE THIS
         }
 
-        #region Form events
+        #endregion
 
         /// <summary>
-        /// Occurs when the ReadLogButton is clicked.
+        /// Creates an OpenFileDialog and attempts to read the log file.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void ReadLogButton_Click(object sender, EventArgs e)
+        private void ReadLog()
         {
-            ReadLog();
+            var openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "Gameplay Log File|gameplay*.log|General Log File|general*.log";
+            openFileDialog.Multiselect = false;
+
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                ResetGui();
+                
+                var watch = Stopwatch.StartNew();
+                if (openFileDialog.FilterIndex == 1)
+                {
+                    _logAnalysis.ReadLogFile(openFileDialog.FileName, true);
+                }
+                if (openFileDialog.FilterIndex == 2)
+                {
+                    _logAnalysis.ReadLogFile(openFileDialog.FileName, false);
+                }
+
+                watch.Stop();
+                InformationLabel.Visible = true;
+                InformationLabel.Text = "Read " + openFileDialog.SafeFileName + " in "
+                                    + Math.Round(watch.Elapsed.TotalSeconds, 3) + " seconds.";
+            }
         }
+
+        #region Form events
 
         /// <summary>
         /// Occurs when the CalculatePlaytimeButton is clicked.
@@ -45,9 +74,10 @@ namespace UDPLog
         private void CalculatePlaytimeButton_Click(object sender, EventArgs e)
         {
             var watch = Stopwatch.StartNew();
+            var numberOfPlayTimesToList = (int)TopPlayTimesToShow.Value;
 
             _logAnalysis.CalculateUserPlayTime();
-            _logAnalysis.SortUsersPlayTime();
+            _logAnalysis.SortUsersPlayTime(numberOfPlayTimesToList);
 
             watch.Stop();
 
@@ -82,7 +112,9 @@ namespace UDPLog
             ResetGui();
             _showingPlaytime = false;
 
-            AnalyseInfoGridView.DataSource = _logAnalysis.GetDaysInfo();
+            AnalyseInfoDataGridView.DataSource = _logAnalysis.GetDaysInfo();
+            AnalyseInfoDataGridView.Columns[0].HeaderText = "Day of week";
+
             DisplayDaysInChart();
         }
 
@@ -97,7 +129,7 @@ namespace UDPLog
             ResetGui();
             _showingPlaytime = false;
 
-            AnalyseInfoGridView.DataSource = _logAnalysis.GetHoursInfos();
+            AnalyseInfoDataGridView.DataSource = _logAnalysis.GetHoursInfos();
             DisplayHoursInChart();
         }
 
@@ -112,14 +144,13 @@ namespace UDPLog
             ResetGui();
             _showingPlaytime = true;
 
-            AnalyseInfoGridView.DataSource = _logAnalysis.GetUserPlaytime();
-            AnalyseInfoGridView.Columns[0].Name = "Account Email";
-            AnalyseInfoGridView.Columns[1].Visible = false;
-            AnalyseInfoGridView.Columns[2].Visible = false;
+            AnalyseInfoDataGridView.DataSource = _logAnalysis.GetUserPlaytime();
+            AnalyseInfoDataGridView.Columns[0].HeaderText = "Account Email";
+            AnalyseInfoDataGridView.Columns[1].Visible = false;
+            AnalyseInfoDataGridView.Columns[2].Visible = false;
 
             DisplayUserPlaytimeInChart();
-
-
+            DisplayTopPlayTimes();
         }
 
         /// <summary>
@@ -129,7 +160,7 @@ namespace UDPLog
         /// <param name="e"></param>
         private void AnalyseInfoGridView_SelectionChanged(object sender, EventArgs e)
         {
-            if (AnalyseInfoGridView.SelectedCells.Count > 0 && _showingPlaytime)
+            if (AnalyseInfoDataGridView.SelectedCells.Count > 0 && _showingPlaytime)
             {
                 DisplaySelectedUserInDataGridView();
             }
@@ -137,46 +168,21 @@ namespace UDPLog
 
         #endregion
 
-        /// <summary>
-        /// Creates an OpenFileDialog and attempts to read the log file.
-        /// </summary>
-        private void ReadLog()
-        {
-            var openFileDialog = new OpenFileDialog();
-            openFileDialog.Filter = "Gameplay Log File|gameplay*.log|General Log File|general*.log";
-            openFileDialog.Multiselect = false;
-
-            if (openFileDialog.ShowDialog() == DialogResult.OK)
-            {
-                ResetGui();
-
-                var watch = Stopwatch.StartNew();
-                if (openFileDialog.FilterIndex == 1)
-                {
-                    _logAnalysis.ReadLogFile(openFileDialog.FileName, true);
-                }
-                if (openFileDialog.FilterIndex == 2)
-                {
-                    _logAnalysis.ReadLogFile(openFileDialog.FileName, false);
-                }
-
-                watch.Stop();
-                InformationLabel.Visible = true;
-                InformationLabel.Text = "Read " + openFileDialog.SafeFileName + " in "
-                                    + Math.Round(watch.Elapsed.TotalSeconds, 3) + " seconds.";
-            }
-        }
+        #region GUI Related Methods
 
         /// <summary>
         /// Displays the users play time in the UserPlaytimeGridView.
         /// </summary>
         private void DisplaySelectedUserInDataGridView()
         {
-            var selectedrowindex = AnalyseInfoGridView.SelectedCells[0].RowIndex;
-            var selectedRow = AnalyseInfoGridView.Rows[selectedrowindex];
+            var selectedrowindex = AnalyseInfoDataGridView.SelectedCells[0].RowIndex;
+            var selectedRow = AnalyseInfoDataGridView.Rows[selectedrowindex];
 
             var accountEmail = Convert.ToString(selectedRow.Cells[0].Value);
-            UserPlaytimeGridView.DataSource = _logAnalysis.GetPlaytimeForUser(accountEmail);
+            UserPlaytimeDataGridView.DataSource = _logAnalysis.GetPlaytimeForUser(accountEmail);
+            UserPlaytimeDataGridView.Columns[0].HeaderText = "Login Time";
+            UserPlaytimeDataGridView.Columns[1].HeaderText = "Logoff Time";
+            UserPlaytimeDataGridView.Columns[2].HeaderText = "Time Played (hours)";
         }
 
         /// <summary>
@@ -241,30 +247,22 @@ namespace UDPLog
                 AnalyseDataChart.Series[serieName].Points.AddXY(occasion.Key, occasion.Count());
             }
         }
-        /// <summary>
-        /// Formats the chart, creating a new serie based on given values.
-        /// </summary>
-        /// <param name="serieName">The name of the serie to be created.</param>
-        private void FormatChart(string serieName)
-        {
-            AnalyseDataChart.Series.Add(serieName);
-            AnalyseDataChart.Series[serieName].YValueMembers = "Count";
-
-            AnalyseDataChart.ChartAreas[0].AxisY.Title = "Count";
-            AnalyseDataChart.ChartAreas[0].AxisY.TitleAlignment = StringAlignment.Center;
-            AnalyseDataChart.ChartAreas[0].AxisY.TextOrientation = TextOrientation.Auto;
-        }
 
         /// <summary>
-        /// Clears all existing series from the chart
+        /// Displays the top play times in TopPlaytimesDataGridView.
         /// </summary>
-        private void ClearChartSeries()
+        private void DisplayTopPlayTimes()
         {
-            foreach (var serie in AnalyseDataChart.Series)
+            var playOccasions = _logAnalysis.GetUsersPlayOccasions();
+
+            TopPlaytimesDataGridView.Visible = true;
+            TopPlaytimesDataGridView.Columns.Add("Count", "Count");
+            TopPlaytimesDataGridView.Columns.Add("Play Time", "Play Time");
+
+            foreach (var playOccasion in playOccasions)
             {
-                serie.Points.Clear();
+                TopPlaytimesDataGridView.Rows.Add(playOccasion.Count(), playOccasion.Key);
             }
-            AnalyseDataChart.Series.Clear();
         }
 
         /// <summary>
@@ -272,8 +270,12 @@ namespace UDPLog
         /// </summary>
         private void ResetGui()
         {
-            AnalyseInfoGridView.DataSource = UserPlaytimeGridView.DataSource = null;
-            UserPlaytimeGridView.DataSource = UserPlaytimeGridView.DataSource = null;
+            AnalyseInfoDataGridView.DataSource =
+                UserPlaytimeDataGridView.DataSource = TopPlaytimesDataGridView.DataSource = null;
+
+            TopPlaytimesDataGridView.Rows.Clear();
+            TopPlaytimesDataGridView.Columns.Clear();
+            TopPlaytimesDataGridView.Visible = false;
 
             InformationLabel.Text = String.Empty;
             InformationLabel.Visible = false;
@@ -281,11 +283,13 @@ namespace UDPLog
             ClearChartSeries();
         }
 
-        private void saveGraphToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            SaveGraphAsImage();
-        }
+        #endregion
 
+        #region Chart Methods
+
+        /// <summary>
+        /// Saves the current graph as an image.
+        /// </summary>
         private void SaveGraphAsImage()
         {
             var saveFileDialog = new SaveFileDialog();
@@ -294,7 +298,7 @@ namespace UDPLog
 
             if (saveFileDialog.ShowDialog() == DialogResult.OK)
             {
-                using (var fileStream = (FileStream)saveFileDialog.OpenFile())
+                using (var fileStream = (FileStream) saveFileDialog.OpenFile())
                 {
                     switch (saveFileDialog.FilterIndex)
                     {
@@ -313,15 +317,69 @@ namespace UDPLog
 
         }
 
-        private void readLogFileToolStripMenuItem_Click(object sender, EventArgs e)
+        /// <summary>
+        /// Formats the chart, creating a new serie based on given values.
+        /// </summary>
+        /// <param name="serieName">The name of the serie to be created.</param>
+        private void FormatChart(string serieName)
+        {
+            AnalyseDataChart.Series.Add(serieName);
+            AnalyseDataChart.Series[serieName].YValueMembers = "Count";
+            AnalyseDataChart.Legends[0].IsDockedInsideChartArea = false;
+
+            AnalyseDataChart.ChartAreas[0].AxisY.Title = "Count";
+            AnalyseDataChart.ChartAreas[0].AxisY.TitleAlignment = StringAlignment.Center;
+            AnalyseDataChart.ChartAreas[0].AxisY.TextOrientation = TextOrientation.Auto;
+        }
+
+        /// <summary>
+        /// Clears all existing series from the chart
+        /// </summary>
+        private void ClearChartSeries()
+        {
+            foreach (var serie in AnalyseDataChart.Series)
+            {
+                serie.Points.Clear();
+            }
+            AnalyseDataChart.Series.Clear();
+        }
+
+        #endregion
+
+        #region File Menu Click Events
+
+        /// <summary>
+        /// Occurs when the Read Log File-item is clicked.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ReadLogFileToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ReadLog();
         }
 
-        private void createDebugLogFileToolStripMenuItem_Click(object sender, EventArgs e)
+        /// <summary>
+        /// Occurs when the Save Graph-item is clicked.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void SaveGraphToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SaveGraphAsImage();
+        }
+
+        /// <summary>
+        /// Occurs when the Create Debug-item is clicked.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void CreateDebugLogFileToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var createLogFile = new CreateDebugLogFile();
             createLogFile.ShowDialog();
         }
+
+        #endregion
+
     }
 }

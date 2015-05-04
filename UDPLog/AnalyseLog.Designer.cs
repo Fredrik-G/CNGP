@@ -28,19 +28,21 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            this.AnalyseInfoGridView = new System.Windows.Forms.DataGridView();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea5 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend5 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series5 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            this.AnalyseInfoDataGridView = new System.Windows.Forms.DataGridView();
             this.SortButton = new System.Windows.Forms.Button();
             this.ShowDaysButton = new System.Windows.Forms.Button();
             this.ShowHoursButton = new System.Windows.Forms.Button();
             this.ButtonsPanel = new System.Windows.Forms.Panel();
+            this.PlaytimeLimitLabel = new System.Windows.Forms.Label();
+            this.TopPlayTimesToShow = new System.Windows.Forms.NumericUpDown();
             this.DisplayMethodsLabel = new System.Windows.Forms.Label();
             this.AnalyseMethodsLabel = new System.Windows.Forms.Label();
             this.CalculatePlaytimeButton = new System.Windows.Forms.Button();
             this.ShowPlaytimeButton = new System.Windows.Forms.Button();
-            this.UserPlaytimeGridView = new System.Windows.Forms.DataGridView();
+            this.UserPlaytimeDataGridView = new System.Windows.Forms.DataGridView();
             this.AnalyseDataChart = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.MainMenuStrip = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -48,28 +50,32 @@
             this.createDebugLogFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveGraphToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.InformationLabel = new System.Windows.Forms.Label();
-            ((System.ComponentModel.ISupportInitialize)(this.AnalyseInfoGridView)).BeginInit();
+            this.TopPlaytimesDataGridView = new System.Windows.Forms.DataGridView();
+            ((System.ComponentModel.ISupportInitialize)(this.AnalyseInfoDataGridView)).BeginInit();
             this.ButtonsPanel.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.UserPlaytimeGridView)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.TopPlayTimesToShow)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.UserPlaytimeDataGridView)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.AnalyseDataChart)).BeginInit();
             this.MainMenuStrip.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.TopPlaytimesDataGridView)).BeginInit();
             this.SuspendLayout();
             // 
-            // AnalyseInfoGridView
+            // AnalyseInfoDataGridView
             // 
-            this.AnalyseInfoGridView.AllowUserToAddRows = false;
-            this.AnalyseInfoGridView.AllowUserToDeleteRows = false;
-            this.AnalyseInfoGridView.AllowUserToOrderColumns = true;
-            this.AnalyseInfoGridView.AllowUserToResizeColumns = false;
-            this.AnalyseInfoGridView.AllowUserToResizeRows = false;
-            this.AnalyseInfoGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.AnalyseInfoGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.AnalyseInfoGridView.Location = new System.Drawing.Point(7, 25);
-            this.AnalyseInfoGridView.Name = "AnalyseInfoGridView";
-            this.AnalyseInfoGridView.ReadOnly = true;
-            this.AnalyseInfoGridView.Size = new System.Drawing.Size(315, 238);
-            this.AnalyseInfoGridView.TabIndex = 0;
-            this.AnalyseInfoGridView.SelectionChanged += new System.EventHandler(this.AnalyseInfoGridView_SelectionChanged);
+            this.AnalyseInfoDataGridView.AllowUserToAddRows = false;
+            this.AnalyseInfoDataGridView.AllowUserToDeleteRows = false;
+            this.AnalyseInfoDataGridView.AllowUserToOrderColumns = true;
+            this.AnalyseInfoDataGridView.AllowUserToResizeColumns = false;
+            this.AnalyseInfoDataGridView.AllowUserToResizeRows = false;
+            this.AnalyseInfoDataGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.AnalyseInfoDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.AnalyseInfoDataGridView.Location = new System.Drawing.Point(7, 25);
+            this.AnalyseInfoDataGridView.Name = "AnalyseInfoDataGridView";
+            this.AnalyseInfoDataGridView.ReadOnly = true;
+            this.AnalyseInfoDataGridView.RowHeadersWidth = 15;
+            this.AnalyseInfoDataGridView.Size = new System.Drawing.Size(232, 240);
+            this.AnalyseInfoDataGridView.TabIndex = 0;
+            this.AnalyseInfoDataGridView.SelectionChanged += new System.EventHandler(this.AnalyseInfoGridView_SelectionChanged);
             // 
             // SortButton
             // 
@@ -104,6 +110,8 @@
             // ButtonsPanel
             // 
             this.ButtonsPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.ButtonsPanel.Controls.Add(this.PlaytimeLimitLabel);
+            this.ButtonsPanel.Controls.Add(this.TopPlayTimesToShow);
             this.ButtonsPanel.Controls.Add(this.DisplayMethodsLabel);
             this.ButtonsPanel.Controls.Add(this.AnalyseMethodsLabel);
             this.ButtonsPanel.Controls.Add(this.CalculatePlaytimeButton);
@@ -115,6 +123,24 @@
             this.ButtonsPanel.Name = "ButtonsPanel";
             this.ButtonsPanel.Size = new System.Drawing.Size(418, 128);
             this.ButtonsPanel.TabIndex = 6;
+            // 
+            // PlaytimeLimitLabel
+            // 
+            this.PlaytimeLimitLabel.AutoSize = true;
+            this.PlaytimeLimitLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.PlaytimeLimitLabel.Location = new System.Drawing.Point(9, 95);
+            this.PlaytimeLimitLabel.Name = "PlaytimeLimitLabel";
+            this.PlaytimeLimitLabel.Size = new System.Drawing.Size(142, 26);
+            this.PlaytimeLimitLabel.TabIndex = 14;
+            this.PlaytimeLimitLabel.Text = "Number of playtimes to show\r\n0 = No Limit\r\n";
+            this.PlaytimeLimitLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // TopPlayTimesToShow
+            // 
+            this.TopPlayTimesToShow.Location = new System.Drawing.Point(154, 93);
+            this.TopPlayTimesToShow.Name = "TopPlayTimesToShow";
+            this.TopPlayTimesToShow.Size = new System.Drawing.Size(34, 20);
+            this.TopPlayTimesToShow.TabIndex = 15;
             // 
             // DisplayMethodsLabel
             // 
@@ -156,38 +182,41 @@
             this.ShowPlaytimeButton.UseVisualStyleBackColor = true;
             this.ShowPlaytimeButton.Click += new System.EventHandler(this.ShowPlaytimeButton_Click);
             // 
-            // UserPlaytimeGridView
+            // UserPlaytimeDataGridView
             // 
-            this.UserPlaytimeGridView.AllowUserToAddRows = false;
-            this.UserPlaytimeGridView.AllowUserToDeleteRows = false;
-            this.UserPlaytimeGridView.AllowUserToOrderColumns = true;
-            this.UserPlaytimeGridView.AllowUserToResizeColumns = false;
-            this.UserPlaytimeGridView.AllowUserToResizeRows = false;
-            this.UserPlaytimeGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.UserPlaytimeGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.UserPlaytimeGridView.Location = new System.Drawing.Point(328, 25);
-            this.UserPlaytimeGridView.Name = "UserPlaytimeGridView";
-            this.UserPlaytimeGridView.ReadOnly = true;
-            this.UserPlaytimeGridView.Size = new System.Drawing.Size(315, 238);
-            this.UserPlaytimeGridView.TabIndex = 9;
+            this.UserPlaytimeDataGridView.AllowUserToAddRows = false;
+            this.UserPlaytimeDataGridView.AllowUserToDeleteRows = false;
+            this.UserPlaytimeDataGridView.AllowUserToOrderColumns = true;
+            this.UserPlaytimeDataGridView.AllowUserToResizeColumns = false;
+            this.UserPlaytimeDataGridView.AllowUserToResizeRows = false;
+            this.UserPlaytimeDataGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.UserPlaytimeDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.UserPlaytimeDataGridView.Location = new System.Drawing.Point(245, 25);
+            this.UserPlaytimeDataGridView.Name = "UserPlaytimeDataGridView";
+            this.UserPlaytimeDataGridView.ReadOnly = true;
+            this.UserPlaytimeDataGridView.RowHeadersWidth = 15;
+            this.UserPlaytimeDataGridView.Size = new System.Drawing.Size(315, 240);
+            this.UserPlaytimeDataGridView.TabIndex = 9;
             // 
             // AnalyseDataChart
             // 
-            chartArea1.Name = "ChartArea1";
-            this.AnalyseDataChart.ChartAreas.Add(chartArea1);
-            legend1.Name = "Legend1";
-            this.AnalyseDataChart.Legends.Add(legend1);
-            this.AnalyseDataChart.Location = new System.Drawing.Point(649, 27);
+            chartArea5.Name = "ChartArea1";
+            this.AnalyseDataChart.ChartAreas.Add(chartArea5);
+            legend5.DockedToChartArea = "ChartArea1";
+            legend5.IsDockedInsideChartArea = false;
+            legend5.Name = "Legend1";
+            this.AnalyseDataChart.Legends.Add(legend5);
+            this.AnalyseDataChart.Location = new System.Drawing.Point(566, 25);
             this.AnalyseDataChart.Name = "AnalyseDataChart";
-            series1.ChartArea = "ChartArea1";
-            series1.IsVisibleInLegend = false;
-            series1.LabelBackColor = System.Drawing.Color.White;
-            series1.LabelBorderColor = System.Drawing.Color.White;
-            series1.LabelForeColor = System.Drawing.Color.White;
-            series1.Legend = "Legend1";
-            series1.Name = " ";
-            this.AnalyseDataChart.Series.Add(series1);
-            this.AnalyseDataChart.Size = new System.Drawing.Size(300, 236);
+            series5.ChartArea = "ChartArea1";
+            series5.IsVisibleInLegend = false;
+            series5.LabelBackColor = System.Drawing.Color.White;
+            series5.LabelBorderColor = System.Drawing.Color.White;
+            series5.LabelForeColor = System.Drawing.Color.White;
+            series5.Legend = "Legend1";
+            series5.Name = " ";
+            this.AnalyseDataChart.Series.Add(series5);
+            this.AnalyseDataChart.Size = new System.Drawing.Size(382, 240);
             this.AnalyseDataChart.TabIndex = 0;
             this.AnalyseDataChart.Text = "Analyse Data Chart";
             // 
@@ -197,7 +226,7 @@
             this.fileToolStripMenuItem});
             this.MainMenuStrip.Location = new System.Drawing.Point(0, 0);
             this.MainMenuStrip.Name = "MainMenuStrip";
-            this.MainMenuStrip.Size = new System.Drawing.Size(964, 24);
+            this.MainMenuStrip.Size = new System.Drawing.Size(960, 24);
             this.MainMenuStrip.TabIndex = 12;
             this.MainMenuStrip.Text = "menuStrip2";
             // 
@@ -216,53 +245,73 @@
             this.readLogFileToolStripMenuItem.Name = "readLogFileToolStripMenuItem";
             this.readLogFileToolStripMenuItem.Size = new System.Drawing.Size(190, 22);
             this.readLogFileToolStripMenuItem.Text = "&Read Log File";
-            this.readLogFileToolStripMenuItem.Click += new System.EventHandler(this.readLogFileToolStripMenuItem_Click);
+            this.readLogFileToolStripMenuItem.Click += new System.EventHandler(this.ReadLogFileToolStripMenuItem_Click);
             // 
             // createDebugLogFileToolStripMenuItem
             // 
             this.createDebugLogFileToolStripMenuItem.Name = "createDebugLogFileToolStripMenuItem";
             this.createDebugLogFileToolStripMenuItem.Size = new System.Drawing.Size(190, 22);
             this.createDebugLogFileToolStripMenuItem.Text = "&Create Debug Log File";
-            this.createDebugLogFileToolStripMenuItem.Click += new System.EventHandler(this.createDebugLogFileToolStripMenuItem_Click);
+            this.createDebugLogFileToolStripMenuItem.Click += new System.EventHandler(this.CreateDebugLogFileToolStripMenuItem_Click);
             // 
             // saveGraphToolStripMenuItem
             // 
             this.saveGraphToolStripMenuItem.Name = "saveGraphToolStripMenuItem";
             this.saveGraphToolStripMenuItem.Size = new System.Drawing.Size(190, 22);
             this.saveGraphToolStripMenuItem.Text = "&Save Graph";
-            this.saveGraphToolStripMenuItem.Click += new System.EventHandler(this.saveGraphToolStripMenuItem_Click);
+            this.saveGraphToolStripMenuItem.Click += new System.EventHandler(this.SaveGraphToolStripMenuItem_Click);
             // 
             // InformationLabel
             // 
             this.InformationLabel.AutoSize = true;
-            this.InformationLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.InformationLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.InformationLabel.Location = new System.Drawing.Point(442, 391);
             this.InformationLabel.Name = "InformationLabel";
-            this.InformationLabel.Size = new System.Drawing.Size(133, 20);
+            this.InformationLabel.Size = new System.Drawing.Size(121, 18);
             this.InformationLabel.TabIndex = 13;
             this.InformationLabel.Text = "Information Label";
             this.InformationLabel.Visible = false;
+            // 
+            // TopPlaytimesDataGridView
+            // 
+            this.TopPlaytimesDataGridView.AllowUserToAddRows = false;
+            this.TopPlaytimesDataGridView.AllowUserToDeleteRows = false;
+            this.TopPlaytimesDataGridView.AllowUserToOrderColumns = true;
+            this.TopPlaytimesDataGridView.AllowUserToResizeColumns = false;
+            this.TopPlaytimesDataGridView.AllowUserToResizeRows = false;
+            this.TopPlaytimesDataGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.TopPlaytimesDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.TopPlaytimesDataGridView.Location = new System.Drawing.Point(646, 271);
+            this.TopPlaytimesDataGridView.Name = "TopPlaytimesDataGridView";
+            this.TopPlaytimesDataGridView.ReadOnly = true;
+            this.TopPlaytimesDataGridView.RowHeadersWidth = 15;
+            this.TopPlaytimesDataGridView.Size = new System.Drawing.Size(302, 150);
+            this.TopPlaytimesDataGridView.TabIndex = 14;
+            this.TopPlaytimesDataGridView.Visible = false;
             // 
             // AnalyseLog
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(964, 423);
+            this.ClientSize = new System.Drawing.Size(960, 423);
+            this.Controls.Add(this.TopPlaytimesDataGridView);
             this.Controls.Add(this.InformationLabel);
             this.Controls.Add(this.MainMenuStrip);
             this.Controls.Add(this.AnalyseDataChart);
-            this.Controls.Add(this.UserPlaytimeGridView);
+            this.Controls.Add(this.UserPlaytimeDataGridView);
             this.Controls.Add(this.ButtonsPanel);
-            this.Controls.Add(this.AnalyseInfoGridView);
+            this.Controls.Add(this.AnalyseInfoDataGridView);
             this.Name = "AnalyseLog";
             this.Text = "Analyse Log";
-            ((System.ComponentModel.ISupportInitialize)(this.AnalyseInfoGridView)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.AnalyseInfoDataGridView)).EndInit();
             this.ButtonsPanel.ResumeLayout(false);
             this.ButtonsPanel.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.UserPlaytimeGridView)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.TopPlayTimesToShow)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.UserPlaytimeDataGridView)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.AnalyseDataChart)).EndInit();
             this.MainMenuStrip.ResumeLayout(false);
             this.MainMenuStrip.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.TopPlaytimesDataGridView)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -270,7 +319,7 @@
 
         #endregion
 
-        private System.Windows.Forms.DataGridView AnalyseInfoGridView;
+        private System.Windows.Forms.DataGridView AnalyseInfoDataGridView;
         private System.Windows.Forms.Button SortButton;
         private System.Windows.Forms.Button ShowDaysButton;
         private System.Windows.Forms.Button ShowHoursButton;
@@ -278,7 +327,7 @@
         private System.Windows.Forms.Button CalculatePlaytimeButton;
         private System.Windows.Forms.Label AnalyseMethodsLabel;
         private System.Windows.Forms.Button ShowPlaytimeButton;
-        private System.Windows.Forms.DataGridView UserPlaytimeGridView;
+        private System.Windows.Forms.DataGridView UserPlaytimeDataGridView;
         private System.Windows.Forms.DataVisualization.Charting.Chart AnalyseDataChart;
         private System.Windows.Forms.MenuStrip MainMenuStrip;
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
@@ -287,5 +336,8 @@
         private System.Windows.Forms.ToolStripMenuItem saveGraphToolStripMenuItem;
         private System.Windows.Forms.Label DisplayMethodsLabel;
         private System.Windows.Forms.Label InformationLabel;
+        private System.Windows.Forms.NumericUpDown TopPlayTimesToShow;
+        private System.Windows.Forms.Label PlaytimeLimitLabel;
+        private System.Windows.Forms.DataGridView TopPlaytimesDataGridView;
     }
 }
