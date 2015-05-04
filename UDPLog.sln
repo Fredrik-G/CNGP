@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.30723.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UDPLog", "UDPLog\UDPLog.csproj", "{854AFF51-5153-4115-86E5-7176A92CD6EC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LogAnalysis", "LogAnalysis\LogAnalysis.csproj", "{8A7BDADB-7A45-4F0D-B84E-3F4D16AF85DF}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{854AFF51-5153-4115-86E5-7176A92CD6EC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{854AFF51-5153-4115-86E5-7176A92CD6EC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{854AFF51-5153-4115-86E5-7176A92CD6EC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{854AFF51-5153-4115-86E5-7176A92CD6EC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8A7BDADB-7A45-4F0D-B84E-3F4D16AF85DF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8A7BDADB-7A45-4F0D-B84E-3F4D16AF85DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8A7BDADB-7A45-4F0D-B84E-3F4D16AF85DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8A7BDADB-7A45-4F0D-B84E-3F4D16AF85DF}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
