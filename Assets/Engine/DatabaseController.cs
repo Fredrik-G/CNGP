@@ -1,9 +1,8 @@
 ﻿using System;
-using UnityEngine;
 using System.Data;
-using Mono.Data.SqliteClient;
-using System.IO;
 using System.Text;
+using Mono.Data.SqliteClient;
+using UnityEngine;
 
 namespace Engine
 {
@@ -194,7 +193,7 @@ namespace Engine
 
             var text = "Not Found";
 
-            if (_dbConnection.State != ConnectionState.Open)
+            if (_dbConnection.State != System.Data.ConnectionState.Open)
             {
                 _dbConnection.Open();
             }
@@ -231,7 +230,7 @@ namespace Engine
                 throw new Exception("Table name is not set!");
             }
 
-            if (_dbConnection.State != ConnectionState.Open)
+            if (_dbConnection.State != System.Data.ConnectionState.Open)
             {
                 _dbConnection.Open();
             }
@@ -271,7 +270,7 @@ namespace Engine
                 throw new Exception("Table name is not set!");
             }
 
-            if (_dbConnection.State != ConnectionState.Open)
+            if (_dbConnection.State != System.Data.ConnectionState.Open)
             {
                 _dbConnection.Open();
             }
