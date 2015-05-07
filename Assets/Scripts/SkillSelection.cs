@@ -5,17 +5,15 @@ using Engine;
 using UnityEditor;
 using UnityEngine.UI;
 
-public class SkillSelection : MonoBehaviour
+public class SkillSelection
 {
     private List<ActiveSkill> _skills = new List<ActiveSkill>();
-    public List<Texture2D> Images = new List<Texture2D>();
+    public List<Texture2D> SkillTextures = new List<Texture2D>();
+    public List<Image> SkillImages = new List<Image>(); 
 
     public void DisplayImages()
     {
-        foreach (var image in Images)
-        {
-            
-        }
+        
     }
 
     public void AirSkills()
@@ -25,11 +23,11 @@ public class SkillSelection : MonoBehaviour
         _skills.Add(new ActiveSkill("EnhancedSpeed", "When used by a skilled airbender, this technique can enable the airbender using it to travel at a speed almost too swift for the naked eye to be able to see properly. A master airbender can use this technique to briefly run across water", 0, 10, 0, false, false, false, false, 4, 0, 4.5, 0, 0, 0));
 
         var image = Resources.Load("LobbyMaterials/Icons/SpellAirblast") as Texture2D;
-        Images.Add(image);
+        SkillTextures.Add(image);
         image = Resources.Load("LobbyMaterials/Icons/SpellAirvortex") as Texture2D;
-        Images.Add(image);
-        image = Resources.Load("LobbyMaterials/Icons/SpellAirblast") as Texture2D;
-        Images.Add(image);
+        SkillTextures.Add(image);
+        image = Resources.Load("LobbyMaterials/Icons/SpellEarthquake") as Texture2D;
+        SkillTextures.Add(image);
     }
 
     public void EarthSkills()
