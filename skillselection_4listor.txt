@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using Engine;
 using UnityEngine;
 using UnityEngine.UI;
@@ -36,9 +36,15 @@ public class SkillSelection
 
     public List<ActiveSkill> ActiveSkills { get; set; }
 
-    public List<Sprite> NormalImages { get; set; }
-    public List<Sprite> ClickedImages { get; set; }
+    public List<Sprite> NormalWaterList { get; set; }
+    public List<Sprite> NormalEarthList { get; set; }
+    public List<Sprite> NormalFireList { get; set; }
+    public List<Sprite> NormalAirList { get; set; }
 
+    public List<Sprite> ClickedWaterList { get; set; }
+    public List<Sprite> ClickedEarthList { get; set; }
+    public List<Sprite> ClickedFireList { get; set; }
+    public List<Sprite> ClickedAirList { get; set; }
 
     #endregion
 
@@ -58,8 +64,15 @@ public class SkillSelection
     {
         ActiveSkills = new List<ActiveSkill>();
 
-        NormalImages = new List<Sprite>();
-        ClickedImages = new List<Sprite>();
+        NormalWaterList = new List<Sprite>();
+        NormalEarthList = new List<Sprite>();
+        NormalFireList = new List<Sprite>();
+        NormalAirList = new List<Sprite>();
+
+        ClickedWaterList = new List<Sprite>();
+        ClickedEarthList = new List<Sprite>();
+        ClickedFireList = new List<Sprite>();
+        ClickedAirList = new List<Sprite>();
 
         MaxSelectedSkills = new MaxNumberOfSelectedSkills();
         CurrentNumberOfSelectedSkills = 0;
@@ -69,8 +82,18 @@ public class SkillSelection
 
     #region Load Methods
 
-    private void LoadWaterSkills()
+    public void LoadImages()
     {
+        LoadWaterImages();
+        LoadEarthImages();
+        LoadFireImages();
+        LoadAirImages();
+    }
+
+    public void LoadWaterSkills()
+    {
+        ActiveSkills.Clear();
+
         ActiveSkills.Add(new ActiveSkill("Ice Ramp", "Waterbenders can manipulate ice as a means of short transportation",
            0, 0.4, 0, false, false, false, false, 0.1, 0, 0, 0, 0, 0));
         ActiveSkills.Add(new ActiveSkill("Ice floor",
@@ -83,8 +106,10 @@ public class SkillSelection
             "Capable waterbenders are able to sustain a large amount of attacks by creating a bubble around themselves and their fellow travelers",
             0, 10, 0, false, false, false, false, 10, 0, 0, 0, 0, 0));
     }
-    private void LoadEarthSkills()
+    public void LoadEarthSkills()
     {
+        ActiveSkills.Clear();
+
         ActiveSkills.Add(new ActiveSkill("Rock Shoes", "Rock shoes makes the earthbender more stable and therefore stronger", 0, 25, 0, false, false, false, false, 6, 0, 0, 0, 0, 0));
         ActiveSkills.Add(new ActiveSkill("Earthquake",
             "Creates localized earthquakes or fissures to throw opponents off-balance", 7, 20, 1, false, false, true,
@@ -96,8 +121,10 @@ public class SkillSelection
             "By sending a rock toward the ground, earthbenders can cause massive damage as well as throw their opponents off their feet",
             30, 20, 3, false, false, false, false, 18, 0, 10, 0, 6, 1));
     }
-    private void LoadFireSkills()
+    public void LoadFireSkills()
     {
+        ActiveSkills.Clear();
+
         ActiveSkills.Add(new ActiveSkill("Firestream",
               "Basic firebending ability, firebenders can shoot continues streams of fire from there fingertips, fists, palms or legs",
               0.1, 0, 0.5, false, false, false, false, 0.025, 0, 4, 0, 15, 1));
@@ -111,8 +138,10 @@ public class SkillSelection
             "Skilled firebending masters are able to conjure huge amounts of flame to propel themselves at high speeds on the ground or through the air",
             0, 4, 0, false, false, false, false, 0, 0, 0, 0, 0, 0));
     }
-    private void LoadAirSkills()
+    public void LoadAirSkills()
     {
+        ActiveSkills.Clear();
+
         ActiveSkills.Add(new ActiveSkill("Airblast",
                    "A more offensive manouver involving a direct pulse of strong wind from the hand, feet or mouth", 3.5, 0, 1,
                    false, false, true, false, 1.8, 0, 5, 0, 20, 1));
@@ -124,8 +153,8 @@ public class SkillSelection
             0, 10, 0, false, false, false, false, 4, 0, 4.5, 0, 0, 0));
         ActiveSkills.Add(new ActiveSkill("Strong Wind", "Advanced air bending ability", 18, 22, 1, false, false, false,
             false, 20, 0, 8, 0, 20, 1));
-    }
 
+    }
     private void LoadWaterImages()
     {
         var textures = new List<Sprite>
@@ -136,7 +165,7 @@ public class SkillSelection
             Resources.Load<Sprite>("LobbyMaterials/Icons/Water/SpellWaterShield")
         };
 
-        NormalImages.AddRange(textures);
+        NormalWaterList.AddRange(textures);
 
         textures = new List<Sprite>
         {
@@ -146,7 +175,7 @@ public class SkillSelection
             Resources.Load<Sprite>("LobbyMaterials/Icons/Water/SpellWaterShield_Clicked")
         };
 
-        ClickedImages.AddRange(textures);
+        ClickedWaterList.AddRange(textures);
     }
 
     private void LoadEarthImages()
@@ -159,7 +188,7 @@ public class SkillSelection
             Resources.Load<Sprite>("LobbyMaterials/Icons/Earth/SpellEarthbomb")
         };
 
-        NormalImages.AddRange(textures);
+        NormalEarthList.AddRange(textures);
 
         textures = new List<Sprite>
         {
@@ -169,7 +198,7 @@ public class SkillSelection
             Resources.Load<Sprite>("LobbyMaterials/Icons/Earth/SpellEarthbomb_Clicked")
         };
 
-        ClickedImages.AddRange(textures);
+        ClickedEarthList.AddRange(textures);
     }
 
     private void LoadFireImages()
@@ -179,20 +208,20 @@ public class SkillSelection
             Resources.Load<Sprite>("LobbyMaterials/Icons/Fire/SpellFirestream"),
             Resources.Load<Sprite>("LobbyMaterials/Icons/Fire/SpellBlazingring"),
             Resources.Load<Sprite>("LobbyMaterials/Icons/Fire/SpellShieldoffire"),
-            Resources.Load<Sprite>("LobbyMaterials/Icons/Fire/SpellJetpropulsion")
+            Resources.Load<Sprite>("LobbyMaterials/Icons/Fire/SpellJet propulsion")
         };
 
-        NormalImages.AddRange(textures);
+        NormalFireList.AddRange(textures);
 
         textures = new List<Sprite>
         {
             Resources.Load<Sprite>("LobbyMaterials/Icons/Fire/SpellFirestream_Clicked"),
             Resources.Load<Sprite>("LobbyMaterials/Icons/Fire/SpellBlazingring_Clicked"),
             Resources.Load<Sprite>("LobbyMaterials/Icons/Fire/SpellShieldoffire_Clicked"),
-            Resources.Load<Sprite>("LobbyMaterials/Icons/Fire/SpellJetpropulsion_Clicked")
+            Resources.Load<Sprite>("LobbyMaterials/Icons/Fire/SpellJet propulsion_Clicked")
         };
 
-        ClickedImages.AddRange(textures);
+        ClickedFireList.AddRange(textures);
     }
 
     private void LoadAirImages()
@@ -205,7 +234,7 @@ public class SkillSelection
             Resources.Load<Sprite>("LobbyMaterials/Icons/Air/SpellStrongwind")
         };
 
-        NormalImages.AddRange(textures);
+        NormalAirList.AddRange(textures);
 
         textures = new List<Sprite>
         {
@@ -215,7 +244,7 @@ public class SkillSelection
             Resources.Load<Sprite>("LobbyMaterials/Icons/Air/SpellStrongwind_Clicked")
         };
 
-        ClickedImages.AddRange(textures);
+        ClickedAirList.AddRange(textures);
     }
 
     #endregion
@@ -226,7 +255,7 @@ public class SkillSelection
     {
         for (var i = 0; i < activeSkills.Count; i++)
         {
-            activeSkills[i].sprite = NormalImages[i];
+            activeSkills[i].sprite = NormalWaterList[i];
         }
     }
 
@@ -234,7 +263,7 @@ public class SkillSelection
     {
         for (var i = 0; i < activeSkills.Count; i++)
         {
-            activeSkills[i].sprite = NormalImages[i];
+            activeSkills[i].sprite = NormalEarthList[i];
         }
     }
 
@@ -242,7 +271,7 @@ public class SkillSelection
     {
         for (var i = 0; i < activeSkills.Count; i++)
         {
-            activeSkills[i].sprite = NormalImages[i];
+            activeSkills[i].sprite = NormalFireList[i];
         }
     }
 
@@ -250,7 +279,7 @@ public class SkillSelection
     {
         for (var i = 0; i < activeSkills.Count; i++)
         {
-            activeSkills[i].sprite = NormalImages[i];
+            activeSkills[i].sprite = NormalAirList[i];
         }
     }
 
@@ -267,52 +296,27 @@ public class SkillSelection
         return true;
     }
 
-    public void SelectActiveSkill(Skills skill, Image activeSkill)
+    public void DisplayWaterSkillClick(Skills skill, Image activeSkill)
     {
         var skillNumber = (int)skill;
-        activeSkill.sprite = ClickedImages[skillNumber];
+        activeSkill.sprite = ClickedWaterList[skillNumber];
     }
 
-    public void DeselectActiveSkill(Skills skill, Image activeSkill)
+    public void DisplayEarthSkillClick(Skills skill, Image activeSkill)
     {
         var skillNumber = (int)skill;
-        activeSkill.sprite = NormalImages[skillNumber];
+        activeSkill.sprite = ClickedEarthList[skillNumber];
     }
 
-    public void PrepareWaterSkills()
+    public void DisplayFireSkillClick(Skills skill, Image activeSkill)
     {
-        ActiveSkills.Clear();
-        NormalImages.Clear();
-        ClickedImages.Clear();
-
-        LoadWaterSkills();
-        LoadWaterImages();
+        var skillNumber = (int)skill;
+        activeSkill.sprite = ClickedFireList[skillNumber];
     }
-    public void PrepareEarthSkills()
-    {
-        ActiveSkills.Clear();
-        NormalImages.Clear();
-        ClickedImages.Clear();
 
-        LoadEarthSkills();
-        LoadEarthImages();
-    }
-    public void PrepareFireSkills()
+    public void DisplayAirSkillClick(Skills skill, Image activeSkill)
     {
-        ActiveSkills.Clear();
-        NormalImages.Clear();
-        ClickedImages.Clear();
-
-        LoadFireSkills();
-        LoadFireImages();
-    }
-    public void PrepareAirSkills()
-    {
-        ActiveSkills.Clear();
-        NormalImages.Clear();
-        ClickedImages.Clear();
-
-        LoadAirSkills();
-        LoadAirImages();
+        var skillNumber = (int)skill;
+        activeSkill.sprite = ClickedAirList[skillNumber];
     }
 }

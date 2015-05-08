@@ -1,6 +1,6 @@
 fileFormatVersion: 2
-guid: 56fd207b38e5f8948a0135d572572610
-timeCreated: 1431021957
+guid: 4c245e6e2070bcf4881a8d41243ca364
+timeCreated: 1431069149
 licenseType: Free
 PluginImporter:
   serializedVersion: 1
@@ -12,13 +12,9 @@ PluginImporter:
       enabled: 0
       settings: {}
     Editor:
-      enabled: 0
-      settings:
-        DefaultValueInitialized: true
-    WP8:
       enabled: 1
       settings:
-        CPU: ARM
+        DefaultValueInitialized: true
   userData: 
   assetBundleName: 
   assetBundleVariant: 

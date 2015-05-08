@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -19,10 +19,11 @@ public class CharacterAndSkillsHandler : MonoBehaviour
     public void Start()
     {
         _characterSelection.LoadImages();
-        ResetCharacterSelection();
+        _skillSelection.LoadImages();
+        ResetSelection();
     }
 
-    private void ResetCharacterSelection()
+    private void ResetSelection()
     {
         NameText.text = InfoText.text = AttributesText.text = String.Empty;
         for (var i = 0; i < Characters.Count; i++)
@@ -34,16 +35,6 @@ public class CharacterAndSkillsHandler : MonoBehaviour
         {
             activeSkill.enabled = false;
         }
-
-        _skillSelection.CurrentNumberOfSelectedSkills = 0;
-
-        _skillSelection.SkillOneIsClicked = _skillSelection.SkillTwoIsClicked =
-            _skillSelection.SkillThreeIsClicked = _skillSelection.SkillFourIsClicked = false;
-    }
-
-    private void ResetSkillSelection()
-    {
-        NameText.text = InfoText.text = AttributesText.text = String.Empty;
 
         _skillSelection.CurrentNumberOfSelectedSkills = 0;
     }
@@ -60,7 +51,7 @@ public class CharacterAndSkillsHandler : MonoBehaviour
 
     public void HandleWaterMouseClick()
     {
-        ResetCharacterSelection();
+        ResetSelection();
 
         if (_characterSelection.ToggleWaterCharacter())
         {
@@ -78,7 +69,7 @@ public class CharacterAndSkillsHandler : MonoBehaviour
 
     public void HandleEarthMouseClick()
     {
-        ResetCharacterSelection();
+        ResetSelection();
 
         if (_characterSelection.ToggleEarthCharacter())
         {
@@ -96,7 +87,7 @@ public class CharacterAndSkillsHandler : MonoBehaviour
 
     public void HandleFireMouseClick()
     {
-        ResetCharacterSelection();
+        ResetSelection();
 
         if (_characterSelection.ToggleFireCharacter())
         {
@@ -114,7 +105,7 @@ public class CharacterAndSkillsHandler : MonoBehaviour
 
     public void HandleAirMouseClick()
     {
-        ResetCharacterSelection();
+        ResetSelection();
 
         if (_characterSelection.ToggleAirCharacter())
         {
@@ -139,19 +130,15 @@ public class CharacterAndSkillsHandler : MonoBehaviour
         switch (_characterSelection.CurrentCharacter)
         {
             case CharacterSelection.Characters.Waterbending:
-                _skillSelection.PrepareWaterSkills();
                 _skillSelection.DisplayWaterSkillImages(ActiveSkills);
                 break;
             case CharacterSelection.Characters.Earthbending:
-                _skillSelection.PrepareEarthSkills();
                 _skillSelection.DisplayEarthSkillImages(ActiveSkills);
                 break;
             case CharacterSelection.Characters.Firebending:
-                _skillSelection.PrepareFireSkills();
                 _skillSelection.DisplayFireSkillImages(ActiveSkills);
                 break;
             case CharacterSelection.Characters.Airbending:
-                _skillSelection.PrepareAirSkills();
                 _skillSelection.DisplayAirSkillImages(ActiveSkills);
                 break;
         }
@@ -166,7 +153,7 @@ public class CharacterAndSkillsHandler : MonoBehaviour
 
     public void HandleActiveSkillOneClick()
     {
-        if (!_skillSelection.SkillOneIsClicked && _skillSelection.SelectActiveSkill(SkillSelection.Skills.One))
+        if (_skillSelection.SelectActiveSkill(SkillSelection.Skills.One) && !_skillSelection.SkillOneIsClicked)
         {
             _skillSelection.SkillOneIsClicked = true;
             DisplaySkillInformation(SkillSelection.Skills.One);
@@ -174,18 +161,12 @@ public class CharacterAndSkillsHandler : MonoBehaviour
         else
         {
             _skillSelection.SkillOneIsClicked = false;
-            _skillSelection.CurrentNumberOfSelectedSkills--;
-
-            ResetSkillSelection();
-
-            const int skillNumber = (int)SkillSelection.Skills.One;
-            _skillSelection.DeselectActiveSkill(SkillSelection.Skills.One, ActiveSkills[skillNumber]);
         }
     }
 
     public void HandleActiveSkillTwoClick()
     {
-        if (!_skillSelection.SkillTwoIsClicked && _skillSelection.SelectActiveSkill(SkillSelection.Skills.Two))
+        if (_skillSelection.SelectActiveSkill(SkillSelection.Skills.Two) && !_skillSelection.SkillTwoIsClicked)
         {
             _skillSelection.SkillTwoIsClicked = true;
             DisplaySkillInformation(SkillSelection.Skills.Two);
@@ -193,18 +174,12 @@ public class CharacterAndSkillsHandler : MonoBehaviour
         else
         {
             _skillSelection.SkillTwoIsClicked = false;
-            _skillSelection.CurrentNumberOfSelectedSkills--;
-
-            ResetSkillSelection();
-
-            const int skillNumber = (int)SkillSelection.Skills.Two;
-            _skillSelection.DeselectActiveSkill(SkillSelection.Skills.Two, ActiveSkills[skillNumber]);
         }
     }
 
     public void HandleActiveSkillThreeClick()
     {
-        if (!_skillSelection.SkillThreeIsClicked && _skillSelection.SelectActiveSkill(SkillSelection.Skills.Three))
+        if (_skillSelection.SelectActiveSkill(SkillSelection.Skills.Three) && !_skillSelection.SkillThreeIsClicked)
         {
             _skillSelection.SkillThreeIsClicked = true;
             DisplaySkillInformation(SkillSelection.Skills.Three);
@@ -212,18 +187,12 @@ public class CharacterAndSkillsHandler : MonoBehaviour
         else
         {
             _skillSelection.SkillThreeIsClicked = false;
-            _skillSelection.CurrentNumberOfSelectedSkills--;
-
-            ResetSkillSelection();
-
-            const int skillNumber = (int)SkillSelection.Skills.Three;
-            _skillSelection.DeselectActiveSkill(SkillSelection.Skills.Three, ActiveSkills[skillNumber]);
         }
     }
 
     public void HandleActiveSkillFourClick()
     {
-        if (!_skillSelection.SkillFourIsClicked && _skillSelection.SelectActiveSkill(SkillSelection.Skills.Four))
+        if (_skillSelection.SelectActiveSkill(SkillSelection.Skills.Four) && !_skillSelection.SkillFourIsClicked)
         {
             _skillSelection.SkillFourIsClicked = true;
             DisplaySkillInformation(SkillSelection.Skills.Four);
@@ -231,12 +200,6 @@ public class CharacterAndSkillsHandler : MonoBehaviour
         else
         {
             _skillSelection.SkillFourIsClicked = false;
-            _skillSelection.CurrentNumberOfSelectedSkills--;
-
-            ResetSkillSelection();
-
-            const int skillNumber = (int)SkillSelection.Skills.Four;
-            _skillSelection.DeselectActiveSkill(SkillSelection.Skills.Four, ActiveSkills[skillNumber]);
         }
     }
 
@@ -244,26 +207,27 @@ public class CharacterAndSkillsHandler : MonoBehaviour
 
     private void DisplaySkillInformation(SkillSelection.Skills skill)
     {
+        var skillNumber = (int)skill;
         switch (_characterSelection.CurrentCharacter)
         {
             case CharacterSelection.Characters.Waterbending:
-                _skillSelection.PrepareWaterSkills();
+                _skillSelection.LoadWaterSkills();
+                _skillSelection.DisplayWaterSkillClick(skill, ActiveSkills[skillNumber]);
                 break;
             case CharacterSelection.Characters.Earthbending:
-                _skillSelection.PrepareEarthSkills();
+               _skillSelection.LoadEarthSkills();
+               _skillSelection.DisplayEarthSkillClick(skill, ActiveSkills[skillNumber]);
                 break;
             case CharacterSelection.Characters.Firebending:
-                _skillSelection.PrepareFireSkills();
+                _skillSelection.LoadFireSkills();
+                _skillSelection.DisplayFireSkillClick(skill, ActiveSkills[skillNumber]);
                 break;
             case CharacterSelection.Characters.Airbending:
-                _skillSelection.PrepareAirSkills();
+                _skillSelection.LoadAirSkills();
+                _skillSelection.DisplayAirSkillClick(skill, ActiveSkills[skillNumber]);
                 break;
         }
-
-        var skillNumber = (int)skill;
-
-        _skillSelection.SelectActiveSkill(skill, ActiveSkills[skillNumber]);
-
+       
         NameText.text = _skillSelection.ActiveSkills[skillNumber].Name;
         InfoText.text = _skillSelection.ActiveSkills[skillNumber].Info;
 
