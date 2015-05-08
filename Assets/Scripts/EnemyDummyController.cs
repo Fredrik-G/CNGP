@@ -19,8 +19,11 @@ public class EnemyDummyController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		
-		ControlWASD ();
+
+	    if (!GetComponent<EnemyStats>().Stunned)
+	    {
+	        ControlWASD();
+	    }
 	}
 	
 	void ControlWASD()
@@ -36,7 +39,12 @@ public class EnemyDummyController : MonoBehaviour {
 		motion *= (Mathf.Abs (input.x) == 1 && Mathf.Abs (input.z) == 1) ? .7f : 1;
 		motion *= (float)(currentWalkSpeed * (GetComponent<EnemyStats> ().stats.Movementspeed / 100) * GetComponent<EnemyStats> ().stats.MovementSpeedFactor);
 		motion += Vector3.up * -8;
-		
-		controller.Move (motion * Time.deltaTime);
+
+	    if (!GetComponent<EnemyStats>().Rooted)
+	    {
+	        controller.Move(motion*Time.deltaTime);
+	    }
 	}
+
+
 }

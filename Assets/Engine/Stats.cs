@@ -39,7 +39,11 @@ namespace Engine
 
         public double Physicalresistance { get; set; }
 
+        public double PhysicalresistanceFactor { get; set; }
+
         public double Magicalresistance { get; set; }
+
+        public double MagicalresistanceFactor { get; set; }
 
         public double Buffeffectduration { get; set; }
 
@@ -50,6 +54,8 @@ namespace Engine
         public double Skillradius { get; set; }
 
         public double Skillrange { get; set; }
+
+        public double SkillrangeFactor { get; set; }
 
 		public List<ActiveSkill> SkillList = new List<ActiveSkill>();
 
@@ -78,6 +84,9 @@ namespace Engine
             HealingPowerFactor = 1;
             DamageFactor = 1;
             ArmorFactor = 1;
+            SkillrangeFactor = 1;
+            MagicalresistanceFactor = 1;
+            PhysicalresistanceFactor = 1;
         }
 
 		public Stats()
@@ -105,6 +114,9 @@ namespace Engine
             HealingPowerFactor = 1;
 		    DamageFactor = 1;
 		    ArmorFactor = 1;
+		    SkillrangeFactor = 1;
+            MagicalresistanceFactor = 1;
+            PhysicalresistanceFactor = 1;
 		}
 
     }

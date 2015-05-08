@@ -3,17 +3,18 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using Engine;
 
 public class CylinderSpell : MonoBehaviour {
 	public Vector3 OriginalScale = new Vector3 (1, (float)0.3, 1);
+    public string Class = "";
 	public double OriginalRadius = 1;
 	private double _growRate;
 	public ActiveSkill CylinderActiveSkill = new ActiveSkill();
-	//private List<Collider> _colliders = new List<Collider>();
 	// Use this for initialization
 	void Start () {
-		if (CylinderActiveSkill.Name.Equals ("Ice floor") || CylinderActiveSkill.Name.Equals ("Blazing ring")) {
+		if (CylinderActiveSkill.Name.Equals ("IceFloor") || CylinderActiveSkill.Name.Equals ("BlazingRing")) {
 			transform.localScale = OriginalScale;
 			_growRate = (CylinderActiveSkill.Radius - OriginalRadius) / 0.5;
 		}
@@ -22,7 +23,7 @@ public class CylinderSpell : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if (CylinderActiveSkill.Name.Equals ("Ice floor") || CylinderActiveSkill.Name.Equals ("Blazing ring")) {
+		if (CylinderActiveSkill.Name.Equals ("IceFloor") || CylinderActiveSkill.Name.Equals ("BlazingRing")) {
 			transform.localScale = new Vector3 ((float)OriginalRadius, transform.localScale.y, (float)OriginalRadius);
 			
 			OriginalRadius += (_growRate * Time.deltaTime);
@@ -30,37 +31,64 @@ public class CylinderSpell : MonoBehaviour {
 		//Debug.Log ("Timeleft: " + CylinderActiveSkill.BuffEffectList[1].Effect.Timeleft);
 	}
 
-	/*
-	void OnTriggerStay(Collider other)
-	{
-		if (!_colliders.Contains (other)) 
-		{
-			_colliders.Add(other);
-		}
-	}
+    void OnTriggerEnter(Collider other)
+    {
+        if (CylinderActiveSkill.Name.Equals("AirShield"))
+        {
+            //Bara för att jag ska kunna testa nu jämför den taggen med enemy, skall vara ens eget team egentligen
+            if (other.gameObject.CompareTag("enemy"))
+            {
+                var enemy = other.gameObject.GetComponent<EnemyStats>();
+                enemy.Heal(CylinderActiveSkill.DamageHealingPower);
+            }
 
-	void OnTriggerExit(Collider other)
-	{
-		if (_colliders.Contains (other)) 
-		{
-			_colliders.Remove(other);
-		}
-	}
+            if (other.gameObject.CompareTag("Player"))
+            {
+                var player = other.gameObject.GetComponent<PlayerStats>();
 
-	void OnDestroy()
-	{
-		foreach (Collider other in _colliders) 
-		{
-			if(other.gameObject.CompareTag ("enemy") && CylinderActiveSkill.Name.Equals("Air vortex"))
-			{
-				other.gameObject.GetComponent<EnemyDummyController>().currentWalkSpeed = other.gameObject.GetComponent<EnemyDummyController>().currentWalkSpeed / (1 - (CylinderActiveSkill.BuffEffectList[0].Effect.Slow.slowamount / 100));
-			}
-		}
-	}
-*/
+                var shieldOfFireBuffEffect =
+                    player.EffectList.Find(x => x.Effect.Skillname == "ShieldOfFire armor increase");
+                if (shieldOfFireBuffEffect != null)
+                {
+                    var shieldOfFireDamageBuffEffect = new BuffEffect("Increase damage by 50%",
+                        new Effect("ShieldOfFire dmg increase", "Damage increase", 5, 5, 50));
+                    var foundEffect =
+                        player.EffectList.Find(x => x.Effect.Skillname == shieldOfFireDamageBuffEffect.Effect.Skillname);
+
+                    if (foundEffect == null)
+                    {
+                        player.EffectList.Add(shieldOfFireDamageBuffEffect);
+                    }
+                    else
+                    {
+                        if (foundEffect.Effect.Timeleft < shieldOfFireDamageBuffEffect.Effect.Timeleft)
+                        {
+                            player.EffectList.Remove(foundEffect);
+                            player.EffectList.Add(shieldOfFireDamageBuffEffect);
+                        }
+                    }
+                }
+            }
+        }
+
+        if (CylinderActiveSkill.Name.Equals("Bloodbending"))
+        {
+            if (other.gameObject.CompareTag("enemy"))
+            {
+                var enemy = other.gameObject.GetComponent<EnemyStats>();
+
+                enemy.StartCoroutine(enemy.TakeDamageOverTime(CylinderActiveSkill.DamageHealingPower, 3, Class));
+
+            }
+        }
+    }
+   
+
+
 
 	public void Init(ActiveSkill AS)
 	{
+
 		CylinderActiveSkill.Name = AS.Name;
 		CylinderActiveSkill.Info = AS.Info;
 		CylinderActiveSkill.DamageHealingPower = AS.DamageHealingPower;
@@ -80,10 +108,18 @@ public class CylinderSpell : MonoBehaviour {
 	public ActiveSkill AdjustActiveSkillValues(ActiveSkill AS, PlayerStats PS)
 	{
 		var adjustedActiveSkill = new ActiveSkill ();
-		
+        Class = PS.Class;
 		adjustedActiveSkill.Name = AS.Name;
 		adjustedActiveSkill.Info = AS.Info;
-	    adjustedActiveSkill.DamageHealingPower = AS.DamageHealingPower*(PS.stats.Damage/100);
+	    if (AS.Name.Equals("AirShield"))
+	    {
+	        adjustedActiveSkill.DamageHealingPower = AS.DamageHealingPower *  PS.stats.HealingPowerFactor*(PS.stats.Healingpower/100);
+	    }
+	    else
+	    {
+	        adjustedActiveSkill.DamageHealingPower = AS.DamageHealingPower * (PS.stats.Damage/100)*(PS.stats.DamageFactor);
+	    }
+	    
 		adjustedActiveSkill.ChiCost = AS.ChiCost;
 		adjustedActiveSkill.Radius = AS.Radius * (PS.stats.Skillradius / 100);
 		adjustedActiveSkill.SingleTarget = AS.SingleTarget;
@@ -103,9 +139,6 @@ public class CylinderSpell : MonoBehaviour {
                         item.Effect.Amount))));
         }
 
-
-
-
 		if(adjustedActiveSkill.BuffEffectList.Count != 0)
 		{
 			for (int i = 0; i < adjustedActiveSkill.BuffEffectList.Count; i++)
@@ -116,7 +149,7 @@ public class CylinderSpell : MonoBehaviour {
 					adjustedActiveSkill.BuffEffectList[i].Effect.Duration = adjustedActiveSkill.BuffEffectList[i].Effect.Duration * (PS.stats.Buffeffectduration / 100);
                     adjustedActiveSkill.BuffEffectList[i].Effect.Timeleft = adjustedActiveSkill.BuffEffectList[i].Effect.Timeleft * (PS.stats.Buffeffectduration / 100);
 				}
-				else
+                else if (adjustedActiveSkill.BuffEffectList[i].Effect.Type.Equals("Stun") || adjustedActiveSkill.BuffEffectList[i].Effect.Type.Equals("Slow") || adjustedActiveSkill.BuffEffectList[i].Effect.Type.Equals("Dot") || adjustedActiveSkill.BuffEffectList[i].Effect.Type.Equals("Root"))
 				{
 
 					adjustedActiveSkill.BuffEffectList[i].Effect.Duration = adjustedActiveSkill.BuffEffectList[i].Effect.Duration * (PS.stats.Debuffeffectduration / 100);
@@ -127,4 +160,6 @@ public class CylinderSpell : MonoBehaviour {
 		return adjustedActiveSkill;
 
 	}
+
+
 }

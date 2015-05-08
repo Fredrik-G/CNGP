@@ -21,9 +21,12 @@ public class TopDownController : MonoBehaviour {
 
 	void Update() 
 	{
-		ControlMouse ();
+	    if (!GetComponent<PlayerStats>().Stunned)
+	    {
+	        ControlMouse();
+	    }
 
-   	    //Debug.Log(PhotonNetwork.GetPing().ToString());
+	    //Debug.Log(PhotonNetwork.GetPing().ToString());
 		//ControlWASD ();
 
 	}
