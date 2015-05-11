@@ -92,28 +92,21 @@ public class SkillSelection
     /// <returns>Returns true if the given skill could be clicked on, otherwise false.</returns>
     public bool PerformActiveSkillClick(int skillNumber)
     {
-        if (CanPerformActiveSkillClick(skillNumber))
+        if (IsSkillClicked(skillNumber, true))
+        {
+            ActiveSkillSelection.ActiveSkills[skillNumber].IsClicked = false;
+            ActiveSkillSelection.CurrentNumberOfSelectedSkills--;
+            return false;
+        }
+
+        if (CanPerformSkillClick(true))
         {
             ActiveSkillSelection.ActiveSkills[skillNumber].IsClicked = true;
             ActiveSkillSelection.CurrentNumberOfSelectedSkills++;
             return true;
         }
 
-        ActiveSkillSelection.ActiveSkills[skillNumber].IsClicked = false;
-        ActiveSkillSelection.CurrentNumberOfSelectedSkills--;
         return false;
-    }
-
-    /// <summary>
-    /// Checks if a skill can be clicked based on 
-    /// the current number of selected spells and if said spell is already clicked.
-    /// </summary>
-    /// <param name="skillNumber"></param>
-    /// <returns>Returns true if a skill can be clicked on, otherwise false.</returns>
-    private bool CanPerformActiveSkillClick(int skillNumber)
-    {
-        return ActiveSkillSelection.CurrentNumberOfSelectedSkills <= ActiveSkillSelection.MaxSelectedSkills &&
-               !ActiveSkillSelection.ActiveSkills[skillNumber].IsClicked;
     }
 
     /// <summary>
@@ -123,7 +116,7 @@ public class SkillSelection
     /// <param name="activeSkill">The ActiveSkill Image to change sprite for.</param>
     public void SelectActiveSkill(ActiveSkillSelection.Skills skill, Image activeSkill)
     {
-        var skillNumber = (int) skill;
+        var skillNumber = (int)skill;
         activeSkill.sprite = ActiveSkillSelection.ClickedImages[skillNumber];
     }
 
@@ -134,7 +127,7 @@ public class SkillSelection
     /// <param name="activeSkill">The ActiveSkill Image to change sprite for.</param>
     public void DeselectActiveSkill(ActiveSkillSelection.Skills skill, Image activeSkill)
     {
-        var skillNumber = (int) skill;
+        var skillNumber = (int)skill;
         activeSkill.sprite = ActiveSkillSelection.NormalImages[skillNumber];
     }
 
@@ -222,15 +215,20 @@ public class SkillSelection
     /// <returns>Returns true if the given skill could be clicked on, otherwise false.</returns>
     public bool PerformPassiveSkillClick(int skillNumber)
     {
-        if (CanPerformPassiveSkillClick(skillNumber))
+        if (IsSkillClicked(skillNumber, false))
+        {
+            PassiveSkillSelection.PassiveSkills[skillNumber].IsClicked = false;
+            PassiveSkillSelection.CurrentNumberOfSelectedSkills--;
+            return false;
+        }
+
+        if(CanPerformSkillClick(false))
         {
             PassiveSkillSelection.PassiveSkills[skillNumber].IsClicked = true;
             PassiveSkillSelection.CurrentNumberOfSelectedSkills++;
             return true;
         }
 
-        PassiveSkillSelection.PassiveSkills[skillNumber].IsClicked = false;
-        PassiveSkillSelection.CurrentNumberOfSelectedSkills--;
         return false;
     }
 
@@ -238,12 +236,20 @@ public class SkillSelection
     /// Checks if a skill can be clicked based on 
     /// the current number of selected spells and if said spell is already clicked.
     /// </summary>
-    /// <param name="skillNumber"></param>
     /// <returns>Returns true if a skill can be clicked on, otherwise false.</returns>
-    private bool CanPerformPassiveSkillClick(int skillNumber)
+    private bool CanPerformSkillClick(bool isActiveSkill)
     {
-        return PassiveSkillSelection.CurrentNumberOfSelectedSkills <= PassiveSkillSelection.MaxSelectedSkills &&
-               !PassiveSkillSelection.PassiveSkills[skillNumber].IsClicked;
+        if (isActiveSkill)
+        {
+            return ActiveSkillSelection.CurrentNumberOfSelectedSkills < ActiveSkillSelection.MaxSelectedSkills;
+        }
+
+        return PassiveSkillSelection.CurrentNumberOfSelectedSkills < PassiveSkillSelection.MaxSelectedSkills;
+    }
+
+    private bool IsSkillClicked(int skillNumber, bool isActiveSkill)
+    {
+        return isActiveSkill ? ActiveSkillSelection.ActiveSkills[skillNumber].IsClicked : PassiveSkillSelection.PassiveSkills[skillNumber].IsClicked;
     }
 
     /// <summary>
@@ -253,7 +259,7 @@ public class SkillSelection
     /// <param name="passiveSkill">The ActiveSkill Image to change sprite for.</param>
     public void SelectPassiveSkill(PassiveSkillSelection.Skills skill, Image passiveSkill)
     {
-        var skillNumber = (int) skill;
+        var skillNumber = (int)skill;
         passiveSkill.sprite = PassiveSkillSelection.ClickedImages[skillNumber];
     }
 
@@ -262,7 +268,7 @@ public class SkillSelection
     /// </summary>
     public void DeselectPassiveSkill(PassiveSkillSelection.Skills skill, Image passiveSkill)
     {
-        var skillNumber = (int) skill;
+        var skillNumber = (int)skill;
         passiveSkill.sprite = PassiveSkillSelection.NormalImages[skillNumber];
     }
 

@@ -104,7 +104,6 @@ public class CharacterAndSkillsHandler : MonoBehaviour
     /// </summary>
     private void ResetCharacterSelection()
     {
-        NameText.text = InfoText.text = AttributesText.text = String.Empty;
         for (var i = 0; i < Characters.Count; i++)
         {
             Characters[i].sprite = _characterSelection.NormalSprites[i];
@@ -114,6 +113,8 @@ public class CharacterAndSkillsHandler : MonoBehaviour
         {
             activeSkill.enabled = false;
         }
+
+        ResetTextFields();
     }
 
     /// <summary>
@@ -121,9 +122,15 @@ public class CharacterAndSkillsHandler : MonoBehaviour
     /// </summary>
     private void ResetSkillSelection()
     {
-        NameText.text = InfoText.text = AttributesText.text = String.Empty;
-
         _skillSelection.ClearActiveSkillSelection();
+    }
+
+    /// <summary>
+    /// Resets the text fields.
+    /// </summary>
+    private void ResetTextFields()
+    {
+        NameText.text = InfoText.text = AttributesText.text = String.Empty;
     }
 
     /// <summary>
@@ -153,9 +160,36 @@ public class CharacterAndSkillsHandler : MonoBehaviour
     #region Character Mouse Clicks
 
     /// <summary>
+    /// Handles a mouse click on any character/element image/button.
+    /// </summary>
+    /// <param name="rectClicked"></param>
+    public void HandleCharacterMouseClick(RectTransform rectClicked)
+    {
+        //Performs a click on relevant character/element.
+        var characterId = rectClicked.GetComponent<CharacterId>().Character;
+        switch (characterId)
+        {
+            case CharacterSelection.Characters.Waterbending:
+                HandleWaterMouseClick();
+                break;
+            case CharacterSelection.Characters.Earthbending:
+                HandleEarthMouseClick();
+                break;
+            case CharacterSelection.Characters.Firebending:
+                HandleFireMouseClick();
+                break;
+            case CharacterSelection.Characters.Airbending:
+                HandleAirMouseClick();
+                break;
+            default:
+                throw new ArgumentOutOfRangeException();
+        }
+    }
+
+    /// <summary>
     /// Handles mouse click for the Water image.
     /// </summary>
-    public void HandleWaterMouseClick()
+    private void HandleWaterMouseClick()
     {
         ResetCharacterSelection();
 
@@ -176,7 +210,7 @@ public class CharacterAndSkillsHandler : MonoBehaviour
     /// <summary>
     /// Handles mouse click for the Earth image.
     /// </summary>
-    public void HandleEarthMouseClick()
+    private void HandleEarthMouseClick()
     {
         ResetCharacterSelection();
 
@@ -197,7 +231,7 @@ public class CharacterAndSkillsHandler : MonoBehaviour
     /// <summary>
     /// Handles mouse click for the Fire image.
     /// </summary>
-    public void HandleFireMouseClick()
+    private void HandleFireMouseClick()
     {
         ResetCharacterSelection();
 
@@ -218,7 +252,7 @@ public class CharacterAndSkillsHandler : MonoBehaviour
     /// <summary>
     /// Handles mouse click for the Air image.
     /// </summary>
-    public void HandleAirMouseClick()
+    private void HandleAirMouseClick()
     {
         ResetCharacterSelection();
 
@@ -238,7 +272,26 @@ public class CharacterAndSkillsHandler : MonoBehaviour
 
     #endregion
 
-    #region Active Skill Mouse Clicks
+    #region Skill Mouse Clicks
+
+    /// <summary>
+    /// Handles a mouse click on any skill image/button.
+    /// </summary>
+    /// <param name="rectClicked"></param>
+    public void HandleSkillMouseClick(RectTransform rectClicked)
+    {
+        //Checks if given RectTransform is either an active or passive skill and performs a click.
+        var activeSkillId = rectClicked.GetComponent<ActiveSkillId>();
+        if (activeSkillId != null)
+        {
+            HandleActiveSkillClick(activeSkillId.ActiveSkill);
+        }
+        else
+        {
+            var passiveSkillId = rectClicked.GetComponent<PassiveSkillId>();
+            HandlePassiveSkillClick(passiveSkillId.PassiveSkills);
+        }
+    }
 
     /// <summary>
     /// Handles a single mouse click for an activeskill-image.
@@ -247,50 +300,17 @@ public class CharacterAndSkillsHandler : MonoBehaviour
     /// <param name="skill">The clicked skill.</param>
     private void HandleActiveSkillClick(ActiveSkillSelection.Skills skill)
     {
-        var skillNumber = (int)skill;
+        var skillNumber = (int) skill;
         if (_skillSelection.PerformActiveSkillClick(skillNumber))
         {
+            _skillSelection.SelectActiveSkill(skill, ActiveSkills[skillNumber]);
             DisplayActiveSkillInformation(skill);
         }
         else
         {
-            ResetSkillSelection();
             _skillSelection.DeselectActiveSkill(skill, ActiveSkills[skillNumber]);
         }
     }
-
-    /// <summary>
-    /// Handles a single mouse click for the first activeskill-image.
-    /// </summary>
-    public void HandleActiveSkillOneClick()
-    {
-        HandleActiveSkillClick(ActiveSkillSelection.Skills.One);
-    }
-    /// <summary>
-    /// Handles a single mouse click for the second activeskill-image.
-    /// </summary>
-    public void HandleActiveSkillTwoClick()
-    {
-        HandleActiveSkillClick(ActiveSkillSelection.Skills.Two);
-    }
-    /// <summary>
-    /// Handles a single mouse click for the third activeskill-image.
-    /// </summary>
-    public void HandleActiveSkillThreeClick()
-    {
-        HandleActiveSkillClick(ActiveSkillSelection.Skills.Three);
-    }
-    /// <summary>
-    /// Handles a single mouse click for the fourth activeskill-image.
-    /// </summary>
-    public void HandleActiveSkillFourClick()
-    {
-        HandleActiveSkillClick(ActiveSkillSelection.Skills.Four);
-    }
-
-    #endregion
-
-    #region Passive Skill Mouse Clicks
 
     /// <summary>
     /// Handles a single mouse click for an passiveskill-image.
@@ -299,9 +319,10 @@ public class CharacterAndSkillsHandler : MonoBehaviour
     /// <param name="skill">The clicked skill.</param>
     private void HandlePassiveSkillClick(PassiveSkillSelection.Skills skill)
     {
-        var skillNumber = (int)skill;
+        var skillNumber = (int) skill;
         if (_skillSelection.PerformPassiveSkillClick(skillNumber))
         {
+            _skillSelection.SelectPassiveSkill(skill, PassiveSkills[skillNumber]);
             DisplayPassiveSkillInformation(skill);
         }
         else
@@ -311,33 +332,39 @@ public class CharacterAndSkillsHandler : MonoBehaviour
         }
     }
 
+    #endregion
+
+    #region Skill Mouse Hover
+
     /// <summary>
-    /// Handles a single mouse click for the first passiveskill-image.
+    /// Handles a mouse over on any skill image/button.
     /// </summary>
-    public void HandlePassiveSkillOneClick()
+    /// <param name="rectHover"></param>
+    public void HandleMouseHoverEnter(RectTransform rectHover)
     {
-        HandlePassiveSkillClick(PassiveSkillSelection.Skills.One);
+        if (rectHover.GetComponent<Image>().enabled == false)
+        {
+            return;
+        }
+
+        var activeSkillId = rectHover.GetComponent<ActiveSkillId>();
+        if (activeSkillId != null)
+        {
+            DisplayActiveSkillInformation(activeSkillId.ActiveSkill);
+        }
+        else
+        {
+            var passiveSkillId = rectHover.GetComponent<PassiveSkillId>();
+            DisplayPassiveSkillInformation(passiveSkillId.PassiveSkills);
+        }
     }
+
     /// <summary>
-    /// Handles a single mouse click for the second passiveskill-image.
+    /// Handles mouse hover exit on  any skill image/button.
     /// </summary>
-    public void HandlePassiveSkillTwoClick()
+    public void HandleMouseHoverExit()
     {
-        HandlePassiveSkillClick(PassiveSkillSelection.Skills.Two);
-    }
-    /// <summary>
-    /// Handles a single mouse click for the third passiveskill-image.
-    /// </summary>
-    public void HandlePassiveSkillThreeClick()
-    {
-        HandlePassiveSkillClick(PassiveSkillSelection.Skills.Three);
-    }
-    /// <summary>
-    /// Handles a single mouse click for the fourth passiveskill-image.
-    /// </summary>
-    public void HandlePassiveSkillFourClick()
-    {
-        HandlePassiveSkillClick(PassiveSkillSelection.Skills.Four);
+        ResetTextFields();
     }
 
     #endregion
@@ -381,7 +408,7 @@ public class CharacterAndSkillsHandler : MonoBehaviour
     {
         var skillNumber = (int) skill;
 
-        _skillSelection.SelectActiveSkill(skill, ActiveSkills[skillNumber]);
+      // _skillSelection.SelectActiveSkill(skill, ActiveSkills[skillNumber]);
 
         NameText.text = _skillSelection.ActiveSkillSelection.ActiveSkills[skillNumber].ActiveSkill.Name;
         InfoText.text = _skillSelection.ActiveSkillSelection.ActiveSkills[skillNumber].ActiveSkill.Info;
@@ -406,8 +433,6 @@ public class CharacterAndSkillsHandler : MonoBehaviour
     private void DisplayPassiveSkillInformation(PassiveSkillSelection.Skills skill)
     {
         var skillNumber = (int) skill;
-
-        _skillSelection.SelectPassiveSkill(skill, PassiveSkills[skillNumber]);
 
         NameText.text = _skillSelection.PassiveSkillSelection.PassiveSkills[skillNumber].PassiveSkill.Name;
         InfoText.text = "Cooldown: " +

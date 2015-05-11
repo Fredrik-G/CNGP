@@ -70,7 +70,6 @@ public class PassiveSkillSelection
 
     #endregion
 
-
     #endregion
 
     #region Constructor
@@ -80,7 +79,7 @@ public class PassiveSkillSelection
         PassiveSkills = new List<PassiveClickableSkill>();
         NormalImages = new List<Sprite>();
         ClickedImages = new List<Sprite>();
-        MaxSelectedSkills = 4;
+        MaxSelectedSkills = 2;
         CurrentNumberOfSelectedSkills = 0;
     }
 
@@ -94,6 +93,12 @@ public class PassiveSkillSelection
         PassiveSkills.Add(new PassiveClickableSkill(new PassiveSkill("Manipulation of Spirit Energy", 0)));
         PassiveSkills.Add(new PassiveClickableSkill(new PassiveSkill("Strong Presence", 0)));
         PassiveSkills.Add(new PassiveClickableSkill(new PassiveSkill("The Face Stealers Secret", 0)));
+
+        PassiveSkills.Add(new PassiveClickableSkill(new PassiveSkill("Frost", 0)));
+        PassiveSkills.Add(new PassiveClickableSkill(new PassiveSkill("Tailwind", 0)));
+        PassiveSkills.Add(new PassiveClickableSkill(new PassiveSkill("Leech", 0)));
+        PassiveSkills.Add(new PassiveClickableSkill(new PassiveSkill("Advanced Bending", 0)));
+        PassiveSkills.Add(new PassiveClickableSkill(new PassiveSkill("Harmonic Convergence", 0)));
     }
 
     public void LoadPassiveImages()
@@ -103,7 +108,14 @@ public class PassiveSkillSelection
             Resources.Load<Sprite>("LobbyMaterials/Icons/Passives/PassiveSkillAstralProjection"),
             Resources.Load<Sprite>("LobbyMaterials/Icons/Passives/PassiveSkillManipulationofSpiritEnergy"),
             Resources.Load<Sprite>("LobbyMaterials/Icons/Passives/PassiveSkillStrongPresence"),
-            Resources.Load<Sprite>("LobbyMaterials/Icons/Passives/PassiveSkillTheFaceStealersSecret")
+            Resources.Load<Sprite>("LobbyMaterials/Icons/Passives/PassiveSkillTheFaceStealersSecret"),
+
+            Resources.Load<Sprite>("LobbyMaterials/Icons/Passives/PassiveSkillFrost"),
+            Resources.Load<Sprite>("LobbyMaterials/Icons/Passives/PassiveSkillTailwind"),
+            Resources.Load<Sprite>("LobbyMaterials/Icons/Passives/PassiveSkillLeech"),
+            Resources.Load<Sprite>("LobbyMaterials/Icons/Passives/PassiveSkillAdvancedBending"),
+            Resources.Load<Sprite>("LobbyMaterials/Icons/Passives/PassiveSkillHarmonicConvergence")
+
         };
 
         NormalImages.AddRange(textures);
@@ -113,7 +125,12 @@ public class PassiveSkillSelection
             Resources.Load<Sprite>("LobbyMaterials/Icons/Passives/PassiveSkillAstralProjection_Clicked"),
             Resources.Load<Sprite>("LobbyMaterials/Icons/Passives/PassiveSkillManipulationofSpiritEnergy_Clicked"),
             Resources.Load<Sprite>("LobbyMaterials/Icons/Passives/PassiveSkillStrongPresence_Clicked"),
-            Resources.Load<Sprite>("LobbyMaterials/Icons/Passives/PassiveSkillTheFaceStealersSecret_Clicked")
+            Resources.Load<Sprite>("LobbyMaterials/Icons/Passives/PassiveSkillTheFaceStealersSecret_Clicked"),
+            Resources.Load<Sprite>("LobbyMaterials/Icons/Passives/PassiveSkillFrost_Clicked"),
+            Resources.Load<Sprite>("LobbyMaterials/Icons/Passives/PassiveSkillTailwind_Clicked"),
+            Resources.Load<Sprite>("LobbyMaterials/Icons/Passives/PassiveSkillLeech_Clicked"),
+            Resources.Load<Sprite>("LobbyMaterials/Icons/Passives/PassiveSkillAdvancedBending_Clicked"),
+            Resources.Load<Sprite>("LobbyMaterials/Icons/Passives/PassiveSkillHarmonicConvergence_Clicked")
         };
 
         ClickedImages.AddRange(textures);
