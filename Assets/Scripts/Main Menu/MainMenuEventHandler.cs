@@ -3,12 +3,12 @@ using Engine;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class EventHandler : MonoBehaviour
+public class MainMenuEventHandler : MonoBehaviour
 {
     //public Image Image;
     public InputField InputField;
     public string RoomName = string.Empty;
-    private NetworkManager _networkManager = new NetworkManager();
+    private readonly NetworkManager _networkManager = new NetworkManager();
 
     private Vector2 scrollPos = Vector2.zero;
     public Vector2 WidthAndHeight = new Vector2(300, 10);
@@ -98,9 +98,17 @@ public class EventHandler : MonoBehaviour
 
     public void HandleStartNewLobbyClick()
     {
-        ResetGui();
-        EnableInputField();
-        _currentMenu = Menus.StartNewLobby;
+        if (!String.IsNullOrEmpty(InputField.text))
+        {
+            Debug.Log("Starting new lobby with name " + InputField.text);
+            _networkManager.CreateNewLobby(InputField.text);
+        }
+        else
+        {
+            ResetGui();
+            EnableInputField();
+            _currentMenu = Menus.StartNewLobby;
+        }
     }
 
     public void HandleJoinLobbyClick()

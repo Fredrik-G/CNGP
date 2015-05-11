@@ -261,7 +261,6 @@ public class LoginScreen : MonoBehaviour
         Application.LoadLevel("MainScreen");
     }
 
-
     /// <summary>
     /// Shows a centered text label with various information.
     /// </summary>
@@ -289,8 +288,16 @@ public class LoginScreen : MonoBehaviour
     /// <returns></returns>
     private static string GetUserPublicIp()
     {
-        var ipHost = Dns.GetHostEntry(Dns.GetHostName());
-        return ipHost.AddressList[0].ToString();
+        const string url = "http://checkip.dyndns.org";
+        var webRequest = WebRequest.Create(url);
+        var webResponse = webRequest.GetResponse();
+        var streamReader = new System.IO.StreamReader(webResponse.GetResponseStream());
+
+        var response = streamReader.ReadToEnd().Trim();
+        return response.Split(':')[1].Substring(1).Split('<')[0];
+
+        //var ipHost = Dns.GetHostEntry(Dns.GetHostName());
+        //return ipHost.AddressList[0].ToString();
     }
 
     #region Hash & Salt

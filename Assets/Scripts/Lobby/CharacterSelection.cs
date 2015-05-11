@@ -1,12 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Runtime.InteropServices.ComTypes;
-using Engine;
+﻿using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
+/// <summary>
+/// Class used for Character Selection.
+/// Contains lists of character sprites and load methods.
+/// </summary>
 public class CharacterSelection
 {
+    #region Data
+
+    /// <summary>
+    /// Enum containing all available characters/elements.
+    /// </summary>
     public enum Characters
     {
         None,
@@ -16,27 +21,52 @@ public class CharacterSelection
         Airbending,
     }
 
+    /// <summary>
+    /// The currently selected character.
+    /// </summary>
     public Characters CurrentCharacter { get; set; }
+
+    /// <summary>
+    /// List containing "normal" (not clicked) character sprites.
+    /// </summary>
     public List<Sprite> NormalSprites { get; set; }
+
+    /// <summary>
+    /// List containing clicked character sprites.
+    /// </summary>
     public List<Sprite> ClickedSprites { get; set; }
+
+    #endregion
+
+    #region Properties
 
     public int WaterbendingId
     {
         get { return (int) Characters.Waterbending - 1; }
     }
+
     public int EarthbendingId
     {
-        get { return (int)Characters.Earthbending - 1; }
-    }
-    public int FirebendingId
-    {
-        get { return (int)Characters.Firebending - 1; }
-    }
-    public int AirbendingId
-    {
-        get { return (int)Characters.Airbending - 1; }
+        get { return (int) Characters.Earthbending - 1; }
     }
 
+    public int FirebendingId
+    {
+        get { return (int) Characters.Firebending - 1; }
+    }
+
+    public int AirbendingId
+    {
+        get { return (int) Characters.Airbending - 1; }
+    }
+
+    #endregion
+
+    #region Constructor
+
+    /// <summary>
+    /// Default constructor. Sets current character to None.
+    /// </summary>
     public CharacterSelection()
     {
         CurrentCharacter = Characters.None;
@@ -44,6 +74,13 @@ public class CharacterSelection
         ClickedSprites = new List<Sprite>();
     }
 
+    #endregion
+
+    #region Load Methods
+
+    /// <summary>
+    /// Loads every character sprite.
+    /// </summary>
     public void LoadImages()
     {
         var normalSprites = new List<Sprite>
@@ -67,6 +104,15 @@ public class CharacterSelection
         ClickedSprites.AddRange(clickedSprites);
     }
 
+    #endregion
+
+    #region Toggle Active Character Methods
+
+    /// <summary>
+    /// Clears the current character if the Water Character is currently selected
+    /// else sets the Water Character as the current character.
+    /// </summary>
+    /// <returns>Returns true if current character is water, else false.</returns>
     public bool ToggleWaterCharacter()
     {
         if (CurrentCharacter == Characters.Waterbending)
@@ -78,6 +124,12 @@ public class CharacterSelection
         CurrentCharacter = Characters.Waterbending;
         return false;
     }
+
+    /// <summary>
+    /// Clears the current character if the Earth Character is currently selected
+    /// else sets the Earth Character as the current character.
+    /// </summary>
+    /// <returns>Returns true if current character is earth, else false.</returns>
     public bool ToggleEarthCharacter()
     {
         if (CurrentCharacter == Characters.Earthbending)
@@ -89,6 +141,12 @@ public class CharacterSelection
         CurrentCharacter = Characters.Earthbending;
         return false;
     }
+
+    /// <summary>
+    /// Clears the current character if the Fire Character is currently selected
+    /// else sets the Fire Character as the current character.
+    /// </summary>
+    /// <returns>Returns true if current character is fire, else false.</returns>
     public bool ToggleFireCharacter()
     {
         if (CurrentCharacter == Characters.Firebending)
@@ -100,6 +158,12 @@ public class CharacterSelection
         CurrentCharacter = Characters.Firebending;
         return false;
     }
+
+    /// <summary>
+    /// Clears the current character if the Air Character is currently selected
+    /// else sets the Air Character as the current character.
+    /// </summary>
+    /// <returns>Returns true if current character is air, else false.</returns>
     public bool ToggleAirCharacter()
     {
         if (CurrentCharacter == Characters.Airbending)
@@ -111,4 +175,6 @@ public class CharacterSelection
         CurrentCharacter = Characters.Airbending;
         return false;
     }
+
+    #endregion
 }
