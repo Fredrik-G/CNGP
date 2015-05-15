@@ -1,0 +1,651 @@
+Initialize engine version: 5.0.0f4 (5b98b70ebeb9)
+GfxDevice: creating device client; threaded=1
+Direct3D:
+    Version:  Direct3D 11.0 [level 11.0]
+    Renderer: AMD Radeon(TM) R5 Graphics (ID=0x9851)
+    Vendor:   ATI
+    VRAM:     3042 MB
+Begin MonoManager ReloadAssembly
+Platform assembly: C:\Users\Tobias\Documents\CNGPworking\Build\testfucking3_Data\Managed\UnityEngine.dll (this message is harmless)
+Loading C:\Users\Tobias\Documents\CNGPworking\Build\testfucking3_Data\Managed\UnityEngine.dll into Unity Child Domain
+Platform assembly: C:\Users\Tobias\Documents\CNGPworking\Build\testfucking3_Data\Managed\Assembly-CSharp-firstpass.dll (this message is harmless)
+Loading C:\Users\Tobias\Documents\CNGPworking\Build\testfucking3_Data\Managed\Assembly-CSharp-firstpass.dll into Unity Child Domain
+Platform assembly: C:\Users\Tobias\Documents\CNGPworking\Build\testfucking3_Data\Managed\Assembly-CSharp.dll (this message is harmless)
+Loading C:\Users\Tobias\Documents\CNGPworking\Build\testfucking3_Data\Managed\Assembly-CSharp.dll into Unity Child Domain
+Platform assembly: C:\Users\Tobias\Documents\CNGPworking\Build\testfucking3_Data\Managed\UnityEngine.UI.dll (this message is harmless)
+Loading C:\Users\Tobias\Documents\CNGPworking\Build\testfucking3_Data\Managed\UnityEngine.UI.dll into Unity Child Domain
+Platform assembly: C:\Users\Tobias\Documents\CNGPworking\Build\testfucking3_Data\Managed\Photon3Unity3D.dll (this message is harmless)
+Loading C:\Users\Tobias\Documents\CNGPworking\Build\testfucking3_Data\Managed\Photon3Unity3D.dll into Unity Child Domain
+- Completed reload, in  0.137 seconds
+desktop: 1366x768 60Hz; virtual: 1366x768 at 0,0
+<RI> Initializing input.
+<RI> Input initialized.
+<RI> Initialized touch support.
+Platform assembly: C:\Users\Tobias\Documents\CNGPworking\Build\testfucking3_Data\Managed\System.Core.dll (this message is harmless)
+Platform assembly: C:\Users\Tobias\Documents\CNGPworking\Build\testfucking3_Data\Managed\System.dll (this message is harmless)
+Setting up 1 worker threads for Enlighten.
+  Thread -> id: 6f08 -> priority: 1 
+Unloading 4 Unused Serialized files (Serialized files now loaded: 0)
+Shader 'Legacy Shaders/Parallax Specular': fallback shader 'Legacy Shaders/Bumped Specular' not found
+Shader 'Hidden/TerrainEngine/Splatmap/Specular-Base': fallback shader 'Legacy Shaders/Specular' not found
+Shader 'Hidden/TerrainEngine/Splatmap/Specular-Base': fallback shader 'Legacy Shaders/Specular' not found
+The tree RockMesh(withcollider) must use the Nature/Soft Occlusion shader. Otherwise billboarding/lighting will not work correctly.
+ 
+(Filename:  Line: 98)
+
+UnloadTime: 28.638538 ms
+TerrainCollider: MeshCollider is not supported on terrain at the moment.
+ 
+(Filename:  Line: 177)
+
+TerrainCollider: MeshCollider is not supported on terrain at the moment.
+ 
+(Filename:  Line: 177)
+
+TerrainCollider: MeshCollider is not supported on terrain at the moment.
+ 
+(Filename:  Line: 177)
+
+
+Unloading 11 unused Assets to reduce memory usage. Loaded Objects now: 792.
+Total: 1.136718 ms (FindLiveObjects: 0.151836 ms CreateObjectMapping: 0.076430 ms MarkObjects: 0.718656 ms  DeleteObjects: 0.185691 ms)
+
+ArgumentException: You can only call GUI functions from inside OnGUI.
+  at UnityEngine.GUIUtility.CheckOnGUI () [0x00000] in <filename unknown>:0 
+  at UnityEngine.GUI.get_skin () [0x00000] in <filename unknown>:0 
+  at UnityEngine.GUILayout.Label (System.String text, UnityEngine.GUILayoutOption[] options) [0x00000] in <filename unknown>:0 
+  at NetworkManager.Connect () [0x00000] in <filename unknown>:0 
+  at NetworkManager.Start () [0x00000] in <filename unknown>:0 
+ 
+(Filename:  Line: -1)
+
+Setting up 1 worker threads for Enlighten.
+  Thread -> id: 6c40 -> priority: 1 
+OnJoinedRoom
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebug.gen.cpp Line: 56)
+
+The referenced script on this Behaviour is missing!
+ 
+(Filename:  Line: 1713)
+
+The referenced script on this Behaviour is missing!
+ 
+(Filename:  Line: 1713)
+
+The referenced script on this Behaviour is missing!
+ 
+(Filename:  Line: 1713)
+
+The referenced script on this Behaviour is missing!
+ 
+(Filename:  Line: 1713)
+
+none
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebug.gen.cpp Line: 56)
+
+The referenced script on this Behaviour is missing!
+ 
+(Filename:  Line: 1713)
+
+The referenced script on this Behaviour is missing!
+ 
+(Filename:  Line: 1713)
+
+The referenced script on this Behaviour is missing!
+ 
+(Filename:  Line: 1713)
+
+NullReferenceException: Object reference not set to an instance of an object
+  at ProjectileShooter.SkillOnMouseCast (Int32 skillSlot, .PlayerStats playerStats) [0x00000] in <filename unknown>:0 
+  at ProjectileShooter.Update () [0x00000] in <filename unknown>:0 
+ 
+(Filename:  Line: -1)
+
+NullReferenceException: Object reference not set to an instance of an object
+  at ProjectileShooter.SkillOnMouseCast (Int32 skillSlot, .PlayerStats playerStats) [0x00000] in <filename unknown>:0 
+  at ProjectileShooter.Update () [0x00000] in <filename unknown>:0 
+ 
+(Filename:  Line: -1)
+
+NullReferenceException: Object reference not set to an instance of an object
+  at ProjectileShooter.SkillOnMouseCast (Int32 skillSlot, .PlayerStats playerStats) [0x00000] in <filename unknown>:0 
+  at ProjectileShooter.Update () [0x00000] in <filename unknown>:0 
+ 
+(Filename:  Line: -1)
+
+NullReferenceException: Object reference not set to an instance of an object
+  at ProjectileShooter.SkillOnMouseCast (Int32 skillSlot, .PlayerStats playerStats) [0x00000] in <filename unknown>:0 
+  at ProjectileShooter.Update () [0x00000] in <filename unknown>:0 
+ 
+(Filename:  Line: -1)
+
+NullReferenceException: Object reference not set to an instance of an object
+  at ProjectileShooter.SkillOnMouseCast (Int32 skillSlot, .PlayerStats playerStats) [0x00000] in <filename unknown>:0 
+  at ProjectileShooter.Update () [0x00000] in <filename unknown>:0 
+ 
+(Filename:  Line: -1)
+
+NullReferenceException: Object reference not set to an instance of an object
+  at ProjectileShooter.SkillOnMouseCast (Int32 skillSlot, .PlayerStats playerStats) [0x00000] in <filename unknown>:0 
+  at ProjectileShooter.Update () [0x00000] in <filename unknown>:0 
+ 
+(Filename:  Line: -1)
+
+NullReferenceException: Object reference not set to an instance of an object
+  at ProjectileShooter.SkillOnMouseCast (Int32 skillSlot, .PlayerStats playerStats) [0x00000] in <filename unknown>:0 
+  at ProjectileShooter.Update () [0x00000] in <filename unknown>:0 
+ 
+(Filename:  Line: -1)
+
+NullReferenceException: Object reference not set to an instance of an object
+  at ProjectileShooter.SkillOnMouseCast (Int32 skillSlot, .PlayerStats playerStats) [0x00000] in <filename unknown>:0 
+  at ProjectileShooter.Update () [0x00000] in <filename unknown>:0 
+ 
+(Filename:  Line: -1)
+
+NullReferenceException: Object reference not set to an instance of an object
+  at ProjectileShooter.SkillOnMouseCast (Int32 skillSlot, .PlayerStats playerStats) [0x00000] in <filename unknown>:0 
+  at ProjectileShooter.Update () [0x00000] in <filename unknown>:0 
+ 
+(Filename:  Line: -1)
+
+NullReferenceException: Object reference not set to an instance of an object
+  at ProjectileShooter.SkillCast (Int32 skillSlot, .PlayerStats playerStats) [0x00000] in <filename unknown>:0 
+  at ProjectileShooter.Update () [0x00000] in <filename unknown>:0 
+ 
+(Filename:  Line: -1)
+
+NullReferenceException: Object reference not set to an instance of an object
+  at ProjectileShooter.SkillCast (Int32 skillSlot, .PlayerStats playerStats) [0x00000] in <filename unknown>:0 
+  at ProjectileShooter.Update () [0x00000] in <filename unknown>:0 
+ 
+(Filename:  Line: -1)
+
+NullReferenceException: Object reference not set to an instance of an object
+  at ProjectileShooter.SkillCast (Int32 skillSlot, .PlayerStats playerStats) [0x00000] in <filename unknown>:0 
+  at ProjectileShooter.Update () [0x00000] in <filename unknown>:0 
+ 
+(Filename:  Line: -1)
+
+NullReferenceException: Object reference not set to an instance of an object
+  at ProjectileShooter.SkillCast (Int32 skillSlot, .PlayerStats playerStats) [0x00000] in <filename unknown>:0 
+  at ProjectileShooter.Update () [0x00000] in <filename unknown>:0 
+ 
+(Filename:  Line: -1)
+
+NullReferenceException: Object reference not set to an instance of an object
+  at ProjectileShooter.SkillCast (Int32 skillSlot, .PlayerStats playerStats) [0x00000] in <filename unknown>:0 
+  at ProjectileShooter.Update () [0x00000] in <filename unknown>:0 
+ 
+(Filename:  Line: -1)
+
+NullReferenceException: Object reference not set to an instance of an object
+  at ProjectileShooter.SkillCast (Int32 skillSlot, .PlayerStats playerStats) [0x00000] in <filename unknown>:0 
+  at ProjectileShooter.Update () [0x00000] in <filename unknown>:0 
+ 
+(Filename:  Line: -1)
+
+NullReferenceException: Object reference not set to an instance of an object
+  at ProjectileShooter.SkillCast (Int32 skillSlot, .PlayerStats playerStats) [0x00000] in <filename unknown>:0 
+  at ProjectileShooter.Update () [0x00000] in <filename unknown>:0 
+ 
+(Filename:  Line: -1)
+
+NullReferenceException: Object reference not set to an instance of an object
+  at ProjectileShooter.SkillCast (Int32 skillSlot, .PlayerStats playerStats) [0x00000] in <filename unknown>:0 
+  at ProjectileShooter.Update () [0x00000] in <filename unknown>:0 
+ 
+(Filename:  Line: -1)
+
+NullReferenceException: Object reference not set to an instance of an object
+  at ProjectileShooter.SkillCast (Int32 skillSlot, .PlayerStats playerStats) [0x00000] in <filename unknown>:0 
+  at ProjectileShooter.Update () [0x00000] in <filename unknown>:0 
+ 
+(Filename:  Line: -1)
+
+NullReferenceException: Object reference not set to an instance of an object
+  at ProjectileShooter.SkillCast (Int32 skillSlot, .PlayerStats playerStats) [0x00000] in <filename unknown>:0 
+  at ProjectileShooter.Update () [0x00000] in <filename unknown>:0 
+ 
+(Filename:  Line: -1)
+
+NullReferenceException: Object reference not set to an instance of an object
+  at ProjectileShooter.SkillCast (Int32 skillSlot, .PlayerStats playerStats) [0x00000] in <filename unknown>:0 
+  at ProjectileShooter.Update () [0x00000] in <filename unknown>:0 
+ 
+(Filename:  Line: -1)
+
+NullReferenceException: Object reference not set to an instance of an object
+  at ProjectileShooter.SkillCast (Int32 skillSlot, .PlayerStats playerStats) [0x00000] in <filename unknown>:0 
+  at ProjectileShooter.Update () [0x00000] in <filename unknown>:0 
+ 
+(Filename:  Line: -1)
+
+NullReferenceException: Object reference not set to an instance of an object
+  at ProjectileShooter.SkillCast (Int32 skillSlot, .PlayerStats playerStats) [0x00000] in <filename unknown>:0 
+  at ProjectileShooter.Update () [0x00000] in <filename unknown>:0 
+ 
+(Filename:  Line: -1)
+
+NullReferenceException: Object reference not set to an instance of an object
+  at ProjectileShooter.SkillOnMouseCast (Int32 skillSlot, .PlayerStats playerStats) [0x00000] in <filename unknown>:0 
+  at ProjectileShooter.Update () [0x00000] in <filename unknown>:0 
+ 
+(Filename:  Line: -1)
+
+NullReferenceException: Object reference not set to an instance of an object
+  at ProjectileShooter.SkillOnMouseCast (Int32 skillSlot, .PlayerStats playerStats) [0x00000] in <filename unknown>:0 
+  at ProjectileShooter.Update () [0x00000] in <filename unknown>:0 
+ 
+(Filename:  Line: -1)
+
+NullReferenceException: Object reference not set to an instance of an object
+  at ProjectileShooter.SkillOnMouseCast (Int32 skillSlot, .PlayerStats playerStats) [0x00000] in <filename unknown>:0 
+  at ProjectileShooter.Update () [0x00000] in <filename unknown>:0 
+ 
+(Filename:  Line: -1)
+
+NullReferenceException: Object reference not set to an instance of an object
+  at ProjectileShooter.SkillOnMouseCast (Int32 skillSlot, .PlayerStats playerStats) [0x00000] in <filename unknown>:0 
+  at ProjectileShooter.Update () [0x00000] in <filename unknown>:0 
+ 
+(Filename:  Line: -1)
+
+NullReferenceException: Object reference not set to an instance of an object
+  at ProjectileShooter.SkillOnMouseCast (Int32 skillSlot, .PlayerStats playerStats) [0x00000] in <filename unknown>:0 
+  at ProjectileShooter.Update () [0x00000] in <filename unknown>:0 
+ 
+(Filename:  Line: -1)
+
+NullReferenceException: Object reference not set to an instance of an object
+  at ProjectileShooter.SkillOnMouseCast (Int32 skillSlot, .PlayerStats playerStats) [0x00000] in <filename unknown>:0 
+  at ProjectileShooter.Update () [0x00000] in <filename unknown>:0 
+ 
+(Filename:  Line: -1)
+
+NullReferenceException: Object reference not set to an instance of an object
+  at ProjectileShooter.SkillOnMouseCast (Int32 skillSlot, .PlayerStats playerStats) [0x00000] in <filename unknown>:0 
+  at ProjectileShooter.Update () [0x00000] in <filename unknown>:0 
+ 
+(Filename:  Line: -1)
+
+NullReferenceException: Object reference not set to an instance of an object
+  at ProjectileShooter.SkillOnMouseCast (Int32 skillSlot, .PlayerStats playerStats) [0x00000] in <filename unknown>:0 
+  at ProjectileShooter.Update () [0x00000] in <filename unknown>:0 
+ 
+(Filename:  Line: -1)
+
+NullReferenceException: Object reference not set to an instance of an object
+  at ProjectileShooter.SkillOnMouseCast (Int32 skillSlot, .PlayerStats playerStats) [0x00000] in <filename unknown>:0 
+  at ProjectileShooter.Update () [0x00000] in <filename unknown>:0 
+ 
+(Filename:  Line: -1)
+
+NullReferenceException: Object reference not set to an instance of an object
+  at ProjectileShooter.SkillOnMouseCast (Int32 skillSlot, .PlayerStats playerStats) [0x00000] in <filename unknown>:0 
+  at ProjectileShooter.Update () [0x00000] in <filename unknown>:0 
+ 
+(Filename:  Line: -1)
+
+NullReferenceException: Object reference not set to an instance of an object
+  at ProjectileShooter.SkillOnMouseCast (Int32 skillSlot, .PlayerStats playerStats) [0x00000] in <filename unknown>:0 
+  at ProjectileShooter.Update () [0x00000] in <filename unknown>:0 
+ 
+(Filename:  Line: -1)
+
+NullReferenceException: Object reference not set to an instance of an object
+  at ProjectileShooter.SkillOnMouseCast (Int32 skillSlot, .PlayerStats playerStats) [0x00000] in <filename unknown>:0 
+  at ProjectileShooter.Update () [0x00000] in <filename unknown>:0 
+ 
+(Filename:  Line: -1)
+
+NullReferenceException: Object reference not set to an instance of an object
+  at ProjectileShooter.SkillCast (Int32 skillSlot, .PlayerStats playerStats) [0x00000] in <filename unknown>:0 
+  at ProjectileShooter.Update () [0x00000] in <filename unknown>:0 
+ 
+(Filename:  Line: -1)
+
+NullReferenceException: Object reference not set to an instance of an object
+  at ProjectileShooter.SkillCast (Int32 skillSlot, .PlayerStats playerStats) [0x00000] in <filename unknown>:0 
+  at ProjectileShooter.Update () [0x00000] in <filename unknown>:0 
+ 
+(Filename:  Line: -1)
+
+NullReferenceException: Object reference not set to an instance of an object
+  at ProjectileShooter.SkillCast (Int32 skillSlot, .PlayerStats playerStats) [0x00000] in <filename unknown>:0 
+  at ProjectileShooter.Update () [0x00000] in <filename unknown>:0 
+ 
+(Filename:  Line: -1)
+
+NullReferenceException: Object reference not set to an instance of an object
+  at ProjectileShooter.SkillCast (Int32 skillSlot, .PlayerStats playerStats) [0x00000] in <filename unknown>:0 
+  at ProjectileShooter.Update () [0x00000] in <filename unknown>:0 
+ 
+(Filename:  Line: -1)
+
+NullReferenceException: Object reference not set to an instance of an object
+  at ProjectileShooter.SkillCast (Int32 skillSlot, .PlayerStats playerStats) [0x00000] in <filename unknown>:0 
+  at ProjectileShooter.Update () [0x00000] in <filename unknown>:0 
+ 
+(Filename:  Line: -1)
+
+NullReferenceException: Object reference not set to an instance of an object
+  at ProjectileShooter.SkillCast (Int32 skillSlot, .PlayerStats playerStats) [0x00000] in <filename unknown>:0 
+  at ProjectileShooter.Update () [0x00000] in <filename unknown>:0 
+ 
+(Filename:  Line: -1)
+
+NullReferenceException: Object reference not set to an instance of an object
+  at ProjectileShooter.SkillCast (Int32 skillSlot, .PlayerStats playerStats) [0x00000] in <filename unknown>:0 
+  at ProjectileShooter.Update () [0x00000] in <filename unknown>:0 
+ 
+(Filename:  Line: -1)
+
+NullReferenceException: Object reference not set to an instance of an object
+  at ProjectileShooter.SkillCast (Int32 skillSlot, .PlayerStats playerStats) [0x00000] in <filename unknown>:0 
+  at ProjectileShooter.Update () [0x00000] in <filename unknown>:0 
+ 
+(Filename:  Line: -1)
+
+NullReferenceException: Object reference not set to an instance of an object
+  at ProjectileShooter.SkillCast (Int32 skillSlot, .PlayerStats playerStats) [0x00000] in <filename unknown>:0 
+  at ProjectileShooter.Update () [0x00000] in <filename unknown>:0 
+ 
+(Filename:  Line: -1)
+
+NullReferenceException: Object reference not set to an instance of an object
+  at ProjectileShooter.SkillCast (Int32 skillSlot, .PlayerStats playerStats) [0x00000] in <filename unknown>:0 
+  at ProjectileShooter.Update () [0x00000] in <filename unknown>:0 
+ 
+(Filename:  Line: -1)
+
+NullReferenceException: Object reference not set to an instance of an object
+  at ProjectileShooter.SkillCast (Int32 skillSlot, .PlayerStats playerStats) [0x00000] in <filename unknown>:0 
+  at ProjectileShooter.Update () [0x00000] in <filename unknown>:0 
+ 
+(Filename:  Line: -1)
+
+NullReferenceException: Object reference not set to an instance of an object
+  at ProjectileShooter.SkillCast (Int32 skillSlot, .PlayerStats playerStats) [0x00000] in <filename unknown>:0 
+  at ProjectileShooter.Update () [0x00000] in <filename unknown>:0 
+ 
+(Filename:  Line: -1)
+
+NullReferenceException: Object reference not set to an instance of an object
+  at ProjectileShooter.SkillCast (Int32 skillSlot, .PlayerStats playerStats) [0x00000] in <filename unknown>:0 
+  at ProjectileShooter.Update () [0x00000] in <filename unknown>:0 
+ 
+(Filename:  Line: -1)
+
+NullReferenceException: Object reference not set to an instance of an object
+  at ProjectileShooter.SkillCast (Int32 skillSlot, .PlayerStats playerStats) [0x00000] in <filename unknown>:0 
+  at ProjectileShooter.Update () [0x00000] in <filename unknown>:0 
+ 
+(Filename:  Line: -1)
+
+NullReferenceException: Object reference not set to an instance of an object
+  at ProjectileShooter.SkillCast (Int32 skillSlot, .PlayerStats playerStats) [0x00000] in <filename unknown>:0 
+  at ProjectileShooter.Update () [0x00000] in <filename unknown>:0 
+ 
+(Filename:  Line: -1)
+
+NullReferenceException: Object reference not set to an instance of an object
+  at ProjectileShooter.SkillCast (Int32 skillSlot, .PlayerStats playerStats) [0x00000] in <filename unknown>:0 
+  at ProjectileShooter.Update () [0x00000] in <filename unknown>:0 
+ 
+(Filename:  Line: -1)
+
+NullReferenceException: Object reference not set to an instance of an object
+  at ProjectileShooter.SkillCast (Int32 skillSlot, .PlayerStats playerStats) [0x00000] in <filename unknown>:0 
+  at ProjectileShooter.Update () [0x00000] in <filename unknown>:0 
+ 
+(Filename:  Line: -1)
+
+NullReferenceException: Object reference not set to an instance of an object
+  at ProjectileShooter.SkillCast (Int32 skillSlot, .PlayerStats playerStats) [0x00000] in <filename unknown>:0 
+  at ProjectileShooter.Update () [0x00000] in <filename unknown>:0 
+ 
+(Filename:  Line: -1)
+
+NullReferenceException: Object reference not set to an instance of an object
+  at ProjectileShooter.SkillCast (Int32 skillSlot, .PlayerStats playerStats) [0x00000] in <filename unknown>:0 
+  at ProjectileShooter.Update () [0x00000] in <filename unknown>:0 
+ 
+(Filename:  Line: -1)
+
+NullReferenceException: Object reference not set to an instance of an object
+  at ProjectileShooter.SkillCast (Int32 skillSlot, .PlayerStats playerStats) [0x00000] in <filename unknown>:0 
+  at ProjectileShooter.Update () [0x00000] in <filename unknown>:0 
+ 
+(Filename:  Line: -1)
+
+NullReferenceException: Object reference not set to an instance of an object
+  at ProjectileShooter.SkillCast (Int32 skillSlot, .PlayerStats playerStats) [0x00000] in <filename unknown>:0 
+  at ProjectileShooter.Update () [0x00000] in <filename unknown>:0 
+ 
+(Filename:  Line: -1)
+
+NullReferenceException: Object reference not set to an instance of an object
+  at ProjectileShooter.SkillCast (Int32 skillSlot, .PlayerStats playerStats) [0x00000] in <filename unknown>:0 
+  at ProjectileShooter.Update () [0x00000] in <filename unknown>:0 
+ 
+(Filename:  Line: -1)
+
+NullReferenceException: Object reference not set to an instance of an object
+  at ProjectileShooter.SkillCast (Int32 skillSlot, .PlayerStats playerStats) [0x00000] in <filename unknown>:0 
+  at ProjectileShooter.Update () [0x00000] in <filename unknown>:0 
+ 
+(Filename:  Line: -1)
+
+NullReferenceException: Object reference not set to an instance of an object
+  at ProjectileShooter.SkillCast (Int32 skillSlot, .PlayerStats playerStats) [0x00000] in <filename unknown>:0 
+  at ProjectileShooter.Update () [0x00000] in <filename unknown>:0 
+ 
+(Filename:  Line: -1)
+
+NullReferenceException: Object reference not set to an instance of an object
+  at ProjectileShooter.SkillCast (Int32 skillSlot, .PlayerStats playerStats) [0x00000] in <filename unknown>:0 
+  at ProjectileShooter.Update () [0x00000] in <filename unknown>:0 
+ 
+(Filename:  Line: -1)
+
+NullReferenceException: Object reference not set to an instance of an object
+  at ProjectileShooter.SkillCast (Int32 skillSlot, .PlayerStats playerStats) [0x00000] in <filename unknown>:0 
+  at ProjectileShooter.Update () [0x00000] in <filename unknown>:0 
+ 
+(Filename:  Line: -1)
+
+NullReferenceException: Object reference not set to an instance of an object
+  at ProjectileShooter.SkillCast (Int32 skillSlot, .PlayerStats playerStats) [0x00000] in <filename unknown>:0 
+  at ProjectileShooter.Update () [0x00000] in <filename unknown>:0 
+ 
+(Filename:  Line: -1)
+
+NullReferenceException: Object reference not set to an instance of an object
+  at ProjectileShooter.SkillCast (Int32 skillSlot, .PlayerStats playerStats) [0x00000] in <filename unknown>:0 
+  at ProjectileShooter.Update () [0x00000] in <filename unknown>:0 
+ 
+(Filename:  Line: -1)
+
+NullReferenceException: Object reference not set to an instance of an object
+  at ProjectileShooter.SkillCast (Int32 skillSlot, .PlayerStats playerStats) [0x00000] in <filename unknown>:0 
+  at ProjectileShooter.Update () [0x00000] in <filename unknown>:0 
+ 
+(Filename:  Line: -1)
+
+NullReferenceException: Object reference not set to an instance of an object
+  at ProjectileShooter.SkillCast (Int32 skillSlot, .PlayerStats playerStats) [0x00000] in <filename unknown>:0 
+  at ProjectileShooter.Update () [0x00000] in <filename unknown>:0 
+ 
+(Filename:  Line: -1)
+
+NullReferenceException: Object reference not set to an instance of an object
+  at ProjectileShooter.SkillCast (Int32 skillSlot, .PlayerStats playerStats) [0x00000] in <filename unknown>:0 
+  at ProjectileShooter.Update () [0x00000] in <filename unknown>:0 
+ 
+(Filename:  Line: -1)
+
+NullReferenceException: Object reference not set to an instance of an object
+  at ProjectileShooter.SkillCast (Int32 skillSlot, .PlayerStats playerStats) [0x00000] in <filename unknown>:0 
+  at ProjectileShooter.Update () [0x00000] in <filename unknown>:0 
+ 
+(Filename:  Line: -1)
+
+NullReferenceException: Object reference not set to an instance of an object
+  at ProjectileShooter.SkillCast (Int32 skillSlot, .PlayerStats playerStats) [0x00000] in <filename unknown>:0 
+  at ProjectileShooter.Update () [0x00000] in <filename unknown>:0 
+ 
+(Filename:  Line: -1)
+
+NullReferenceException: Object reference not set to an instance of an object
+  at ProjectileShooter.SkillCast (Int32 skillSlot, .PlayerStats playerStats) [0x00000] in <filename unknown>:0 
+  at ProjectileShooter.Update () [0x00000] in <filename unknown>:0 
+ 
+(Filename:  Line: -1)
+
+NullReferenceException: Object reference not set to an instance of an object
+  at ProjectileShooter.SkillCast (Int32 skillSlot, .PlayerStats playerStats) [0x00000] in <filename unknown>:0 
+  at ProjectileShooter.Update () [0x00000] in <filename unknown>:0 
+ 
+(Filename:  Line: -1)
+
+NullReferenceException: Object reference not set to an instance of an object
+  at ProjectileShooter.SkillCast (Int32 skillSlot, .PlayerStats playerStats) [0x00000] in <filename unknown>:0 
+  at ProjectileShooter.Update () [0x00000] in <filename unknown>:0 
+ 
+(Filename:  Line: -1)
+
+NullReferenceException: Object reference not set to an instance of an object
+  at ProjectileShooter.SkillCast (Int32 skillSlot, .PlayerStats playerStats) [0x00000] in <filename unknown>:0 
+  at ProjectileShooter.Update () [0x00000] in <filename unknown>:0 
+ 
+(Filename:  Line: -1)
+
+NullReferenceException: Object reference not set to an instance of an object
+  at ProjectileShooter.SkillCast (Int32 skillSlot, .PlayerStats playerStats) [0x00000] in <filename unknown>:0 
+  at ProjectileShooter.Update () [0x00000] in <filename unknown>:0 
+ 
+(Filename:  Line: -1)
+
+NullReferenceException: Object reference not set to an instance of an object
+  at ProjectileShooter.SkillCast (Int32 skillSlot, .PlayerStats playerStats) [0x00000] in <filename unknown>:0 
+  at ProjectileShooter.Update () [0x00000] in <filename unknown>:0 
+ 
+(Filename:  Line: -1)
+
+NullReferenceException: Object reference not set to an instance of an object
+  at ProjectileShooter.SkillCast (Int32 skillSlot, .PlayerStats playerStats) [0x00000] in <filename unknown>:0 
+  at ProjectileShooter.Update () [0x00000] in <filename unknown>:0 
+ 
+(Filename:  Line: -1)
+
+NullReferenceException: Object reference not set to an instance of an object
+  at ProjectileShooter.SkillCast (Int32 skillSlot, .PlayerStats playerStats) [0x00000] in <filename unknown>:0 
+  at ProjectileShooter.Update () [0x00000] in <filename unknown>:0 
+ 
+(Filename:  Line: -1)
+
+NullReferenceException: Object reference not set to an instance of an object
+  at ProjectileShooter.SkillCast (Int32 skillSlot, .PlayerStats playerStats) [0x00000] in <filename unknown>:0 
+  at ProjectileShooter.Update () [0x00000] in <filename unknown>:0 
+ 
+(Filename:  Line: -1)
+
+NullReferenceException: Object reference not set to an instance of an object
+  at ProjectileShooter.SkillCast (Int32 skillSlot, .PlayerStats playerStats) [0x00000] in <filename unknown>:0 
+  at ProjectileShooter.Update () [0x00000] in <filename unknown>:0 
+ 
+(Filename:  Line: -1)
+
+NullReferenceException: Object reference not set to an instance of an object
+  at ProjectileShooter.SkillCast (Int32 skillSlot, .PlayerStats playerStats) [0x00000] in <filename unknown>:0 
+  at ProjectileShooter.Update () [0x00000] in <filename unknown>:0 
+ 
+(Filename:  Line: -1)
+
+NullReferenceException: Object reference not set to an instance of an object
+  at ProjectileShooter.SkillCast (Int32 skillSlot, .PlayerStats playerStats) [0x00000] in <filename unknown>:0 
+  at ProjectileShooter.Update () [0x00000] in <filename unknown>:0 
+ 
+(Filename:  Line: -1)
+
+NullReferenceException: Object reference not set to an instance of an object
+  at ProjectileShooter.SkillCast (Int32 skillSlot, .PlayerStats playerStats) [0x00000] in <filename unknown>:0 
+  at ProjectileShooter.Update () [0x00000] in <filename unknown>:0 
+ 
+(Filename:  Line: -1)
+
+NullReferenceException: Object reference not set to an instance of an object
+  at ProjectileShooter.SkillCast (Int32 skillSlot, .PlayerStats playerStats) [0x00000] in <filename unknown>:0 
+  at ProjectileShooter.Update () [0x00000] in <filename unknown>:0 
+ 
+(Filename:  Line: -1)
+
+NullReferenceException: Object reference not set to an instance of an object
+  at ProjectileShooter.SkillCast (Int32 skillSlot, .PlayerStats playerStats) [0x00000] in <filename unknown>:0 
+  at ProjectileShooter.Update () [0x00000] in <filename unknown>:0 
+ 
+(Filename:  Line: -1)
+
+NullReferenceException: Object reference not set to an instance of an object
+  at ProjectileShooter.SkillCast (Int32 skillSlot, .PlayerStats playerStats) [0x00000] in <filename unknown>:0 
+  at ProjectileShooter.Update () [0x00000] in <filename unknown>:0 
+ 
+(Filename:  Line: -1)
+
+NullReferenceException: Object reference not set to an instance of an object
+  at ProjectileShooter.SkillCast (Int32 skillSlot, .PlayerStats playerStats) [0x00000] in <filename unknown>:0 
+  at ProjectileShooter.Update () [0x00000] in <filename unknown>:0 
+ 
+(Filename:  Line: -1)
+
+NullReferenceException: Object reference not set to an instance of an object
+  at ProjectileShooter.SkillCast (Int32 skillSlot, .PlayerStats playerStats) [0x00000] in <filename unknown>:0 
+  at ProjectileShooter.Update () [0x00000] in <filename unknown>:0 
+ 
+(Filename:  Line: -1)
+
+NullReferenceException: Object reference not set to an instance of an object
+  at ProjectileShooter.SkillCast (Int32 skillSlot, .PlayerStats playerStats) [0x00000] in <filename unknown>:0 
+  at ProjectileShooter.Update () [0x00000] in <filename unknown>:0 
+ 
+(Filename:  Line: -1)
+
+NullReferenceException: Object reference not set to an instance of an object
+  at ProjectileShooter.SkillCast (Int32 skillSlot, .PlayerStats playerStats) [0x00000] in <filename unknown>:0 
+  at ProjectileShooter.Update () [0x00000] in <filename unknown>:0 
+ 
+(Filename:  Line: -1)
+
+NullReferenceException: Object reference not set to an instance of an object
+  at ProjectileShooter.SkillCast (Int32 skillSlot, .PlayerStats playerStats) [0x00000] in <filename unknown>:0 
+  at ProjectileShooter.Update () [0x00000] in <filename unknown>:0 
+ 
+(Filename:  Line: -1)
+
+NullReferenceException: Object reference not set to an instance of an object
+  at ProjectileShooter.SkillCast (Int32 skillSlot, .PlayerStats playerStats) [0x00000] in <filename unknown>:0 
+  at ProjectileShooter.Update () [0x00000] in <filename unknown>:0 
+ 
+(Filename:  Line: -1)
+
+NullReferenceException: Object reference not set to an instance of an object
+  at ProjectileShooter.SkillCast (Int32 skillSlot, .PlayerStats playerStats) [0x00000] in <filename unknown>:0 
+  at ProjectileShooter.Update () [0x00000] in <filename unknown>:0 
+ 
+(Filename:  Line: -1)
+
+NullReferenceException: Object reference not set to an instance of an object
+  at ProjectileShooter.SkillCast (Int32 skillSlot, .PlayerStats playerStats) [0x00000] in <filename unknown>:0 
+  at ProjectileShooter.Update () [0x00000] in <filename unknown>:0 
+ 
+(Filename:  Line: -1)
+
+NullReferenceException: Object reference not set to an instance of an object
+  at ProjectileShooter.SkillCast (Int32 skillSlot, .PlayerStats playerStats) [0x00000] in <filename unknown>:0 
+  at ProjectileShooter.Update () [0x00000] in <filename unknown>:0 
+ 
+(Filename:  Line: -1)
+

@@ -28,7 +28,7 @@ public class sync : Photon.MonoBehaviour
     // Keep track of what slots are used
     int m_TimestampCount;
 
-    void Awake()
+    void Start()
     {
         if (photonView.isMine)
             this.enabled = false;//Only enable inter/extrapol for remote players

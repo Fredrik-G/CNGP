@@ -1,38 +1,27 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 namespace Engine
 {
     /// <summary>
     /// Class that contains all possible effects.
     /// </summary>
-	public class Effect : MonoBehaviour
+	public class Effect
     {
-        public bool Stun { get; set; }
-        public bool Root { get; set; }
-        public bool Silence { get; set; }
+		public string Skillname;
+		public string Type;
+		public double Timeleft;
+		public double Duration;
+		public double Amount;
 
-        /// <summary>
-        /// Dot damage per second.
-        /// </summary>
-        public double Dot { get; set; }
-
-        /// <summary>
-        /// Hot heal per second.
-        /// </summary>
-        public double Hot { get; set; }
-
-        /// <summary>
-        /// Slow percentage.
-        /// </summary>
-        public double Slow { get; set; }
-
-        public Effect(bool stun, bool root, bool silence, double dot, double hot, double slow)
+		public Effect(string skillname, string type, double timeleft, double duration, double amount)
         {
-            Stun = stun;
-            Root = root;
-            Silence = silence;
-            Dot = dot;
-            Hot = hot;
-            Slow = slow;
+			Skillname = skillname;
+			Type = type;
+			Timeleft = timeleft;
+			Duration = duration;
+			Amount = amount;
         }
+
     }
+
 }
