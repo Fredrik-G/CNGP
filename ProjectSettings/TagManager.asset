@@ -5,6 +5,14 @@ TagManager:
   serializedVersion: 2
   tags:
   - playerSpawns
+  - DeathCamCanvas
+  - cylinder
+  - cube
+  - projectile
+  - Healthbar
+  - DeathCamText
+  - Waypoint
+  - Terrain
   layers:
   - Default
   - TransparentFX
@@ -14,10 +22,10 @@ TagManager:
   - UI
   - 
   - 
-  - 
-  - 
-  - 
-  - 
+  - Terrain
+  - Healthbar
+  - Skills
+  - Sphere
   - 
   - 
   - 

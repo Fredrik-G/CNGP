@@ -41,9 +41,11 @@ namespace Engine
 
         public double Skillrange { get; set; }
 
+        public int SpendablePoints { get; set; }
+
 		public List<ActiveSkill> SkillList = new List<ActiveSkill>();
 
-        public Stats(double damage, double maxchi, double currentchi, double chireg, double maxhealthpoints, double currenthealthpoints, double healthreg, double healingpower, double movementspeed, double armor, double physicalresistance, double magicalresistance, double buffeffectduration, double debuffeffectduration, double cooldownduration, double skillradius, double skillrange)
+        public Stats(double damage, double maxchi, double currentchi, double chireg, double maxhealthpoints, double currenthealthpoints, double healthreg, double healingpower, double movementspeed, double armor, double physicalresistance, double magicalresistance, double buffeffectduration, double debuffeffectduration, double cooldownduration, double skillradius, double skillrange, int spendablePoints )
         {
             Damage = damage;
             MaxChi = maxchi;
@@ -62,6 +64,7 @@ namespace Engine
             Cooldownduration = cooldownduration;
             Skillradius = skillradius;
             Skillrange = skillrange;
+            this.SpendablePoints = spendablePoints;
         }
 
 		public Stats()
@@ -83,7 +86,84 @@ namespace Engine
 			Cooldownduration = 100;
 			Skillradius = 300;
 			Skillrange = 100;
+            SpendablePoints = 100;
 		}
+        public void IncreasePower()
+        {
+            if (SpendablePoints > 0)
+            {
+                Damage = Damage + 3;
+                Physicalresistance = Physicalresistance + 1;
+                Skillradius = Skillradius + 2;
+                MaxChi = MaxChi + 1;
+                SpendablePoints--;
+            }
+        }
+
+        public void IncreaseAgility()
+        {
+            if (SpendablePoints > 0)
+            {
+                Movementspeed = Movementspeed + 1.5;
+                Cooldownduration = Cooldownduration + 0.5;
+                Skillrange = Skillrange + 2;
+                SpendablePoints--;
+            }
+        }
+        public void IncreaseHarmony()
+        {
+            if (SpendablePoints > 0)
+            {
+                Damage = Damage + 1;
+                Healingpower = Healingpower + 3;
+                Buffeffectduration = Buffeffectduration + 1;
+                Magicalresistance = Magicalresistance + 2;
+                Chireg = Chireg + 3;
+                SpendablePoints--;
+            }
+        }
+        public void IncreaseToughness()
+        {
+            if (SpendablePoints > 0)
+            {
+                Armor = Armor + 2;
+                Physicalresistance = Physicalresistance + 2;
+                Healthreg = Healthreg + 4;
+                SpendablePoints--;
+            }
+        }
+        public void IncreaseEndurance()
+        {
+            if (SpendablePoints > 0)
+            {
+                MaxHealthpoints = MaxHealthpoints + 2;
+                Healthreg = Healthreg + 4;
+                Magicalresistance = Magicalresistance + 1;
+                SpendablePoints--;
+            }
+        }
+        public void IncreaseWisdom()
+        {
+            if (SpendablePoints > 0)
+            {
+                MaxChi = MaxChi + 4;
+                Chireg = Chireg + 4;
+                Debuffeffectduration = Debuffeffectduration + 0.5;
+                Cooldownduration = Cooldownduration + 1;
+                SpendablePoints--;
+            }
+        }
+        public void IncreaseVersatility()
+        {
+            if (SpendablePoints > 0)
+            {
+                Buffeffectduration = Buffeffectduration + 2;
+                Debuffeffectduration = Debuffeffectduration + 2;
+                Damage = Damage + 1;
+                Healingpower = Healingpower + 1;
+                SpendablePoints--;
+            }
+        }
 
     }
 }
