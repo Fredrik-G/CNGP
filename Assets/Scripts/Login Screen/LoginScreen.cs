@@ -289,12 +289,12 @@ public class LoginScreen : MonoBehaviour
     private static string GetUserPublicIp()
     {
         const string url = "http://checkip.dyndns.org";
-        var webRequest = WebRequest.Create(url);
-        var webResponse = webRequest.GetResponse();
-        var streamReader = new System.IO.StreamReader(webResponse.GetResponseStream());
+        //var webRequest = WebRequest.Create(url);
+        //var webResponse = webRequest.GetResponse();
+        //var streamReader = new System.IO.StreamReader(webResponse.GetResponseStream());
 
-        var response = streamReader.ReadToEnd().Trim();
-        return response.Split(':')[1].Substring(1).Split('<')[0];
+        //var response = streamReader.ReadToEnd().Trim();
+        return "";
 
         //var ipHost = Dns.GetHostEntry(Dns.GetHostName());
         //return ipHost.AddressList[0].ToString();

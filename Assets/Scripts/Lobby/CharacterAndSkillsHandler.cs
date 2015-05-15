@@ -55,31 +55,105 @@ public class CharacterAndSkillsHandler : MonoBehaviour
         EnablePassivSkillImages();
         _skillSelection.PreparePassiveSkills();
 
-        _players = PhotonNetwork.playerList;
+        GetPlayerList(); 
         SortPlayerList();
+
     }
 
     public void Update()
     {
-        for (var i = 0; i < _sortedPlayers.Length; i++)
+        var numberOfConfirmed = 0;
+        var numberOfplayers = _sortedPlayers.Length;
+        /*for (var i = 0; i < _sortedPlayers.Length; i++)
         {
             TeamMembersText[i].text = _sortedPlayers[i].name;
-            if (_sortedPlayers[i].customProperties["Ready"].Equals(true))
+            if (_sortedPlayers[i].customProperties["Ready"] != null)
             {
-                TeamMembersText[i].text += " Confirmed";
+                if (_sortedPlayers[i].customProperties["Ready"].Equals(true))
+                {
+                    TeamMembersText[i].text += " Confirmed ";
+                    numberOfConfirmed++;
+                }
             }
+        }*/
+        var numberOfBlues = 0;
+        var numberOfRed  = 0;
+        for (var i = 0; i < numberOfplayers; ++i)
+        {
+            if (_sortedPlayers[i].customProperties["Ready"] != null || _sortedPlayers[i].customProperties["TeamID"] != null)
+            {
+                if ((int)_sortedPlayers[i].customProperties["TeamID"] == 0)
+                {
+                    if(numberOfRed == 0)
+                    {
+                        TeamMembersText[0].text = _sortedPlayers[i].name;
+                        if (_sortedPlayers[i].customProperties["Ready"].Equals(true))
+                        {
+                            TeamMembersText[0].text += " Confirmed ";
+                            numberOfConfirmed++;
+                        }
+                    }
+                    else
+                    {
+                        TeamMembersText[1].text = _sortedPlayers[i].name;
+                        if (_sortedPlayers[i].customProperties["Ready"].Equals(true))
+                        {
+                            TeamMembersText[1].text += " Confirmed ";
+                            numberOfConfirmed++;
+                        }
+                    }
+                }
+                else
+                {
+                    if (numberOfBlues == 0)
+                    {
+                        TeamMembersText[2].text = _sortedPlayers[i].name;
+                        if (_sortedPlayers[i].customProperties["Ready"].Equals(true))
+                        {
+                            TeamMembersText[2].text += " Confirmed ";
+                            numberOfConfirmed++;
+                        }
+                    }
+                    else
+                    {
+                        TeamMembersText[3].text = _sortedPlayers[i].name;
+                        if (_sortedPlayers[i].customProperties["Ready"].Equals(true))
+                        {
+                            TeamMembersText[3].text += " Confirmed ";
+                            numberOfConfirmed++;
+                        }
+                    }
+                }
+            }
+        }
+            if ((PhotonNetwork.isMasterClient) && (numberOfConfirmed == 4))
+            {
+                GameObject.Find("StartManager").GetComponent<HandleStart>().ChangeButtonImage();
+
+                GameObject.Find("StartManager").GetComponent<HandleStart>().ChangeReadyTextColor();
+            }
+        if(PhotonNetwork.room.playerCount == 4)
+        {
+            PhotonNetwork.room.visible = false;
+            PhotonNetwork.room.open = false;
+        }
+        else
+        {
+            PhotonNetwork.room.visible = true;
+            PhotonNetwork.room.open = true;
         }
     }
 
     #endregion
 
+    [RPC]
     private void SortPlayerList()
     {
         _sortedPlayers = _players.OrderBy(x => x.ID).ToArray();
     }
 
     #region Networking
-
+   
     public void OnPhotonPlayerConnected(PhotonPlayer player)
     {
         Debug.Log("Player Connected " + player.name);
@@ -88,32 +162,42 @@ public class CharacterAndSkillsHandler : MonoBehaviour
     public void OnJoinedRoom()
     {
         Debug.Log("Player joined room");
-        SortPlayerList();
+        PhotonView.RPC("GetPlayerList", PhotonTargets.All);
+        PhotonView.RPC("SortPlayerList", PhotonTargets.All);
         var hashtable = new ExitGames.Client.Photon.Hashtable();
         hashtable.Add("Ready", false);
+        if (PhotonNetwork.room.playerCount % 2 == 0)
+        {
+            hashtable.Add("TeamID", 0);
+        }
+        else
+        {
+            hashtable.Add("TeamID", 1);
+        }
         PhotonNetwork.player.SetCustomProperties(hashtable);
+    }
+    [RPC]
+    public void GetPlayerList()
+    {
+        _players = PhotonNetwork.playerList;
     }
 
     public void OnPhotonPlayerDisconnected(PhotonPlayer player)
     {
         Debug.Log("Player Disconnected " + player.name);
+        PhotonView.RPC("GetPlayerList", PhotonTargets.All);
+        SortPlayerList();
     }
 
     public void HandleConfirmClick()
     {
-        PhotonView.RPC("ConfirmSelections", PhotonTargets.All);
-        //TODO
+        var hashtable = new ExitGames.Client.Photon.Hashtable();
+        hashtable.Add("Ready", true);
+        PhotonNetwork.player.SetCustomProperties(hashtable);
+        Debug.Log(PhotonNetwork.player.customProperties["Ready"].ToString());
     }
-
-    [RPC]
-    public void ConfirmSelections()
-    {
-        if (PhotonView.isMine)
-        {
-            PhotonNetwork.player.customProperties["Ready"] = true;
-        }
-    }
-
+  
+ 
     #endregion
 
     #region Enable & Reset

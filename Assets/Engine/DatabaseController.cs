@@ -32,7 +32,7 @@ namespace Engine
         //  + SQL_DB_NAME + ".db";
 
         //Använd ej denna, använd den ovanför.
-        private const string SQL_DB_LOCATION = "URI=file:M:/Desktop/CNGP.db";
+        private const string SQL_DB_LOCATION = "URI=file:C:/Users/Lukas/Desktop/photon/Assets/Database/cngp.db";
 
         /// <summary>
         /// DB objects
