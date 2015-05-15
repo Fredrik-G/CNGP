@@ -2,7 +2,9 @@
 using UnityEngine.UI;
 using System.Collections;
 using Engine;
-public class MainMenuButtons : MonoBehaviour {
+
+public class MainMenuButtons : MonoBehaviour
+{
     public GUIStyle Style;
     private RoomInfo[] _roomList;
     public static string RoomName = string.Empty;
@@ -18,7 +20,9 @@ public class MainMenuButtons : MonoBehaviour {
 	}
     public void ExitApplication()
     {
-        Application.Quit();
+
+            Application.Quit();
+ 
     }
     public void OnGUI()
     {
@@ -28,10 +32,9 @@ public class MainMenuButtons : MonoBehaviour {
         }
         for (var i = 0; i < _roomList.Length; i++)
         {
-            if (GUI.Button(UIFormat.CreateRightRect(-50), _roomList[i].name + " " + _roomList[i].playerCount + "/" + _roomList[i].maxPlayers, Style))
+            if (GUI.Button(UIFormat.CreateRightRect(-40-i*30), _roomList[i].name + " " + _roomList[i].playerCount + "/" + _roomList[i].maxPlayers, Style))
             {
-
-                
+                GUILayout.Label("Connecting...");
                 PhotonNetwork.JoinRoom(_roomList[i].name);
                 Application.LoadLevel("De_dust");
             }
@@ -50,15 +53,21 @@ public class MainMenuButtons : MonoBehaviour {
         }
         else
         {
-            DontDestroyOnLoad(this);
+            
             InputField fieldText = inputField.GetComponent<InputField>();
             RoomName = fieldText.text;
-            Application.LoadLevel("De_dust");
+            if (!string.IsNullOrEmpty(RoomName))
+            {
+                DontDestroyOnLoad(this);
+                Application.LoadLevel("De_dust");
+            }
+        
         }
     }
     void OnDisconnectedFromPhoton()
     {
         print("Player disconnected");
+        PhotonNetwork.ConnectUsingSettings("CNGPv1.0"); 
     }
     public void JoinFoundry()
     {

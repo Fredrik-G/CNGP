@@ -5,6 +5,7 @@ using Engine;
 public class CylinderSpell : MonoBehaviour {
 
 	public string Name = "";
+    public int spellTeam = 0;
 	public double Scale { get; set; } 
 	public ActiveSkill CylinderActiveSkill = new ActiveSkill();
 	// Use this for initialization

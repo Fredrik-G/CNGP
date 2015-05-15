@@ -1,54 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
-/*
-public class sync : Photon.MonoBehaviour
-{
-    Vector3 trueLoc;
-    Quaternion trueRot;
-    PhotonView pv;
-    private Vector3 latestCorrectPos;
-    private Vector3 onUpdatePos;
-    private float fraction;
 
-    // Use this for initialization
-    void Start()
-    {
-        pv = GetComponent<PhotonView>();
-        if (pv.GetComponent<PhotonView>().isMine)
-        {
-            enabled = false;
-        }
-    }
-
-    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
-    {
-        //we are reicieving data
-        if (stream.isReading)
-        {
-            //receive the next data from the stream and set it to the truLoc varible
-
-            //do we own this photonView?????
-            this.trueLoc = (Vector3)stream.ReceiveNext(); //the stream send data types of "object" we must typecast the data into a Vector3 format
-
-        }
-        //we need to send our data
-        else
-        {
-            //send our posistion in the data stream
-
-            stream.SendNext(transform.position);
-
-        }
-    }
-    void Update()
-    {
-
-            transform.position = Vector3.Lerp(transform.position, trueLoc, Time.deltaTime);
-            transform.rotation = Quaternion.Lerp(transform.rotation, trueRot, Time.deltaTime); 
-        
-    }
-}
-*/
 
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 
@@ -113,6 +65,7 @@ public class sync : Photon.MonoBehaviour
             state.timestamp = info.timestamp;
             state.pos = pos;
             state.rot = rot;
+           
             m_BufferedState[0] = state;
 
             // Increment state count but never exceed buffer size
@@ -174,6 +127,7 @@ public class sync : Photon.MonoBehaviour
 
             transform.localPosition = Vector3.Lerp(transform.localPosition, latest.pos, Time.deltaTime * 20);
             transform.localRotation = latest.rot;
+            
         }
     }
 }

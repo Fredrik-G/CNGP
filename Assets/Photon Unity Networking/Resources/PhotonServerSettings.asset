@@ -33,4 +33,22 @@ MonoBehaviour:
   - PunRespawn
   - RequestForPickupTimes
   - TaggedPlayer
+  - SetTeamID
+  - TakeDamage
+  - DestoryObject
+  - KillPlayer
+  - OnTriggerEnter
+  - SetPoints
+  - Respawncabbageman
+  - IncreaseBlueTeamPointsKOTH
+  - IncreaseBlueTeamPointsOnKill
+  - IncreasePointsCabbageKill
+  - IncreaseRedTeamPointsKOTH
+  - IncreaseRedTeamPointsOnKill
+  - BlueTeamWins
+  - RedTeamWins
+  - TeamWins
+  - SetWinner
+  - PrintDamage
+  - AddKills
   DisableAutoOpenWizard: 0
