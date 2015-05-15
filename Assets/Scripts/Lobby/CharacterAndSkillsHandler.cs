@@ -28,10 +28,14 @@ public class CharacterAndSkillsHandler : MonoBehaviour
     public List<Image> ActiveSkills = new List<Image>();
     public List<Image> PassiveSkills = new List<Image>();
 
+    public List<Image> ChosenImages = new List<Image>();
+
     #endregion
 
     private readonly CharacterSelection _characterSelection = new CharacterSelection();
     private readonly SkillSelection _skillSelection = new SkillSelection();
+
+    private readonly ChosenCharacterAndSkills _chosenCharacterAndSkills = new ChosenCharacterAndSkills();
 
     private PhotonPlayer[] _players;
     private PhotonPlayer[] _sortedPlayers;
@@ -55,9 +59,11 @@ public class CharacterAndSkillsHandler : MonoBehaviour
         EnablePassivSkillImages();
         _skillSelection.PreparePassiveSkills();
 
-        GetPlayerList(); 
+        GetPlayerList();
         SortPlayerList();
 
+
+        _chosenCharacterAndSkills.ChosenImages = ChosenImages;
     }
 
     public void Update()
@@ -77,62 +83,63 @@ public class CharacterAndSkillsHandler : MonoBehaviour
             }
         }*/
         var numberOfBlues = 0;
-        var numberOfRed  = 0;
+        var numberOfRed = 0;
         for (var i = 0; i < numberOfplayers; ++i)
         {
-            if (_sortedPlayers[i].customProperties["Ready"] != null || _sortedPlayers[i].customProperties["TeamID"] != null)
+            if (_sortedPlayers[i].customProperties["Ready"] == null &&
+                _sortedPlayers[i].customProperties["TeamID"] == null) continue;
+            if ((int)_sortedPlayers[i].customProperties["TeamID"] == 0)
             {
-                if ((int)_sortedPlayers[i].customProperties["TeamID"] == 0)
+                if (numberOfRed == 0)
                 {
-                    if(numberOfRed == 0)
+                    TeamMembersText[0].text = _sortedPlayers[i].name;
+                    if (_sortedPlayers[i].customProperties["Ready"].Equals(true))
                     {
-                        TeamMembersText[0].text = _sortedPlayers[i].name;
-                        if (_sortedPlayers[i].customProperties["Ready"].Equals(true))
-                        {
-                            TeamMembersText[0].text += " Confirmed ";
-                            numberOfConfirmed++;
-                        }
-                    }
-                    else
-                    {
-                        TeamMembersText[1].text = _sortedPlayers[i].name;
-                        if (_sortedPlayers[i].customProperties["Ready"].Equals(true))
-                        {
-                            TeamMembersText[1].text += " Confirmed ";
-                            numberOfConfirmed++;
-                        }
+                        TeamMembersText[0].text += " Confirmed ";
+                        numberOfConfirmed++;
                     }
                 }
                 else
                 {
-                    if (numberOfBlues == 0)
+                    TeamMembersText[1].text = _sortedPlayers[i].name;
+                    if (_sortedPlayers[i].customProperties["Ready"].Equals(true))
                     {
-                        TeamMembersText[2].text = _sortedPlayers[i].name;
-                        if (_sortedPlayers[i].customProperties["Ready"].Equals(true))
-                        {
-                            TeamMembersText[2].text += " Confirmed ";
-                            numberOfConfirmed++;
-                        }
+                        TeamMembersText[1].text += " Confirmed ";
+                        numberOfConfirmed++;
                     }
-                    else
+                }
+            }
+            else
+            {
+                if (numberOfBlues == 0)
+                {
+                    TeamMembersText[2].text = _sortedPlayers[i].name;
+                    if (_sortedPlayers[i].customProperties["Ready"].Equals(true))
                     {
-                        TeamMembersText[3].text = _sortedPlayers[i].name;
-                        if (_sortedPlayers[i].customProperties["Ready"].Equals(true))
-                        {
-                            TeamMembersText[3].text += " Confirmed ";
-                            numberOfConfirmed++;
-                        }
+                        TeamMembersText[2].text += " Confirmed ";
+                        numberOfConfirmed++;
+                    }
+                }
+                else
+                {
+                    TeamMembersText[3].text = _sortedPlayers[i].name;
+                    if (_sortedPlayers[i].customProperties["Ready"].Equals(true))
+                    {
+                        TeamMembersText[3].text += " Confirmed ";
+                        numberOfConfirmed++;
                     }
                 }
             }
         }
-            if ((PhotonNetwork.isMasterClient) && (numberOfConfirmed == 4))
-            {
-                GameObject.Find("StartManager").GetComponent<HandleStart>().ChangeButtonImage();
 
-                GameObject.Find("StartManager").GetComponent<HandleStart>().ChangeReadyTextColor();
-            }
-        if(PhotonNetwork.room.playerCount == 4)
+        if ((PhotonNetwork.isMasterClient) && (numberOfConfirmed == 4))
+        {
+            GameObject.Find("StartManager").GetComponent<HandleStart>().ChangeButtonImage();
+
+            GameObject.Find("StartManager").GetComponent<HandleStart>().ChangeReadyTextColor();
+        }
+
+        if (PhotonNetwork.room.playerCount == 4)
         {
             PhotonNetwork.room.visible = false;
             PhotonNetwork.room.open = false;
@@ -146,14 +153,8 @@ public class CharacterAndSkillsHandler : MonoBehaviour
 
     #endregion
 
-    [RPC]
-    private void SortPlayerList()
-    {
-        _sortedPlayers = _players.OrderBy(x => x.ID).ToArray();
-    }
-
     #region Networking
-   
+
     public void OnPhotonPlayerConnected(PhotonPlayer player)
     {
         Debug.Log("Player Connected " + player.name);
@@ -166,20 +167,20 @@ public class CharacterAndSkillsHandler : MonoBehaviour
         PhotonView.RPC("SortPlayerList", PhotonTargets.All);
         var hashtable = new ExitGames.Client.Photon.Hashtable();
         hashtable.Add("Ready", false);
-        if (PhotonNetwork.room.playerCount % 2 == 0)
-        {
-            hashtable.Add("TeamID", 0);
-        }
-        else
-        {
-            hashtable.Add("TeamID", 1);
-        }
+        hashtable.Add("TeamID", PhotonNetwork.room.playerCount % 2 == 0 ? 0 : 1);
         PhotonNetwork.player.SetCustomProperties(hashtable);
     }
+
     [RPC]
     public void GetPlayerList()
     {
         _players = PhotonNetwork.playerList;
+    }
+
+    [RPC]
+    private void SortPlayerList()
+    {
+        _sortedPlayers = _players.OrderBy(x => x.ID).ToArray();
     }
 
     public void OnPhotonPlayerDisconnected(PhotonPlayer player)
@@ -196,8 +197,7 @@ public class CharacterAndSkillsHandler : MonoBehaviour
         PhotonNetwork.player.SetCustomProperties(hashtable);
         Debug.Log(PhotonNetwork.player.customProperties["Ready"].ToString());
     }
-  
- 
+
     #endregion
 
     #region Enable & Reset
@@ -218,6 +218,7 @@ public class CharacterAndSkillsHandler : MonoBehaviour
         }
 
         ResetTextFields();
+        _skillSelection.ActiveSkillSelection.CurrentNumberOfSelectedSkills = 0;
     }
 
     /// <summary>
@@ -307,7 +308,15 @@ public class CharacterAndSkillsHandler : MonoBehaviour
                 _characterSelection.ClickedSprites[_characterSelection.WaterbendingId];
             InfoText.text = "Water description goes here";
             DisplaySkillImages();
+
+            SetCharacterImage(CharacterSelection.Characters.Waterbending);
         }
+    }
+
+    private void SetCharacterImage(CharacterSelection.Characters character)
+    {
+        //Tänker att denna är RPC och att man skickar ut vald image till alla connectade.
+        _chosenCharacterAndSkills.SetCharacterImage(_characterSelection.NormalSprites[(int)character]);
     }
 
     /// <summary>
