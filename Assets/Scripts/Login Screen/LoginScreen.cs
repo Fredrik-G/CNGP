@@ -258,7 +258,7 @@ public class LoginScreen : MonoBehaviour
     private void LoadLobby()
     {
         PlayerPrefs.SetString(UserNamePlayerPref, _accountEmail);
-        Application.LoadLevel("MainScreen");
+        Application.LoadLevel("MainScreen2");
     }
 
     /// <summary>

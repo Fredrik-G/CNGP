@@ -222,7 +222,7 @@ public class SkillSelection
             return false;
         }
 
-        if(CanPerformSkillClick(false))
+        if (CanPerformSkillClick(false))
         {
             PassiveSkillSelection.PassiveSkills[skillNumber].IsClicked = true;
             PassiveSkillSelection.CurrentNumberOfSelectedSkills++;

@@ -29,7 +29,7 @@ public class NetworkManager
     public void CreateNewLobby(string lobbyName)
     {
         PhotonNetwork.CreateRoom(lobbyName, new RoomOptions { maxPlayers = 10 }, null);
-        Application.LoadLevel("Lobby");
+        Application.LoadLevel("Lobby Unityversion 5.0.0");
     }
 
     public void JoinExistingLobby(string lobbyName)

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -32,6 +33,9 @@ public class CharacterAndSkillsHandler : MonoBehaviour
     private readonly CharacterSelection _characterSelection = new CharacterSelection();
     private readonly SkillSelection _skillSelection = new SkillSelection();
 
+    private PhotonPlayer[] _players;
+    private PhotonPlayer[] _sortedPlayers;
+
     #region Networking Variables
 
     private LobbyNetworking _lobbyNetworking = new LobbyNetworking();
@@ -50,27 +54,44 @@ public class CharacterAndSkillsHandler : MonoBehaviour
         ResetCharacterSelection();
         EnablePassivSkillImages();
         _skillSelection.PreparePassiveSkills();
+
+        _players = PhotonNetwork.playerList;
+        SortPlayerList();
     }
 
-    public void OnGUI()
+    public void Update()
     {
-        //var players = PhotonNetwork.playerList;
-
-        //var sortedPlayers = players.OrderBy(x => x.ID).ToArray();
-
-        //for (var i = 0; i < sortedPlayers.Length; i++)
-        //{
-        //    TeamMembersText[i].text = sortedPlayers[i].name;
-        //}
+        for (var i = 0; i < _sortedPlayers.Length; i++)
+        {
+            TeamMembersText[i].text = _sortedPlayers[i].name;
+            if (_sortedPlayers[i].customProperties["Ready"].Equals(true))
+            {
+                TeamMembersText[i].text += " Confirmed";
+            }
+        }
     }
 
     #endregion
+
+    private void SortPlayerList()
+    {
+        _sortedPlayers = _players.OrderBy(x => x.ID).ToArray();
+    }
 
     #region Networking
 
     public void OnPhotonPlayerConnected(PhotonPlayer player)
     {
         Debug.Log("Player Connected " + player.name);
+    }
+
+    public void OnJoinedRoom()
+    {
+        Debug.Log("Player joined room");
+        SortPlayerList();
+        var hashtable = new ExitGames.Client.Photon.Hashtable();
+        hashtable.Add("Ready", false);
+        PhotonNetwork.player.SetCustomProperties(hashtable);
     }
 
     public void OnPhotonPlayerDisconnected(PhotonPlayer player)
@@ -89,9 +110,7 @@ public class CharacterAndSkillsHandler : MonoBehaviour
     {
         if (PhotonView.isMine)
         {
-            var playerId = PhotonNetwork.player.ID - 1;
-
-            TeamMembersText[playerId].text = "Confirmed";
+            PhotonNetwork.player.customProperties["Ready"] = true;
         }
     }
 
@@ -300,7 +319,7 @@ public class CharacterAndSkillsHandler : MonoBehaviour
     /// <param name="skill">The clicked skill.</param>
     private void HandleActiveSkillClick(ActiveSkillSelection.Skills skill)
     {
-        var skillNumber = (int) skill;
+        var skillNumber = (int)skill;
         if (_skillSelection.PerformActiveSkillClick(skillNumber))
         {
             _skillSelection.SelectActiveSkill(skill, ActiveSkills[skillNumber]);
@@ -319,7 +338,7 @@ public class CharacterAndSkillsHandler : MonoBehaviour
     /// <param name="skill">The clicked skill.</param>
     private void HandlePassiveSkillClick(PassiveSkillSelection.Skills skill)
     {
-        var skillNumber = (int) skill;
+        var skillNumber = (int)skill;
         if (_skillSelection.PerformPassiveSkillClick(skillNumber))
         {
             _skillSelection.SelectPassiveSkill(skill, PassiveSkills[skillNumber]);
@@ -406,9 +425,9 @@ public class CharacterAndSkillsHandler : MonoBehaviour
     /// <param name="skill"></param>
     private void DisplayActiveSkillInformation(ActiveSkillSelection.Skills skill)
     {
-        var skillNumber = (int) skill;
+        var skillNumber = (int)skill;
 
-      // _skillSelection.SelectActiveSkill(skill, ActiveSkills[skillNumber]);
+        // _skillSelection.SelectActiveSkill(skill, ActiveSkills[skillNumber]);
 
         NameText.text = _skillSelection.ActiveSkillSelection.ActiveSkills[skillNumber].ActiveSkill.Name;
         InfoText.text = _skillSelection.ActiveSkillSelection.ActiveSkills[skillNumber].ActiveSkill.Info;
@@ -432,7 +451,7 @@ public class CharacterAndSkillsHandler : MonoBehaviour
     /// <param name="skill"></param>
     private void DisplayPassiveSkillInformation(PassiveSkillSelection.Skills skill)
     {
-        var skillNumber = (int) skill;
+        var skillNumber = (int)skill;
 
         NameText.text = _skillSelection.PassiveSkillSelection.PassiveSkills[skillNumber].PassiveSkill.Name;
         InfoText.text = "Cooldown: " +

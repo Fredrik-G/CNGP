@@ -6,32 +6,30 @@ Direct3D:
     Vendor:   NVIDIA
     VRAM:     978 MB
 Begin MonoManager ReloadAssembly
-Platform assembly: \\edunet\dfs\home13\ht13\freguh131\Desktop\år2\SystemProgramvaruutveckling\Lobby\Builds\Lobby_Data\Managed\UnityEngine.dll (this message is harmless)
-Loading \\edunet\dfs\home13\ht13\freguh131\Desktop\år2\SystemProgramvaruutveckling\Lobby\Builds\Lobby_Data\Managed\UnityEngine.dll into Unity Child Domain
-Platform assembly: \\edunet\dfs\home13\ht13\freguh131\Desktop\år2\SystemProgramvaruutveckling\Lobby\Builds\Lobby_Data\Managed\Assembly-CSharp-firstpass.dll (this message is harmless)
-Loading \\edunet\dfs\home13\ht13\freguh131\Desktop\år2\SystemProgramvaruutveckling\Lobby\Builds\Lobby_Data\Managed\Assembly-CSharp-firstpass.dll into Unity Child Domain
-Platform assembly: \\edunet\dfs\home13\ht13\freguh131\Desktop\år2\SystemProgramvaruutveckling\Lobby\Builds\Lobby_Data\Managed\Assembly-CSharp.dll (this message is harmless)
-Loading \\edunet\dfs\home13\ht13\freguh131\Desktop\år2\SystemProgramvaruutveckling\Lobby\Builds\Lobby_Data\Managed\Assembly-CSharp.dll into Unity Child Domain
-Platform assembly: \\edunet\dfs\home13\ht13\freguh131\Desktop\år2\SystemProgramvaruutveckling\Lobby\Builds\Lobby_Data\Managed\UnityEngine.UI.dll (this message is harmless)
-Loading \\edunet\dfs\home13\ht13\freguh131\Desktop\år2\SystemProgramvaruutveckling\Lobby\Builds\Lobby_Data\Managed\UnityEngine.UI.dll into Unity Child Domain
-Platform assembly: \\edunet\dfs\home13\ht13\freguh131\Desktop\år2\SystemProgramvaruutveckling\Lobby\Builds\Lobby_Data\Managed\Photon3Unity3D.dll (this message is harmless)
-Loading \\edunet\dfs\home13\ht13\freguh131\Desktop\år2\SystemProgramvaruutveckling\Lobby\Builds\Lobby_Data\Managed\Photon3Unity3D.dll into Unity Child Domain
-Platform assembly: \\edunet\dfs\home13\ht13\freguh131\Desktop\år2\SystemProgramvaruutveckling\Lobby\Builds\Lobby_Data\Managed\Mono.Data.SqliteClient.dll (this message is harmless)
-Loading \\edunet\dfs\home13\ht13\freguh131\Desktop\år2\SystemProgramvaruutveckling\Lobby\Builds\Lobby_Data\Managed\Mono.Data.SqliteClient.dll into Unity Child Domain
-Platform assembly: \\edunet\dfs\home13\ht13\freguh131\Desktop\år2\SystemProgramvaruutveckling\Lobby\Builds\Lobby_Data\Managed\System.Data.dll (this message is harmless)
-Loading \\edunet\dfs\home13\ht13\freguh131\Desktop\år2\SystemProgramvaruutveckling\Lobby\Builds\Lobby_Data\Managed\System.Data.dll into Unity Child Domain
-- Completed reload, in  2.333 seconds
+Platform assembly: M:\Desktop\år2\SystemProgramvaruutveckling\Lobby\Builds\Lobby_Data\Managed\UnityEngine.dll (this message is harmless)
+Loading M:\Desktop\år2\SystemProgramvaruutveckling\Lobby\Builds\Lobby_Data\Managed\UnityEngine.dll into Unity Child Domain
+Platform assembly: M:\Desktop\år2\SystemProgramvaruutveckling\Lobby\Builds\Lobby_Data\Managed\Assembly-CSharp-firstpass.dll (this message is harmless)
+Loading M:\Desktop\år2\SystemProgramvaruutveckling\Lobby\Builds\Lobby_Data\Managed\Assembly-CSharp-firstpass.dll into Unity Child Domain
+Platform assembly: M:\Desktop\år2\SystemProgramvaruutveckling\Lobby\Builds\Lobby_Data\Managed\Assembly-CSharp.dll (this message is harmless)
+Loading M:\Desktop\år2\SystemProgramvaruutveckling\Lobby\Builds\Lobby_Data\Managed\Assembly-CSharp.dll into Unity Child Domain
+Platform assembly: M:\Desktop\år2\SystemProgramvaruutveckling\Lobby\Builds\Lobby_Data\Managed\UnityEngine.UI.dll (this message is harmless)
+Loading M:\Desktop\år2\SystemProgramvaruutveckling\Lobby\Builds\Lobby_Data\Managed\UnityEngine.UI.dll into Unity Child Domain
+Platform assembly: M:\Desktop\år2\SystemProgramvaruutveckling\Lobby\Builds\Lobby_Data\Managed\Photon3Unity3D.dll (this message is harmless)
+Loading M:\Desktop\år2\SystemProgramvaruutveckling\Lobby\Builds\Lobby_Data\Managed\Photon3Unity3D.dll into Unity Child Domain
+Platform assembly: M:\Desktop\år2\SystemProgramvaruutveckling\Lobby\Builds\Lobby_Data\Managed\Mono.Data.SqliteClient.dll (this message is harmless)
+Loading M:\Desktop\år2\SystemProgramvaruutveckling\Lobby\Builds\Lobby_Data\Managed\Mono.Data.SqliteClient.dll into Unity Child Domain
+Platform assembly: M:\Desktop\år2\SystemProgramvaruutveckling\Lobby\Builds\Lobby_Data\Managed\System.Data.dll (this message is harmless)
+Loading M:\Desktop\år2\SystemProgramvaruutveckling\Lobby\Builds\Lobby_Data\Managed\System.Data.dll into Unity Child Domain
+- Completed reload, in  1.654 seconds
 desktop: 1920x1080 60Hz; virtual: 1920x1080 at 0,0
 <RI> Initializing input.
 <RI> Input initialized.
 <RI> Initialized touch support.
-Platform assembly: \\edunet\dfs\home13\ht13\freguh131\Desktop\år2\SystemProgramvaruutveckling\Lobby\Builds\Lobby_Data\Managed\System.Core.dll (this message is harmless)
-Platform assembly: \\edunet\dfs\home13\ht13\freguh131\Desktop\år2\SystemProgramvaruutveckling\Lobby\Builds\Lobby_Data\Managed\System.dll (this message is harmless)
-Platform assembly: \\edunet\dfs\home13\ht13\freguh131\Desktop\år2\SystemProgramvaruutveckling\Lobby\Builds\Lobby_Data\Managed\System.Configuration.dll (this message is harmless)
-Platform assembly: \\edunet\dfs\home13\ht13\freguh131\Desktop\år2\SystemProgramvaruutveckling\Lobby\Builds\Lobby_Data\Managed\System.Xml.dll (this message is harmless)
+Platform assembly: M:\Desktop\år2\SystemProgramvaruutveckling\Lobby\Builds\Lobby_Data\Managed\System.Core.dll (this message is harmless)
+Platform assembly: M:\Desktop\år2\SystemProgramvaruutveckling\Lobby\Builds\Lobby_Data\Managed\System.dll (this message is harmless)
+Platform assembly: M:\Desktop\år2\SystemProgramvaruutveckling\Lobby\Builds\Lobby_Data\Managed\System.Configuration.dll (this message is harmless)
+Platform assembly: M:\Desktop\år2\SystemProgramvaruutveckling\Lobby\Builds\Lobby_Data\Managed\System.Xml.dll (this message is harmless)
 Setting up 2 worker threads for Enlighten.
-  Thread -> id: 1968 -> priority: 1 
-  Thread -> id: 2018 -> priority: 1 
 Connect() failed: System.Net.Sockets.SocketException: An invalid argument was supplied.
 
   at System.Net.Sockets.Socket..ctor (AddressFamily family, SocketType type, ProtocolType proto) [0x00000] in <filename unknown>:0 
@@ -39,20 +37,5 @@ Connect() failed: System.Net.Sockets.SocketException: An invalid argument was su
  
 (Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebug.gen.cpp Line: 56)
 
-Start New Lobby
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebug.gen.cpp Line: 56)
-
-Starting new lobby with name 354543
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebug.gen.cpp Line: 56)
-
-CreateRoom failed. Client is not on Master Server or not yet ready to call operations. Wait for callback: OnJoinedLobby or OnConnectedToMaster.
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebug.gen.cpp Line: 56)
-
-Level 'Lobby' (-1) couldn't be loaded because it has not been added to the build settings.
-To add a level to the build settings use the menu File->Build Settings...
- 
-(Filename:  Line: 274)
-
+  Thread -> id: 2274 -> priority: 1 
+  Thread -> id: 21bc -> priority: 1 
