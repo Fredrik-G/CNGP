@@ -55,11 +55,13 @@ namespace Engine
 
         public double Skillrange { get; set; }
 
+        public double SkillrangeFactor { get; set; }
+
         public int SpendablePoints { get; set; }
 
 		public List<ActiveSkill> SkillList = new List<ActiveSkill>();
 
-        public Stats(double damage, double maxchi, double currentchi, double chireg, double maxhealthpoints, double currenthealthpoints, double healthreg, double healingpower, double movementspeed, double armor, double physicalresistance, double magicalresistance, double buffeffectduration, double debuffeffectduration, double cooldownduration, double skillradius, double skillrange, int spendablePoints )
+        public Stats(double damage, double maxchi, double currentchi, double chireg, double maxhealthpoints, double currenthealthpoints, double healthreg, double healingpower, double movementspeed, double armor, double physicalresistance, double magicalresistance, double buffeffectduration, double debuffeffectduration, double cooldownduration, double skillradius, double skillrange)
         {
             Damage = damage;
             MaxChi = maxchi;
@@ -78,11 +80,20 @@ namespace Engine
             Cooldownduration = cooldownduration;
             Skillradius = skillradius;
             Skillrange = skillrange;
-            this.SpendablePoints = spendablePoints;
+			SpendablePoints = 100;
+			MovementSpeedFactor = 1;
+            HealthRegFactor = 1;
+            HealingPowerFactor = 1;
+            DamageFactor = 1;
+            ArmorFactor = 1;
+            SkillrangeFactor = 1;
+            MagicalresistanceFactor = 1;
+            PhysicalresistanceFactor = 1;
         }
 
 		public Stats()
 		{
+			SpendablePoints = 100;
 			Damage = 100;
 			MaxChi = 100;
 			CurrentChi = 100;
@@ -100,18 +111,30 @@ namespace Engine
 			Cooldownduration = 100;
 			Skillradius = 100;
 			Skillrange = 100;
-            SpendablePoints = 100;
+
+			MovementSpeedFactor = 1;
+            HealthRegFactor = 1;
+            HealingPowerFactor = 1;
+		    DamageFactor = 1;
+		    ArmorFactor = 1;
+		    SkillrangeFactor = 1;
+            MagicalresistanceFactor = 1;
+            PhysicalresistanceFactor = 1;
 		}
+
         public void IncreasePower()
         {
             if (SpendablePoints > 0)
             {
+
                 Damage = Damage + 3;
                 Physicalresistance = Physicalresistance + 1;
                 Skillradius = Skillradius + 2;
                 MaxChi = MaxChi + 1;
+
                 SpendablePoints--;
             }
+
         }
 
         public void IncreaseAgility()

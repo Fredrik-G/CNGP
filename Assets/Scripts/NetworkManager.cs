@@ -30,17 +30,26 @@ public class NetworkManager : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        
+        Debug.Log("Start");
         spawnSpots = GameObject.FindObjectsOfType<SpawnSpots>();
-        if (!string.IsNullOrEmpty(MainMenuButtons.RoomName))
-        {
-            PhotonNetwork.CreateRoom(MainMenuButtons.RoomName, true, true, 4);
+		if(spawnSpots == null)
+			Debug.Log("No spawnspots found.");
+        
+		backgroundCamera.SetActive(true);
+        Debug.Log("OnJoinedRoom");
+        ExitGames.Client.Photon.Hashtable hs = new ExitGames.Client.Photon.Hashtable();
+        hs.Add("Deaths", 0);
+        hs.Add("Kills", 0);
+        PhotonNetwork.player.SetCustomProperties(hs);
+		if (PhotonNetwork.player.customProperties ["TeamID"] == null) {
+			Debug.Log ("The match has already begun.");
+			PhotonNetwork.LeaveRoom();
+			Application.LoadLevel("MainScreen2");
 
-        }
-        else
-        {
-            Connect();
-        }
+		}
+        teamID = (int)PhotonNetwork.player.customProperties["TeamID"];
+        SpawnMyPlayer();
+        matchController = GameObject.Find("Terrain");
     }
   
     void Connect()
@@ -85,63 +94,35 @@ public class NetworkManager : MonoBehaviour
             {
                 
                 PhotonNetwork.LeaveRoom();
-                Application.LoadLevel("MainMenu");
+                Application.LoadLevel("MainScreen2");
             }
         }
     }
 
     void OnJoinedLobby()
     {
-        Debug.Log("OnJoinedLobby");
-        if(string.IsNullOrEmpty(RoomName))
-        {
-            PhotonNetwork.JoinRoom(RoomName);
-        }
-        else
-        {
-            Debug.Log("Failed to join room");
-            Application.LoadLevel("MainMenu");
-        }
+
     }
 
     void OnPhotonRandomJoinFailed()
     {
         Debug.Log("Failed to join server.");
-        Application.LoadLevel("MainMenu");
+        Application.LoadLevel("MainScreen2");
         
     }
 
     void OnJoinedRoom()
     {
-        var temp = 0;
-        backgroundCamera.SetActive(true);
-        Debug.Log("OnJoinedRoom");
-        if (PhotonNetwork.room.playerCount % 2 == 0)
-        {
-            temp = 1;
-        }
-        else
-        {
-            temp = 0;
-        }
-        ExitGames.Client.Photon.Hashtable hs = new ExitGames.Client.Photon.Hashtable();
-        hs.Add("teamID", temp);
-        hs.Add("Deaths", 0);
-        hs.Add("Kills", 0);
-        PhotonNetwork.player.SetCustomProperties(hs);
-        teamID = temp;
-        SpawnMyPlayer();
-        matchController = GameObject.Find("Terrain");
     }
 
     void SpawnMyPlayer()
     {
-        if (PhotonNetwork.player.customProperties["teamID"] != null)
+        if (PhotonNetwork.player.customProperties["TeamID"] != null)
         {
             if (spawnSpots == null)
             {
                 Debug.Log("No spawnspots");
-                PhotonNetwork.LoadLevel("MainMenu");
+                PhotonNetwork.LoadLevel("MainScreen2");
                 return;
             }
 
@@ -150,7 +131,7 @@ public class NetworkManager : MonoBehaviour
             {
                 mySpawnSpot = spawnSpots[Random.Range(0, spawnSpots.Length)];
             }
-
+			Debug.Log(mySpawnSpot.transform.position);
             #region turn on player prefabs/scripts
             //Player Settings
             GameObject myPlayerGO = (GameObject)PhotonNetwork.Instantiate("Ethan", mySpawnSpot.transform.position, mySpawnSpot.transform.rotation, 0);
@@ -158,7 +139,8 @@ public class NetworkManager : MonoBehaviour
             myPlayerGO.GetComponent<PhotonView>().RPC("SetTeamID", PhotonTargets.AllBuffered, teamID);
             ((MonoBehaviour)myPlayerGO.GetComponent("TopDownController")).enabled = true;
             ((MonoBehaviour)myPlayerGO.GetComponent("ProjectileShooter")).enabled = true;
-            var stats = GameObject.Find("Terrain").GetComponent<tempPlayerStatsStorage>().GetPlayerStats();
+			//((MonoBehaviour)myPlayerGO.GetComponent ("Sync")).enabled = true;
+			var stats = GameObject.Find ("Terrain").GetComponent<tempPlayerStatsStorage>().GetPlayerStats();
             stats.CurrentHealthpoints = 100;
             stats.CurrentChi = 100;
             stats.MaxHealthpoints = 100;
@@ -168,7 +150,8 @@ public class NetworkManager : MonoBehaviour
             ((MonoBehaviour)myPlayerGO.GetComponent("ActionBarController")).enabled = true;
             myPlayerGO.GetComponent<ShowMousePositions>().SetPlayer(myPlayerGO);
             ((MonoBehaviour)myPlayerGO.GetComponent("ShowMousePositions")).enabled = true;
-
+            ((MonoBehaviour)myPlayerGO.GetComponent("GameController")).enabled = true;
+            ((MonoBehaviour)myPlayerGO.GetComponent("VoiceController")).enabled = true;
             //Health bar settings
             var healthBar = PhotonNetwork.Instantiate("3DHealthandChiBar", new Vector3(0, 0, 0), new Quaternion(0, 0, 0, 0), 0) as GameObject;
             healthBar.GetComponent<PlayerHealthBarLocation>().SetPlayer(myPlayerGO);
@@ -203,7 +186,7 @@ public class NetworkManager : MonoBehaviour
     void OnDisconnectedFromPhoton()
     {
         Debug.Log("Player disconnected");
-        Application.LoadLevel("MainMenu");
+        Application.LoadLevel("MainScreen2");
     }
     void Update()
     {
@@ -222,29 +205,5 @@ public class NetworkManager : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.Escape))
             _escapePressed = !_escapePressed;
-
-        /*
-         * 
-         * FÖR ATT FÅ ANTAL SPELARE I VARJE LAG
-         * 
-         * 
-        var teamOne = 0;
-        var teamTwo = 0;
-        foreach(PhotonPlayer player in PhotonNetwork.playerList)
-        {
-            if (player.customProperties["teamID"] != null)
-            {
-                if ((int)player.customProperties["teamID"] == 0)
-                    teamOne++;
-                else
-                    teamTwo++;
-            }
-
-        }
-        Debug.Log("TeamOne = " + teamOne + ". TeamTwo = " + teamTwo);
-         * 
-         * */
     }
-        
-
 }

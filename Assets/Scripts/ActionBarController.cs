@@ -41,7 +41,7 @@ public class ActionBarController : MonoBehaviour {
 		TooltipStyle.fontSize = 13;
 		HeadStyle.fontSize = 13;
 
-		playerStats = GetComponentInParent<PlayerStats>();
+		playerStats = GetComponent<PlayerStats>();
 		SpellOne = Resources.Load ("GUI Texture/Spell" + playerStats.stats.SkillList [0].Name)as Texture2D;
 		SpellTwo = Resources.Load("GUI Texture/Spell" + playerStats.stats.SkillList[1].Name) as Texture2D;
 		SpellThree = Resources.Load ("GUI Texture/Spell" + playerStats.stats.SkillList [2].Name) as Texture2D;
@@ -191,7 +191,6 @@ public class ActionBarController : MonoBehaviour {
 		if (Input.GetButtonDown ("Button1")) 
 		{
 			playerStats.stats.IncreasePower();
-		    playerStats.teamID = ~playerStats.teamID;
 		}
 		if (Input.GetButtonDown ("Button2")) 
 		{

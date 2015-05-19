@@ -13,36 +13,54 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   HostType: 1
   Protocol: 0
-  ServerAddress: 10.22.13.52
-  ServerPort: 5058
+  ServerAddress: 
+  ServerPort: 5055
   PreferredRegion: 0
   AppID: aa16c020-caf0-42f9-9350-985b9d48001a
   PingCloudServersOnAwake: 0
   RpcList:
+  - 43686174
+  - 44657374726f79527063
+  - 496e7374616e7469617465527063
+  - 4f6e4177616b65525043
+  - 5069636b75704974656d496e6974
+  - 50756e5069636b7570
+  - 50756e5069636b757053696d706c65
+  - 50756e5265737061776e
+  - 52657175657374466f725069636b757054696d6573
+  - 436f6c6f72527063
+  - 446f4a756d70
+  - 4d6172636f
+  - 506f6c6f
+  - 546167676564506c61796572
+  - 436f6e6669726d53656c656374696f6e73
+  - 476574506c617965724c697374
+  - 536f7274506c617965724c697374
   - Chat
   - ColorRpc
   - DestroyRpc
   - DoJump
+  - GetPlayerList
+  - IncreaseBlueTeamPointsKOTH
+  - IncreaseBlueTeamPointsOnKill
+  - IncreasePointsCabbageKill
+  - IncreaseRedTeamPointsKOTH
+  - IncreaseRedTeamPointsOnKill
   - InstantiateRpc
+  - KillPlayer
   - Marco
   - OnAwakeRPC
+  - OnTriggerEnter
   - PickupItemInit
   - Polo
   - PunPickup
   - PunPickupSimple
   - PunRespawn
   - RequestForPickupTimes
-  - TaggedPlayer
-  - SetTeamID
-  - TakeDamage
-  - DestoryObject
-  - KillPlayer
-  - OnTriggerEnter
   - SetPoints
-  - AddKills
-  - IncreaseBlueTeamPointsKOTH
-  - IncreaseBlueTeamPointsOnKill
-  - IncreasePointsCabbageKill
-  - IncreaseRedTeamPointsKOTH
-  - IncreaseRedTeamPointsOnKill
+  - SetTeamID
+  - SortPlayerList
+  - TaggedPlayer
+  - TakeDamage
+  - StartGame
   DisableAutoOpenWizard: 0

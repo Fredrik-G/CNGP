@@ -1,0 +1,745 @@
+Initialize engine version: 5.0.0f4 (5b98b70ebeb9)
+GfxDevice: creating device client; threaded=1
+Direct3D:
+    Version:  Direct3D 11.0 [level 10.1]
+    Renderer: Intel(R) HD Graphics (ID=0x106)
+    Vendor:   Intel
+    VRAM:     192 MB
+Begin MonoManager ReloadAssembly
+Platform assembly: C:\Users\Lukas\Desktop\CNGP_EJMERGE\CNGPworking\Build\CNGP_Data\Managed\UnityEngine.dll (this message is harmless)
+Loading C:\Users\Lukas\Desktop\CNGP_EJMERGE\CNGPworking\Build\CNGP_Data\Managed\UnityEngine.dll into Unity Child Domain
+Platform assembly: C:\Users\Lukas\Desktop\CNGP_EJMERGE\CNGPworking\Build\CNGP_Data\Managed\Assembly-CSharp-firstpass.dll (this message is harmless)
+Loading C:\Users\Lukas\Desktop\CNGP_EJMERGE\CNGPworking\Build\CNGP_Data\Managed\Assembly-CSharp-firstpass.dll into Unity Child Domain
+Platform assembly: C:\Users\Lukas\Desktop\CNGP_EJMERGE\CNGPworking\Build\CNGP_Data\Managed\Assembly-CSharp.dll (this message is harmless)
+Loading C:\Users\Lukas\Desktop\CNGP_EJMERGE\CNGPworking\Build\CNGP_Data\Managed\Assembly-CSharp.dll into Unity Child Domain
+Platform assembly: C:\Users\Lukas\Desktop\CNGP_EJMERGE\CNGPworking\Build\CNGP_Data\Managed\Assembly-UnityScript.dll (this message is harmless)
+Loading C:\Users\Lukas\Desktop\CNGP_EJMERGE\CNGPworking\Build\CNGP_Data\Managed\Assembly-UnityScript.dll into Unity Child Domain
+Platform assembly: C:\Users\Lukas\Desktop\CNGP_EJMERGE\CNGPworking\Build\CNGP_Data\Managed\UnityEngine.UI.dll (this message is harmless)
+Loading C:\Users\Lukas\Desktop\CNGP_EJMERGE\CNGPworking\Build\CNGP_Data\Managed\UnityEngine.UI.dll into Unity Child Domain
+Platform assembly: C:\Users\Lukas\Desktop\CNGP_EJMERGE\CNGPworking\Build\CNGP_Data\Managed\Mono.Data.SqliteClient.dll (this message is harmless)
+Loading C:\Users\Lukas\Desktop\CNGP_EJMERGE\CNGPworking\Build\CNGP_Data\Managed\Mono.Data.SqliteClient.dll into Unity Child Domain
+Platform assembly: C:\Users\Lukas\Desktop\CNGP_EJMERGE\CNGPworking\Build\CNGP_Data\Managed\Photon3Unity3D.dll (this message is harmless)
+Loading C:\Users\Lukas\Desktop\CNGP_EJMERGE\CNGPworking\Build\CNGP_Data\Managed\Photon3Unity3D.dll into Unity Child Domain
+Platform assembly: C:\Users\Lukas\Desktop\CNGP_EJMERGE\CNGPworking\Build\CNGP_Data\Managed\System.Data.dll (this message is harmless)
+Loading C:\Users\Lukas\Desktop\CNGP_EJMERGE\CNGPworking\Build\CNGP_Data\Managed\System.Data.dll into Unity Child Domain
+- Completed reload, in  0.114 seconds
+desktop: 1920x1080 60Hz; virtual: 1920x1080 at 0,0
+<RI> Initializing input.
+<RI> Input initialized.
+<RI> Initialized touch support.
+Platform assembly: C:\Users\Lukas\Desktop\CNGP_EJMERGE\CNGPworking\Build\CNGP_Data\Managed\System.Core.dll (this message is harmless)
+Platform assembly: C:\Users\Lukas\Desktop\CNGP_EJMERGE\CNGPworking\Build\CNGP_Data\Managed\System.dll (this message is harmless)
+Platform assembly: C:\Users\Lukas\Desktop\CNGP_EJMERGE\CNGPworking\Build\CNGP_Data\Managed\System.Transactions.dll (this message is harmless)
+Platform assembly: C:\Users\Lukas\Desktop\CNGP_EJMERGE\CNGPworking\Build\CNGP_Data\Managed\System.Xml.dll (this message is harmless)
+Opening connection to database CNGP
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebug.gen.cpp Line: 56)
+
+Fallback handler could not load library C:/Users/Lukas/Desktop/CNGP_EJMERGE/CNGPworking/Build/CNGP_Data/Mono/sqlite
+Fallback handler could not load library C:/Users/Lukas/Desktop/CNGP_EJMERGE/CNGPworking/Build/CNGP_Data/Mono/.\sqlite
+Fallback handler could not load library C:/Users/Lukas/Desktop/CNGP_EJMERGE/CNGPworking/Build/CNGP_Data/Mono/sqlite
+Fallback handler could not load library C:/Users/Lukas/Desktop/CNGP_EJMERGE/CNGPworking/Build/CNGP_Data/Mono/libsqlite
+Fallback handler could not load library C:/Users/Lukas/Desktop/CNGP_EJMERGE/CNGPworking/Build/CNGP_Data/Mono/.\libsqlite
+Fallback handler could not load library C:/Users/Lukas/Desktop/CNGP_EJMERGE/CNGPworking/Build/CNGP_Data/Mono/libsqlite
+Setting up 1 worker threads for Enlighten.
+  Thread -> id: abc -> priority: 1 
+Fallback handler could not load library C:/Users/Lukas/Desktop/CNGP_EJMERGE/CNGPworking/Build/CNGP_Data/Mono/sqlite
+Fallback handler could not load library C:/Users/Lukas/Desktop/CNGP_EJMERGE/CNGPworking/Build/CNGP_Data/Mono/.\sqlite
+Fallback handler could not load library C:/Users/Lukas/Desktop/CNGP_EJMERGE/CNGPworking/Build/CNGP_Data/Mono/sqlite
+Fallback handler could not load library C:/Users/Lukas/Desktop/CNGP_EJMERGE/CNGPworking/Build/CNGP_Data/Mono/libsqlite
+Fallback handler could not load library C:/Users/Lukas/Desktop/CNGP_EJMERGE/CNGPworking/Build/CNGP_Data/Mono/.\libsqlite
+Fallback handler could not load library C:/Users/Lukas/Desktop/CNGP_EJMERGE/CNGPworking/Build/CNGP_Data/Mono/libsqlite
+Fallback handler could not load library C:/Users/Lukas/Desktop/CNGP_EJMERGE/CNGPworking/Build/CNGP_Data/Mono/sqlite
+Fallback handler could not load library C:/Users/Lukas/Desktop/CNGP_EJMERGE/CNGPworking/Build/CNGP_Data/Mono/.\sqlite
+Fallback handler could not load library C:/Users/Lukas/Desktop/CNGP_EJMERGE/CNGPworking/Build/CNGP_Data/Mono/sqlite
+Fallback handler could not load library C:/Users/Lukas/Desktop/CNGP_EJMERGE/CNGPworking/Build/CNGP_Data/Mono/libsqlite
+Fallback handler could not load library C:/Users/Lukas/Desktop/CNGP_EJMERGE/CNGPworking/Build/CNGP_Data/Mono/.\libsqlite
+Fallback handler could not load library C:/Users/Lukas/Desktop/CNGP_EJMERGE/CNGPworking/Build/CNGP_Data/Mono/libsqlite
+Fallback handler could not load library C:/Users/Lukas/Desktop/CNGP_EJMERGE/CNGPworking/Build/CNGP_Data/Mono/sqlite
+Fallback handler could not load library C:/Users/Lukas/Desktop/CNGP_EJMERGE/CNGPworking/Build/CNGP_Data/Mono/.\sqlite
+Fallback handler could not load library C:/Users/Lukas/Desktop/CNGP_EJMERGE/CNGPworking/Build/CNGP_Data/Mono/sqlite
+Fallback handler could not load library C:/Users/Lukas/Desktop/CNGP_EJMERGE/CNGPworking/Build/CNGP_Data/Mono/libsqlite
+Fallback handler could not load library C:/Users/Lukas/Desktop/CNGP_EJMERGE/CNGPworking/Build/CNGP_Data/Mono/.\libsqlite
+Fallback handler could not load library C:/Users/Lukas/Desktop/CNGP_EJMERGE/CNGPworking/Build/CNGP_Data/Mono/libsqlite
+Fallback handler could not load library C:/Users/Lukas/Desktop/CNGP_EJMERGE/CNGPworking/Build/CNGP_Data/Mono/sqlite
+Fallback handler could not load library C:/Users/Lukas/Desktop/CNGP_EJMERGE/CNGPworking/Build/CNGP_Data/Mono/.\sqlite
+Fallback handler could not load library C:/Users/Lukas/Desktop/CNGP_EJMERGE/CNGPworking/Build/CNGP_Data/Mono/sqlite
+Fallback handler could not load library C:/Users/Lukas/Desktop/CNGP_EJMERGE/CNGPworking/Build/CNGP_Data/Mono/libsqlite
+Fallback handler could not load library C:/Users/Lukas/Desktop/CNGP_EJMERGE/CNGPworking/Build/CNGP_Data/Mono/.\libsqlite
+Fallback handler could not load library C:/Users/Lukas/Desktop/CNGP_EJMERGE/CNGPworking/Build/CNGP_Data/Mono/libsqlite
+Fallback handler could not load library C:/Users/Lukas/Desktop/CNGP_EJMERGE/CNGPworking/Build/CNGP_Data/Mono/sqlite
+Fallback handler could not load library C:/Users/Lukas/Desktop/CNGP_EJMERGE/CNGPworking/Build/CNGP_Data/Mono/.\sqlite
+Fallback handler could not load library C:/Users/Lukas/Desktop/CNGP_EJMERGE/CNGPworking/Build/CNGP_Data/Mono/sqlite
+Fallback handler could not load library C:/Users/Lukas/Desktop/CNGP_EJMERGE/CNGPworking/Build/CNGP_Data/Mono/libsqlite
+Fallback handler could not load library C:/Users/Lukas/Desktop/CNGP_EJMERGE/CNGPworking/Build/CNGP_Data/Mono/.\libsqlite
+Fallback handler could not load library C:/Users/Lukas/Desktop/CNGP_EJMERGE/CNGPworking/Build/CNGP_Data/Mono/libsqlite
+Fallback handler could not load library C:/Users/Lukas/Desktop/CNGP_EJMERGE/CNGPworking/Build/CNGP_Data/Mono/sqlite
+Fallback handler could not load library C:/Users/Lukas/Desktop/CNGP_EJMERGE/CNGPworking/Build/CNGP_Data/Mono/.\sqlite
+Fallback handler could not load library C:/Users/Lukas/Desktop/CNGP_EJMERGE/CNGPworking/Build/CNGP_Data/Mono/sqlite
+Fallback handler could not load library C:/Users/Lukas/Desktop/CNGP_EJMERGE/CNGPworking/Build/CNGP_Data/Mono/libsqlite
+Fallback handler could not load library C:/Users/Lukas/Desktop/CNGP_EJMERGE/CNGPworking/Build/CNGP_Data/Mono/.\libsqlite
+Fallback handler could not load library C:/Users/Lukas/Desktop/CNGP_EJMERGE/CNGPworking/Build/CNGP_Data/Mono/libsqlite
+Fallback handler could not load library C:/Users/Lukas/Desktop/CNGP_EJMERGE/CNGPworking/Build/CNGP_Data/Mono/sqlite
+Fallback handler could not load library C:/Users/Lukas/Desktop/CNGP_EJMERGE/CNGPworking/Build/CNGP_Data/Mono/.\sqlite
+Fallback handler could not load library C:/Users/Lukas/Desktop/CNGP_EJMERGE/CNGPworking/Build/CNGP_Data/Mono/sqlite
+Fallback handler could not load library C:/Users/Lukas/Desktop/CNGP_EJMERGE/CNGPworking/Build/CNGP_Data/Mono/libsqlite
+Fallback handler could not load library C:/Users/Lukas/Desktop/CNGP_EJMERGE/CNGPworking/Build/CNGP_Data/Mono/.\libsqlite
+Fallback handler could not load library C:/Users/Lukas/Desktop/CNGP_EJMERGE/CNGPworking/Build/CNGP_Data/Mono/libsqlite
+Fallback handler could not load library C:/Users/Lukas/Desktop/CNGP_EJMERGE/CNGPworking/Build/CNGP_Data/Mono/sqlite
+Fallback handler could not load library C:/Users/Lukas/Desktop/CNGP_EJMERGE/CNGPworking/Build/CNGP_Data/Mono/.\sqlite
+Fallback handler could not load library C:/Users/Lukas/Desktop/CNGP_EJMERGE/CNGPworking/Build/CNGP_Data/Mono/sqlite
+Fallback handler could not load library C:/Users/Lukas/Desktop/CNGP_EJMERGE/CNGPworking/Build/CNGP_Data/Mono/libsqlite
+Fallback handler could not load library C:/Users/Lukas/Desktop/CNGP_EJMERGE/CNGPworking/Build/CNGP_Data/Mono/.\libsqlite
+Fallback handler could not load library C:/Users/Lukas/Desktop/CNGP_EJMERGE/CNGPworking/Build/CNGP_Data/Mono/libsqlite
+Correct login
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebug.gen.cpp Line: 56)
+
+Accounts
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebug.gen.cpp Line: 56)
+
+UPDATE Accounts SET CurrentIP='' WHERE Email='asd'
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebug.gen.cpp Line: 56)
+
+Unloading 2 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 2.418314 ms
+
+Unloading 2 unused Assets to reduce memory usage. Loaded Objects now: 485.
+Total: 0.436173 ms (FindLiveObjects: 0.041051 ms CreateObjectMapping: 0.029855 ms MarkObjects: 0.357802 ms  DeleteObjects: 0.006064 ms)
+
+Platform assembly: C:\Users\Lukas\Desktop\CNGP_EJMERGE\CNGPworking\Build\CNGP_Data\Managed\System.Configuration.dll (this message is harmless)
+Starting new lobby with name ds
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebug.gen.cpp Line: 56)
+
+Unloading 4 Unused Serialized files (Serialized files now loaded: 0)
+NullReferenceException: Object reference not set to an instance of an object
+  at MainMenuEventHandler.HandleMouseLeave () [0x00000] in <filename unknown>:0 
+  at UnityEngine.Events.InvokableCall.Invoke (System.Object[] args) [0x00000] in <filename unknown>:0 
+  at UnityEngine.Events.InvokableCallList.Invoke (System.Object[] parameters) [0x00000] in <filename unknown>:0 
+  at UnityEngine.Events.UnityEventBase.Invoke (System.Object[] parameters) [0x00000] in <filename unknown>:0 
+  at UnityEngine.Events.UnityEvent`1[T0].Invoke (.T0 arg0) [0x00000] in <filename unknown>:0 
+  at UnityEngine.EventSystems.EventTrigger.Execute (EventTriggerType id, UnityEngine.EventSystems.BaseEventData eventData) [0x00000] in <filename unknown>:0 
+  at UnityEngine.EventSystems.EventTrigger.OnPointerExit (UnityEngine.EventSystems.PointerEventData eventData) [0x00000] in <filename unknown>:0 
+  at UnityEngine.EventSystems.ExecuteEvents.Execute (IPointerExitHandler handler, UnityEngine.EventSystems.BaseEventData eventData) [0x00000] in <filename unknown>:0 
+  at UnityEngine.EventSystems.ExecuteEvents.Execute[IPointerExitHandler] (UnityEngine.GameObject target, UnityEngine.EventSystems.BaseEventData eventData, UnityEngine.EventSystems.EventFunction`1 functor) [0x00000] in <filename unknown>:0 
+UnityEngine.Debug:Internal_LogException(Exception, Object)
+UnityEngine.Debug:LogException(Exception)
+UnityEngine.EventSystems.ExecuteEvents:Execute(GameObject, BaseEventData, EventFunction`1)
+UnityEngine.EventSystems.BaseInputModule:HandlePointerExitAndEnter(PointerEventData, GameObject)
+UnityEngine.EventSystems.PointerInputModule:ClearSelection()
+UnityEngine.EventSystems.StandaloneInputModule:DeactivateModule()
+UnityEngine.EventSystems.EventSystem:OnDisable()
+ 
+(Filename:  Line: -1)
+
+NullReferenceException: Object reference not set to an instance of an object
+  at MainMenuEventHandler.HandleMouseLeave () [0x00000] in <filename unknown>:0 
+  at UnityEngine.Events.InvokableCall.Invoke (System.Object[] args) [0x00000] in <filename unknown>:0 
+  at UnityEngine.Events.InvokableCallList.Invoke (System.Object[] parameters) [0x00000] in <filename unknown>:0 
+  at UnityEngine.Events.UnityEventBase.Invoke (System.Object[] parameters) [0x00000] in <filename unknown>:0 
+  at UnityEngine.Events.UnityEvent`1[T0].Invoke (.T0 arg0) [0x00000] in <filename unknown>:0 
+  at UnityEngine.EventSystems.EventTrigger.Execute (EventTriggerType id, UnityEngine.EventSystems.BaseEventData eventData) [0x00000] in <filename unknown>:0 
+  at UnityEngine.EventSystems.EventTrigger.OnPointerExit (UnityEngine.EventSystems.PointerEventData eventData) [0x00000] in <filename unknown>:0 
+  at UnityEngine.EventSystems.ExecuteEvents.Execute (IPointerExitHandler handler, UnityEngine.EventSystems.BaseEventData eventData) [0x00000] in <filename unknown>:0 
+  at UnityEngine.EventSystems.ExecuteEvents.Execute[IPointerExitHandler] (UnityEngine.GameObject target, UnityEngine.EventSystems.BaseEventData eventData, UnityEngine.EventSystems.EventFunction`1 functor) [0x00000] in <filename unknown>:0 
+UnityEngine.Debug:Internal_LogException(Exception, Object)
+UnityEngine.Debug:LogException(Exception)
+UnityEngine.EventSystems.ExecuteEvents:Execute(GameObject, BaseEventData, EventFunction`1)
+UnityEngine.EventSystems.BaseInputModule:HandlePointerExitAndEnter(PointerEventData, GameObject)
+UnityEngine.EventSystems.PointerInputModule:ClearSelection()
+UnityEngine.EventSystems.StandaloneInputModule:DeactivateModule()
+UnityEngine.EventSystems.EventSystem:OnDisable()
+ 
+(Filename:  Line: -1)
+
+NullReferenceException: Object reference not set to an instance of an object
+  at MainMenuEventHandler.HandleMouseLeave () [0x00000] in <filename unknown>:0 
+  at UnityEngine.Events.InvokableCall.Invoke (System.Object[] args) [0x00000] in <filename unknown>:0 
+  at UnityEngine.Events.InvokableCallList.Invoke (System.Object[] parameters) [0x00000] in <filename unknown>:0 
+  at UnityEngine.Events.UnityEventBase.Invoke (System.Object[] parameters) [0x00000] in <filename unknown>:0 
+  at UnityEngine.Events.UnityEvent`1[T0].Invoke (.T0 arg0) [0x00000] in <filename unknown>:0 
+  at UnityEngine.EventSystems.EventTrigger.Execute (EventTriggerType id, UnityEngine.EventSystems.BaseEventData eventData) [0x00000] in <filename unknown>:0 
+  at UnityEngine.EventSystems.EventTrigger.OnPointerExit (UnityEngine.EventSystems.PointerEventData eventData) [0x00000] in <filename unknown>:0 
+  at UnityEngine.EventSystems.ExecuteEvents.Execute (IPointerExitHandler handler, UnityEngine.EventSystems.BaseEventData eventData) [0x00000] in <filename unknown>:0 
+  at UnityEngine.EventSystems.ExecuteEvents.Execute[IPointerExitHandler] (UnityEngine.GameObject target, UnityEngine.EventSystems.BaseEventData eventData, UnityEngine.EventSystems.EventFunction`1 functor) [0x00000] in <filename unknown>:0 
+UnityEngine.Debug:Internal_LogException(Exception, Object)
+UnityEngine.Debug:LogException(Exception)
+UnityEngine.EventSystems.ExecuteEvents:Execute(GameObject, BaseEventData, EventFunction`1)
+UnityEngine.EventSystems.BaseInputModule:HandlePointerExitAndEnter(PointerEventData, GameObject)
+UnityEngine.EventSystems.PointerInputModule:ClearSelection()
+UnityEngine.EventSystems.StandaloneInputModule:DeactivateModule()
+UnityEngine.EventSystems.EventSystem:OnDisable()
+ 
+(Filename:  Line: -1)
+
+UnloadTime: 68.006691 ms
+
+Unloading 7 unused Assets to reduce memory usage. Loaded Objects now: 704.
+Total: 0.977308 ms (FindLiveObjects: 0.059244 ms CreateObjectMapping: 0.042917 ms MarkObjects: 0.858352 ms  DeleteObjects: 0.015860 ms)
+
+User asd connected to chat client
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebug.gen.cpp Line: 56)
+
+Player joined room
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebug.gen.cpp Line: 56)
+
+OperationResponse 230: ReturnCode: 0 (). Parameters: {(Byte)230=(String)photon-chat-eu.trafficmanager.net:5057, (Byte)221=(String)P054ZySP7aPaF5nID+v7x3vzwrpysAyar6CrzBP1EKbCLOXGuiWRaCs2tME4GBMbxEX3NXS9JQCaery2NtBAhQsu+lYNU656BeyxOBA55so0pNUbH7JqzDORUdPyuaGs} on: ns.exitgamescloud.com
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebug.gen.cpp Line: 56)
+
+OperationResponse 230: ReturnCode: 0 (). Parameters: {} on: ns.exitgamescloud.com
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebug.gen.cpp Line: 56)
+
+ON HandleMouseClick
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebug.gen.cpp Line: 56)
+
+IsMasterClient
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebug.gen.cpp Line: 56)
+
+Unloading 3 Unused Serialized files (Serialized files now loaded: 0)
+Shader 'Legacy Shaders/Parallax Specular': fallback shader 'Legacy Shaders/Bumped Specular' not found
+Shader 'Hidden/TerrainEngine/Splatmap/Specular-Base': fallback shader 'Legacy Shaders/Specular' not found
+Shader 'Hidden/TerrainEngine/Splatmap/Specular-Base': fallback shader 'Legacy Shaders/Specular' not found
+The tree RockMesh(withcollider) must use the Nature/Soft Occlusion shader. Otherwise billboarding/lighting will not work correctly.
+ 
+(Filename:  Line: 98)
+
+UnloadTime: 1.971411 ms
+TerrainCollider: MeshCollider is not supported on terrain at the moment.
+ 
+(Filename:  Line: 177)
+
+TerrainCollider: MeshCollider is not supported on terrain at the moment.
+ 
+(Filename:  Line: 177)
+
+TerrainCollider: MeshCollider is not supported on terrain at the moment.
+ 
+(Filename:  Line: 177)
+
+
+Unloading 77 unused Assets to reduce memory usage. Loaded Objects now: 945.
+Total: 1.105128 ms (FindLiveObjects: 0.126886 ms CreateObjectMapping: 0.086768 ms MarkObjects: 0.685748 ms  DeleteObjects: 0.203858 ms)
+
+Start
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebug.gen.cpp Line: 56)
+
+OnJoinedRoom
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebug.gen.cpp Line: 56)
+
+(34.0, 0.6, 68.5)
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebug.gen.cpp Line: 56)
+
+Ljud: 14
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebug.gen.cpp Line: 56)
+
+Setting up 1 worker threads for Enlighten.
+  Thread -> id: 1a98 -> priority: 1 
+Nytt msg
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebug.gen.cpp Line: 56)
+
+Ples uninstall.
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebug.gen.cpp Line: 56)
+
+Ples uninstall.
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebug.gen.cpp Line: 56)
+
+Ples uninstall.
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebug.gen.cpp Line: 56)
+
+Ples uninstall.
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebug.gen.cpp Line: 56)
+
+Ples uninstall.
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebug.gen.cpp Line: 56)
+
+Ples uninstall.
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebug.gen.cpp Line: 56)
+
+Ples uninstall.
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebug.gen.cpp Line: 56)
+
+Ples uninstall.
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebug.gen.cpp Line: 56)
+
+Ples uninstall.
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebug.gen.cpp Line: 56)
+
+Ples uninstall.
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebug.gen.cpp Line: 56)
+
+Ples uninstall.
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebug.gen.cpp Line: 56)
+
+Ples uninstall.
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebug.gen.cpp Line: 56)
+
+Ples uninstall.
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebug.gen.cpp Line: 56)
+
+Ples uninstall.
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebug.gen.cpp Line: 56)
+
+Ples uninstall.
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebug.gen.cpp Line: 56)
+
+Ples uninstall.
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebug.gen.cpp Line: 56)
+
+Ples uninstall.
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebug.gen.cpp Line: 56)
+
+Ples uninstall.
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebug.gen.cpp Line: 56)
+
+Ples uninstall.
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebug.gen.cpp Line: 56)
+
+Ples uninstall.
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebug.gen.cpp Line: 56)
+
+Ples uninstall.
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebug.gen.cpp Line: 56)
+
+Ples uninstall.
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebug.gen.cpp Line: 56)
+
+Ples uninstall.
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebug.gen.cpp Line: 56)
+
+Ples uninstall.
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebug.gen.cpp Line: 56)
+
+Ples uninstall.
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebug.gen.cpp Line: 56)
+
+Ples uninstall.
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebug.gen.cpp Line: 56)
+
+Ples uninstall.
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebug.gen.cpp Line: 56)
+
+Ples uninstall.
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebug.gen.cpp Line: 56)
+
+Ples uninstall.
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebug.gen.cpp Line: 56)
+
+Ples uninstall.
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebug.gen.cpp Line: 56)
+
+Ples uninstall.
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebug.gen.cpp Line: 56)
+
+Ples uninstall.
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebug.gen.cpp Line: 56)
+
+Ples uninstall.
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebug.gen.cpp Line: 56)
+
+Ples uninstall.
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebug.gen.cpp Line: 56)
+
+Ples uninstall.
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebug.gen.cpp Line: 56)
+
+Ples uninstall.
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebug.gen.cpp Line: 56)
+
+Ples uninstall.
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebug.gen.cpp Line: 56)
+
+Ples uninstall.
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebug.gen.cpp Line: 56)
+
+Ples uninstall.
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebug.gen.cpp Line: 56)
+
+Ples uninstall.
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebug.gen.cpp Line: 56)
+
+Ples uninstall.
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebug.gen.cpp Line: 56)
+
+Ples uninstall.
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebug.gen.cpp Line: 56)
+
+Ples uninstall.
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebug.gen.cpp Line: 56)
+
+Ples uninstall.
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebug.gen.cpp Line: 56)
+
+Ples uninstall.
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebug.gen.cpp Line: 56)
+
+Ples uninstall.
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebug.gen.cpp Line: 56)
+
+Ples uninstall.
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebug.gen.cpp Line: 56)
+
+Ples uninstall.
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebug.gen.cpp Line: 56)
+
+Ples uninstall.
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebug.gen.cpp Line: 56)
+
+Ples uninstall.
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebug.gen.cpp Line: 56)
+
+Ples uninstall.
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebug.gen.cpp Line: 56)
+
+Ples uninstall.
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebug.gen.cpp Line: 56)
+
+Ples uninstall.
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebug.gen.cpp Line: 56)
+
+Ples uninstall.
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebug.gen.cpp Line: 56)
+
+Ples uninstall.
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebug.gen.cpp Line: 56)
+
+Ples uninstall.
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebug.gen.cpp Line: 56)
+
+Ples uninstall.
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebug.gen.cpp Line: 56)
+
+Ples uninstall.
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebug.gen.cpp Line: 56)
+
+Ples uninstall.
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebug.gen.cpp Line: 56)
+
+Ples uninstall.
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebug.gen.cpp Line: 56)
+
+Ples uninstall.
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebug.gen.cpp Line: 56)
+
+Ples uninstall.
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebug.gen.cpp Line: 56)
+
+Ples uninstall.
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebug.gen.cpp Line: 56)
+
+Ples uninstall.
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebug.gen.cpp Line: 56)
+
+Ples uninstall.
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebug.gen.cpp Line: 56)
+
+Ples uninstall.
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebug.gen.cpp Line: 56)
+
+Ples uninstall.
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebug.gen.cpp Line: 56)
+
+Ples uninstall.
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebug.gen.cpp Line: 56)
+
+Ples uninstall.
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebug.gen.cpp Line: 56)
+
+Ples uninstall.
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebug.gen.cpp Line: 56)
+
+Ples uninstall.
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebug.gen.cpp Line: 56)
+
+Ples uninstall.
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebug.gen.cpp Line: 56)
+
+Ples uninstall.
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebug.gen.cpp Line: 56)
+
+Ples uninstall.
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebug.gen.cpp Line: 56)
+
+Ples uninstall.
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebug.gen.cpp Line: 56)
+
+Ples uninstall.
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebug.gen.cpp Line: 56)
+
+Ples uninstall.
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebug.gen.cpp Line: 56)
+
+Ples uninstall.
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebug.gen.cpp Line: 56)
+
+Ples uninstall.
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebug.gen.cpp Line: 56)
+
+Ples uninstall.
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebug.gen.cpp Line: 56)
+
+Ples uninstall.
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebug.gen.cpp Line: 56)
+
+Ples uninstall.
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebug.gen.cpp Line: 56)
+
+Ples uninstall.
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebug.gen.cpp Line: 56)
+
+Ples uninstall.
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebug.gen.cpp Line: 56)
+
+Ples uninstall.
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebug.gen.cpp Line: 56)
+
+Ples uninstall.
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebug.gen.cpp Line: 56)
+
+Ples uninstall.
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebug.gen.cpp Line: 56)
+
+Ples uninstall.
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebug.gen.cpp Line: 56)
+
+Ples uninstall.
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebug.gen.cpp Line: 56)
+
+Ples uninstall.
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebug.gen.cpp Line: 56)
+
+Ples uninstall.
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebug.gen.cpp Line: 56)
+
+Ples uninstall.
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebug.gen.cpp Line: 56)
+
+Ples uninstall.
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebug.gen.cpp Line: 56)
+
+Ples uninstall.
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebug.gen.cpp Line: 56)
+
+Ples uninstall.
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebug.gen.cpp Line: 56)
+
+Ples uninstall.
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebug.gen.cpp Line: 56)
+
+Ples uninstall.
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebug.gen.cpp Line: 56)
+
+Ples uninstall.
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebug.gen.cpp Line: 56)
+
+Ples uninstall.
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebug.gen.cpp Line: 56)
+
+Ples uninstall.
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebug.gen.cpp Line: 56)
+
+Ples uninstall.
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebug.gen.cpp Line: 56)
+
+Ples uninstall.
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebug.gen.cpp Line: 56)
+
+Ples uninstall.
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebug.gen.cpp Line: 56)
+
+Ples uninstall.
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebug.gen.cpp Line: 56)
+
+Ples uninstall.
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebug.gen.cpp Line: 56)
+
+Ples uninstall.
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebug.gen.cpp Line: 56)
+
+Ples uninstall.
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebug.gen.cpp Line: 56)
+
+Ples uninstall.
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebug.gen.cpp Line: 56)
+
+Ples uninstall.
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebug.gen.cpp Line: 56)
+
+Ples uninstall.
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebug.gen.cpp Line: 56)
+
+Ples uninstall.
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebug.gen.cpp Line: 56)
+
+Ples uninstall.
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebug.gen.cpp Line: 56)
+
+Ples uninstall.
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebug.gen.cpp Line: 56)
+
+Ples uninstall.
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebug.gen.cpp Line: 56)
+
+Ples uninstall.
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebug.gen.cpp Line: 56)
+
+Ples uninstall.
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebug.gen.cpp Line: 56)
+
+Ples uninstall.
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebug.gen.cpp Line: 56)
+
+Ples uninstall.
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebug.gen.cpp Line: 56)
+
+Ples uninstall.
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebug.gen.cpp Line: 56)
+
+False DisableScripts
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebug.gen.cpp Line: 56)
+
+RED TEAM WINS
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebug.gen.cpp Line: 56)
+
+Unloading 6 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 1.920563 ms
+
+Unloading 289 unused Assets to reduce memory usage. Loaded Objects now: 1141.
+Total: 3.210890 ms (FindLiveObjects: 0.073706 ms CreateObjectMapping: 0.101229 ms MarkObjects: 1.043551 ms  DeleteObjects: 1.991470 ms)
+
+Setting up 1 worker threads for Enlighten.
+  Thread -> id: 1c24 -> priority: 1 

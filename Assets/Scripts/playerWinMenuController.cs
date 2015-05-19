@@ -15,6 +15,6 @@ public class playerWinMenuController : MonoBehaviour {
     public void LeaveGame()
     {
         PhotonNetwork.LeaveRoom();
-        Application.LoadLevel("MainMenu");
+        Application.LoadLevel("MainScreen2");
     }
 }

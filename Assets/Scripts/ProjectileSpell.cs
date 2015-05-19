@@ -8,6 +8,7 @@ public class ProjectileSpell : Photon.MonoBehaviour
     private List<int> playersHit = new List<int>();
     public string Name = "";
     public int spellTeam = 0;
+    public string Class = "";
     public double Scale { get; set; }
     public ActiveSkill ProjectileActiveSkill = new ActiveSkill();
     // Use this for initialization
@@ -116,7 +117,7 @@ public class ProjectileSpell : Photon.MonoBehaviour
                         if(!playersHit.Contains(player.ID))
                         {
                             
-                                other.GetComponent<PhotonView>().RPC("TakeDamage", player, this.ProjectileActiveSkill.DamageHealingPower,this.GetComponent<PhotonView>().owner.ID);
+                                other.GetComponent<PhotonView>().RPC("TakeDamage", PhotonTargets.All, this.ProjectileActiveSkill.DamageHealingPower,this.GetComponent<PhotonView>().owner.ID);
                                 playersHit.Add(player.ID);
                         }                      
                     }

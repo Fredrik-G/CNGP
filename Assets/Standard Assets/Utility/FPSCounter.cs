@@ -1,37 +1,38 @@
-using System;
 using UnityEngine;
+using System.Collections;
 
-namespace UnityStandardAssets.Utility
+public class FPSCounter : MonoBehaviour
 {
-    [RequireComponent(typeof (GUIText))]
-    public class FPSCounter : MonoBehaviour
-    {
-        const float fpsMeasurePeriod = 0.5f;
-        private int m_FpsAccumulator = 0;
-        private float m_FpsNextPeriod = 0;
-        private int m_CurrentFps;
-        const string display = "{0} FPS";
-        private GUIText m_GuiText;
-
-
-        private void Start()
-        {
-            m_FpsNextPeriod = Time.realtimeSinceStartup + fpsMeasurePeriod;
-            m_GuiText = GetComponent<GUIText>();
-        }
-
-
-        private void Update()
-        {
-            // measure average frames per second
-            m_FpsAccumulator++;
-            if (Time.realtimeSinceStartup > m_FpsNextPeriod)
-            {
-                m_CurrentFps = (int) (m_FpsAccumulator/fpsMeasurePeriod);
-                m_FpsAccumulator = 0;
-                m_FpsNextPeriod += fpsMeasurePeriod;
-                m_GuiText.text = string.Format(display, m_CurrentFps);
-            }
-        }
-    }
+	float deltaTime = 0.0f;
+	private GUIStyle style = new GUIStyle();
+	private Rect rect;
+	private string text;
+	void Start()
+	{
+		int w = Screen.width;
+		int h = Screen.height;
+		rect = new Rect(Screen.width*0.003f, Screen.height*0.035f, 0.03f, 0.025f);
+		//0.006f, 0.865f, 0.03f, 0.025f
+		style.alignment = TextAnchor.LowerLeft;
+		style.fontSize = h * 2 / 100;
+		style.normal.textColor = Color.black;
+	}
+	void Update()
+	{
+		deltaTime += (Time.deltaTime - deltaTime) * 0.1f;
+	}
+	
+	void OnGUI()
+	{
+		float msec = deltaTime * 1000.0f;
+		float fps = 1.0f / deltaTime;
+		if (fps < 10)
+			style.normal.textColor = Color.red;
+		else if (fps < 30)
+			style.normal.textColor = Color.yellow;
+		else
+			style.normal.textColor = Color.green;
+		text = string.Format("{0:0.0} ms ({1:0.} fps)", msec, fps);//{0:0.0} ms ,mse        //text = fps+" fps";
+		GUI.Label(rect, text, style);
+	}
 }

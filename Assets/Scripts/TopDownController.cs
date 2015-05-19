@@ -8,7 +8,7 @@ public class TopDownController : MonoBehaviour
     public float rotationSpeed = 1500;
     public float walkSpeed = 5;
     public float runSpeed = 8;
-
+	public bool Disable = false;
     private Quaternion targetRotation;
 
     private CharacterController controller;
@@ -25,11 +25,8 @@ public class TopDownController : MonoBehaviour
 
     void Update()
     {
-        ControlMouse();
-
-        //Debug.Log(PhotonNetwork.GetPing().ToString());
-        //ControlWASD ();
-
+		if(!Disable)
+        	ControlMouse();
     }
 
     void ControlMouse()
