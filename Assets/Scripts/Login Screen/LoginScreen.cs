@@ -12,7 +12,7 @@ public class LoginScreen : MonoBehaviour
 {
     #region Data
 
-    private const string UserNamePlayerPref = "NamePickUserName";
+    #region Menus Data
 
     /// <summary>
     /// All available menus.
@@ -24,23 +24,31 @@ public class LoginScreen : MonoBehaviour
     }
 
     /// <summary>
+    /// The currently selected menu
+    /// </summary>
+    private Menus _currentMenu = Menus.Login;
+
+    #endregion
+
+    #region Account Data
+
+    /// <summary>
     /// Account information
     /// </summary>
 
-    /// !!!Borde använda klassen User!!!
-    private string _accountEmail = String.Empty;
-    private string _accountPassword = String.Empty;
-    private string _registeredIp = String.Empty;
-    private string _currentIp = String.Empty;
+    private readonly User _user = new User(String.Empty, String.Empty, String.Empty);
+
+    #endregion
+
+    #region Hash Data
 
     private string _hash = string.Empty;
     private string _salt = string.Empty;
     private static readonly RNGCryptoServiceProvider RngCrypto = new RNGCryptoServiceProvider();
 
-    /// <summary>
-    /// The currently selected menu
-    /// </summary>
-    private Menus _currentMenu = Menus.Login;
+    #endregion
+
+    #region Info Messages
 
     /// <summary>
     /// Warning message to be shown
@@ -52,12 +60,27 @@ public class LoginScreen : MonoBehaviour
     /// </summary>
     private string _infoMessage = String.Empty;
 
+    #endregion
+
+    #region GUI Stuff
+
     /// <summary>
     /// Rect used for menu/left/right-buttons.
     /// </summary>
     private Rect _menuRect;
+
     private Rect _leftButtonRect;
     private Rect _rightButtonRect;
+
+    /// <summary>
+    /// GUIStyles used for button & inputfields.
+    /// Style values set via Unity Editor.
+    /// </summary>
+    public GUIStyle ButtonGuiStyle;
+    public GUIStyle InputFieldGuiStyle;
+    public GUIStyle BoxGuiStyle;
+
+    #endregion
 
     /// <summary>
     /// Database controller that contains a connection to a database
@@ -65,21 +88,23 @@ public class LoginScreen : MonoBehaviour
     /// </summary>
     private DatabaseController _database;
 
+    private const string UserNamePlayerPref = "NamePickUserName";
+
     #endregion
 
     #region MonoBehaviour Events
 
     public void Start()
     {
-        _menuRect = new Rect(Screen.width/2 - Screen.width/5.8f, Screen.height/2 - Screen.height/7.5f, Screen.width/3,
-            Screen.height/3);
+        _menuRect = new Rect(Screen.width / 2 - Screen.width / 5.8f, Screen.height / 2 - Screen.height / 7.5f, Screen.width / 3,
+            Screen.height / 3);
 
-        _leftButtonRect = new Rect(Screen.width/2 - Screen.width/7.5f, Screen.height/2 + Screen.height/10,
-            Screen.width/8,
-            Screen.height/20);
+        _leftButtonRect = new Rect(Screen.width / 2 - Screen.width / 7.5f, Screen.height / 2 + Screen.height / 10,
+            Screen.width / 8,
+            Screen.height / 20);
 
-        _rightButtonRect = new Rect(Screen.width/2 + Screen.width/80, Screen.height/2 + Screen.height/10, Screen.width/8,
-            Screen.height/20);
+        _rightButtonRect = new Rect(Screen.width / 2 + Screen.width / 80, Screen.height / 2 + Screen.height / 10, Screen.width / 8,
+            Screen.height / 20);
 
         _database = new DatabaseController();
         _database.Initilize();
@@ -117,42 +142,32 @@ public class LoginScreen : MonoBehaviour
             _database.GetStatisticsForAccount("asd");
         }
 
-        GUI.Box(_menuRect, "Login Screen");
+        GUI.Box(_menuRect, "Login Screen", BoxGuiStyle);
 
         DisplayMessage();
 
-        if (GUI.Button(_leftButtonRect, "Login"))
+        if (GUI.Button(_leftButtonRect, "Login", ButtonGuiStyle))
         {
             Authenticate();
         }
-        if (GUI.Button(_rightButtonRect, "Create Account"))
+        if (GUI.Button(_rightButtonRect, "Create Account", ButtonGuiStyle))
         {
             ClearMessagesAndPassword();
             _currentMenu = Menus.CreateAccount;
         }
 
-        if (String.IsNullOrEmpty(_accountEmail))
+        _user.EMail = GUI.TextField(UIFormat.CreateCenteredRect(0), _user.EMail, InputFieldGuiStyle);
+        if(GUI.GetNameOfFocusedControl().Equals(""))
+        if (String.IsNullOrEmpty(_user.EMail))
         {
-            GUI.Label(UIFormat.CreateCenteredRect(0), "Account Email");
+            GUI.Label(UIFormat.CreateCenteredRect(0), "Account Email", InputFieldGuiStyle);
         }
-        _accountEmail = GUI.TextField(UIFormat.CreateCenteredRect(0), _accountEmail);
 
-        if (String.IsNullOrEmpty(_accountPassword))
+        _user.Password = GUI.PasswordField(UIFormat.CreateCenteredRect(-40), _user.Password, '*', InputFieldGuiStyle);
+        if (String.IsNullOrEmpty(_user.Password))
         {
-            GUI.Label(UIFormat.CreateCenteredRect(-40), "Account Password");
+            GUI.Label(UIFormat.CreateCenteredRect(-40), "Account Password", InputFieldGuiStyle);
         }
-        _accountPassword = GUI.PasswordField(UIFormat.CreateCenteredRect(-40), _accountPassword, '*');
-
-    }
-
-    /// <summary>
-    /// Clears warning and info messages and password.
-    /// </summary>
-    private void ClearMessagesAndPassword()
-    {
-        _warningMessage = String.Empty;
-        _infoMessage = String.Empty;
-        _accountPassword = String.Empty;
     }
 
     /// <summary>
@@ -160,31 +175,31 @@ public class LoginScreen : MonoBehaviour
     /// </summary>
     private void CreateAccountGUI()
     {
-        GUI.Box(_menuRect, "Create New Account");
+        GUI.Box(_menuRect, "Create New Account", BoxGuiStyle);
 
         DisplayMessage();
 
-        if (GUI.Button(_leftButtonRect, "Create Account"))
+        if (GUI.Button(_leftButtonRect, "Create Account", ButtonGuiStyle))
         {
             CreateAccount();
         }
-        if (GUI.Button(_rightButtonRect, "Back"))
+        if (GUI.Button(_rightButtonRect, "Back", ButtonGuiStyle))
         {
             ClearMessagesAndPassword();
             _currentMenu = Menus.Login;
         }
 
-        if (String.IsNullOrEmpty(_accountEmail))
+        _user.EMail = GUI.TextField(UIFormat.CreateCenteredRect(0), _user.EMail, InputFieldGuiStyle);
+        if (String.IsNullOrEmpty(_user.EMail))
         {
-            GUI.Label(UIFormat.CreateCenteredRect(0), "Account Email");
+            GUI.Label(UIFormat.CreateCenteredRect(0), "Account Email", InputFieldGuiStyle);
         }
-        _accountEmail = GUI.TextField(UIFormat.CreateCenteredRect(0), _accountEmail);
+        _user.Password = GUI.PasswordField(UIFormat.CreateCenteredRect(-40), _user.Password, '*', InputFieldGuiStyle);
 
-        if (String.IsNullOrEmpty(_accountPassword))
+        if (String.IsNullOrEmpty(_user.Password))
         {
-            GUI.Label(UIFormat.CreateCenteredRect(-40), "Account Password");
+            GUI.Label(UIFormat.CreateCenteredRect(-40), "Account Password", InputFieldGuiStyle);
         }
-        _accountPassword = GUI.PasswordField(UIFormat.CreateCenteredRect(-40), _accountPassword, '*');
     }
 
     #endregion
@@ -196,21 +211,22 @@ public class LoginScreen : MonoBehaviour
     /// </summary>
     private void CreateAccount()
     {
-        if (String.IsNullOrEmpty(_accountEmail) || String.IsNullOrEmpty(_accountPassword))
+        if (String.IsNullOrEmpty(_user.EMail) || String.IsNullOrEmpty(_user.Password))
         {
             _warningMessage = "Email or password can not be empty.";
             return;
         }
 
         _salt = CalculateSalt();
-        _hash = CalculateHash(_salt, _accountPassword);
-        _registeredIp = GetUserPublicIp();
-        _currentIp = _registeredIp;
-
+        _hash = CalculateHash(_salt, _user.Password);
+        _user.RegisteredIp = GetUserPublicIp();
+        _user.CurrentIp = _user.RegisteredIp;
+        
+        
         try
         {
             Debug.Log("Adding to database");
-            _database.AddAccountToDatabase(_accountEmail, _salt, _hash, _registeredIp, _currentIp);
+            _database.AddAccountToDatabase(_user.EMail, _salt, _hash, _user.RegisteredIp, _user.CurrentIp);
             _warningMessage = String.Empty;
             _infoMessage = "Account was successfully created!";
         }
@@ -229,17 +245,17 @@ public class LoginScreen : MonoBehaviour
     /// </summary>
     private void Authenticate()
     {
-        var salt = _database.GetSaltForAccount(_accountEmail);
-        var correctHash = _database.GetHashForAccount(_accountEmail);
-        var inputHash = CalculateHash(salt, _accountPassword);
+        var salt = _database.GetSaltForAccount(_user.EMail);
+        var correctHash = _database.GetHashForAccount(_user.EMail);
+        var inputHash = CalculateHash(salt, _user.Password);
 
         if (correctHash == inputHash)
-        { 
+        {
             Debug.Log("Correct login");
             _infoMessage = "Correct login!";
 
-            _currentIp = GetUserPublicIp();
-            _database.UpdateCurrentIpForAccount(_accountEmail, _currentIp);
+            _user.CurrentIp = GetUserPublicIp();
+            _database.UpdateCurrentIpForAccount(_user.EMail, _user.CurrentIp);
 
             LoadLobby();
         }
@@ -257,7 +273,7 @@ public class LoginScreen : MonoBehaviour
     /// </summary>
     private void LoadLobby()
     {
-        PlayerPrefs.SetString(UserNamePlayerPref, _accountEmail);
+        PlayerPrefs.SetString(UserNamePlayerPref, _user.EMail);
         Application.LoadLevel("MainScreen2");
     }
 
@@ -269,7 +285,7 @@ public class LoginScreen : MonoBehaviour
         if (!String.IsNullOrEmpty(_warningMessage))
         {
             var guiStyle = UIFormat.FormatGuiStyle(TextAnchor.UpperLeft, UIFormat.FontSize.Small, Color.red);
-            var rect = UIFormat.CreateCenteredRect(-Screen.height/5);
+            var rect = UIFormat.CreateCenteredRect(-Screen.height / 5);
 
             GUI.Label(rect, _warningMessage, guiStyle);
         }
@@ -280,6 +296,16 @@ public class LoginScreen : MonoBehaviour
 
             GUI.Label(rect, _infoMessage, guiStyle);
         }
+    }
+
+    /// <summary>
+    /// Clears warning and info messages and password.
+    /// </summary>
+    private void ClearMessagesAndPassword()
+    {
+        _warningMessage = String.Empty;
+        _infoMessage = String.Empty;
+        _user.Password = String.Empty;
     }
 
     /// <summary>
@@ -332,5 +358,4 @@ public class LoginScreen : MonoBehaviour
     }
 
     #endregion
-
 }
