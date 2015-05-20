@@ -23,12 +23,19 @@ namespace UDPListener
 
         #region Constructor & Load
 
-        //Default constructor
+        /// <summary>
+        /// Default constructor
+        /// </summary>
         public UDPListener()
         {
             InitializeComponent();
         }
 
+        /// <summary>
+        /// Occurs when the form is loaded.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void UDPListener_Load(object sender, EventArgs e)
         {
             StartNewListener();
@@ -36,25 +43,46 @@ namespace UDPListener
 
         #endregion
 
+        #region ListenerView Events
+
+        /// <summary>
+        /// Occurs when the "StartedNewListener"-event is raised from a "ListenerView".
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ListenerView_StartedNewListener(object sender, EventArgs e)
         {
             UpdateInfoFormTitle();
         }
 
+        /// <summary>
+        /// Occurs when the "StoppedListener"-event is raised from a "ListenerView".
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ListenerView_StoppedListener(object sender, EventArgs e)
         {
             UpdateInfoFormTitle();
         }
 
+        #endregion
+
+        /// <summary>
+        /// Updates the form title based on current listeners.
+        /// </summary>
         private void UpdateInfoFormTitle()
         {
             var numberOfActiveListeners = _listenerViews.Count(listenerView => listenerView.UdpListenIsActive);
             var totalNumberOfListeners = _listenerViews.Count;
-            Text = totalNumberOfListeners + " Listener(s) Up   -    " + numberOfActiveListeners + "/" + totalNumberOfListeners + " Active Listeners";
+            Text = String.Format("{0} Listener(s) Up  -  {1}/{2} Active Listeners", totalNumberOfListeners,
+                numberOfActiveListeners, totalNumberOfListeners);
         }
 
         #region Listener Methods
 
+        /// <summary>
+        /// Starts a new ListenerView and adds it to the tab page.
+        /// </summary>
         private void StartNewListener()
         {
             var listenerView = new ListenerView
@@ -64,7 +92,7 @@ namespace UDPListener
                 //  Anchor = AnchorStyles.Bottom | AnchorStyles.Right |AnchorStyles.Top | AnchorStyles.Left
             };
             var numerOfTabs = ListenerTabControl.TabPages.Count + 1;
-            var tabPage = new TabPage {Text = "Listener " + numerOfTabs};
+            var tabPage = new TabPage { Text = "Listener " + numerOfTabs };
             tabPage.Controls.Add(listenerView);
             ListenerTabControl.Controls.Add(tabPage);
             _listenerViews.Add(listenerView);
@@ -83,6 +111,9 @@ namespace UDPListener
             _listenerViews[_listenerViews.Count - 1].StoppedListener += ListenerView_StoppedListener;
         }
 
+        /// <summary>
+        /// Stops all listeners.
+        /// </summary>
         private void StopAllListeners()
         {
             foreach (var listenerView in _listenerViews)
@@ -95,11 +126,21 @@ namespace UDPListener
 
         #region ToolStipMenu Clicks
 
+        /// <summary>
+        /// Occurs when the StartNewListener-menu is clicked in the toolstrip.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void startNewListenerToolStripMenuItem_Click_1(object sender, EventArgs e)
         {
             StartNewListener();
         }
 
+        /// <summary>
+        /// Occurs when the StopALlListeners-menu is clicked in the toolstrip.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void stopAllListenersToolStripMenuItem_Click(object sender, EventArgs e)
         {
             StopAllListeners();

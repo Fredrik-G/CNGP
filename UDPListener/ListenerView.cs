@@ -22,8 +22,13 @@ namespace UDPListener
         private UdpClient _udpServer;
         public bool UdpListenIsActive;
 
+        /// <summary>
+        /// Events used to signal starting/stopping a listener.
+        /// </summary>
         public event EventHandler StartedNewListener;
         public event EventHandler StoppedListener;
+
+        private readonly ActiveTime _activeTime = new ActiveTime();
 
         #endregion
 
@@ -45,26 +50,44 @@ namespace UDPListener
 
         #region Constructor & Load
 
+        /// <summary>
+        /// Default constructor
+        /// </summary>
         public ListenerView()
         {
             InitializeComponent();
         }
 
+        /// <summary>
+        /// Occurs when this UserControl is loaded.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ListenerView_Load(object sender, EventArgs e)
         {
             LogLevelComboBox.SelectedIndex = 0;
+            TimeActiveLabel.Text = String.Empty;
         }
 
         #endregion
 
         #region Button Clicks
 
+        /// <summary>
+        /// Occurs when the Start Listener Button is clicked.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void StartListenerButton_Click(object sender, EventArgs e)
         {
             StartListening();
-
         }
 
+        /// <summary>
+        /// Occurs when the Start Listener Button is clicked.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void StopListenerButton_Click(object sender, EventArgs e)
         {
             StopListening();
@@ -74,11 +97,21 @@ namespace UDPListener
 
         #region Textbox Mouse Clicks
 
+        /// <summary>
+        /// Occurs when the IPAdressTextBox is clicked.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void IPAdressTextBox_MouseDown(object sender, MouseEventArgs e)
         {
             IPAdressTextBox.Text = String.Empty;
         }
 
+        /// <summary>
+        /// Occurs when the PortTextBox is clicked.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void PortTextBox_MouseDown(object sender, MouseEventArgs e)
         {
             PortTextBox.Text = String.Empty;
@@ -99,7 +132,10 @@ namespace UDPListener
             IPAdressTextBox.Enabled = PortTextBox.Enabled = false;
             StartListenerButton.Enabled = false;
             StopListenerButton.Enabled = true;
-
+            TimeActiveLabel.Visible = true;
+            
+            TimeActiveTimer.Start();
+            
             _udpServer = new UdpClient(Port);
             UdpListenIsActive = true;
             var task = Task.Run(() => ReceiveUdpMessage());
@@ -122,16 +158,26 @@ namespace UDPListener
                 StartListenerButton.Enabled = true;
                 StopListenerButton.Enabled = false;
 
+                TimeActiveTimer.Stop();
+
                 if (StoppedListener != null)
                     StoppedListener(this, new EventArgs());
             }
         }
-
+        
+        /// <summary>
+        /// Receives an UDP message asynchronously.
+        /// </summary>
         private void ReceiveUdpMessage()
         {
             _udpServer.BeginReceive(ReceiveUdpCallback, null);
         }
 
+        /// <summary>
+        /// Ends an asynchronous UDP message.
+        /// Also calls for the next message if the listener is active.
+        /// </summary>
+        /// <param name="result"></param>
         private void ReceiveUdpCallback(IAsyncResult result)
         {
             if (UdpListenIsActive)
@@ -142,8 +188,6 @@ namespace UDPListener
 
                 var logRowInfo = new LogRowInfo();
                 logRowInfo.FormatLine(loggingEvent);
-
-                // Invoke(new Action(() => { _logRowInfos.Add(logRowInfo); }));
 
                 AddNewLogMessage(logRowInfo);
 
@@ -171,6 +215,8 @@ namespace UDPListener
             var indexOfLastAddedRow = LogMessagesDataGridView.Rows.GetLastRow(DataGridViewElementStates.None);
             ColorRowAfterItsLevel(indexOfLastAddedRow, logRowInfo);
             FilterLogMessages();
+
+            _activeTime.AddMessage();
         }
 
         /// <summary>
@@ -205,11 +251,9 @@ namespace UDPListener
             LogMessagesDataGridView.Rows[indexOfLastAddedRow].DefaultCellStyle.BackColor = selectedColor;
         }
 
-        private void LogLevelComboBox_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            FilterLogMessages();
-        }
-
+        /// <summary>
+        /// Filters the log messages based on the selected filter value in the combo box.
+        /// </summary>
         private void FilterLogMessages()
         {
             var logLevel = 0;
@@ -240,5 +284,44 @@ namespace UDPListener
                 }
             }
         }
+
+        #region Combobox Events
+
+        private void LogLevelComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            FilterLogMessages();
+        }
+
+        #endregion
+
+        #region Timer Events
+
+        private void TimeActiveTimer_Tick(object sender, EventArgs e)
+        {
+            if (TimeActiveTimer.Interval < 1000)
+            {
+                throw new Exception("Time Interval should not be set to lower than 1000ms");
+            }
+
+            for (var i = 0; i < TimeActiveTimer.Interval/1000; i++)
+            {
+                _activeTime.AddSecond();
+            }
+
+            TimeActiveLabel.Text = _activeTime.GetActiveTimeString();
+
+            TimeActiveTimer.Start();
+        }
+
+        #endregion
+
+        private void ClearMessagesButton_Click(object sender, EventArgs e)
+        {
+            _logRowInfos.Clear();
+            LogMessagesDataGridView.Rows.Clear();
+            _activeTime.ClearMessageCount();
+            TimeActiveLabel.Text = String.Empty;
+        }
+
     }
 }
