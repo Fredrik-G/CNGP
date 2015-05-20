@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 namespace Engine
 {
     /// <summary>
@@ -8,6 +9,11 @@ namespace Engine
     {
         public string CurrentIp { get; set; }
         public string RegisteredIp { get; set; }
+
+        public IpInfo()
+        {
+            CurrentIp = RegisteredIp = String.Empty;
+        }
 
         public IpInfo(string currentIp, string registeredIp)
         {

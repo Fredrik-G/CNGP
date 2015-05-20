@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Data;
+using System.IO;
 using System.Text;
 using Mono.Data.SqliteClient;
 using UnityEngine;
@@ -32,7 +33,8 @@ namespace Engine
         //  + SQL_DB_NAME + ".db";
 
         //Använd ej denna, använd den ovanför.
-        private const string SQL_DB_LOCATION = "URI=file:C:/Users/Lukas/Desktop/photon/Assets/Database/cngp.db";
+        //private const string SQL_DB_LOCATION = "URI=file:C:/Users/Lukas/Desktop/photon/Assets/Database/cngp.db";
+        private const string SQL_DB_LOCATION = "URI=file:M:/Desktop/CNGP.db";
 
         /// <summary>
         /// DB objects
@@ -99,9 +101,21 @@ namespace Engine
         /// </summary>
         public void Initilize()
         {
-            DebugText("Opening connection to database " + SQL_DB_NAME);
-            _dbConnection = new SqliteConnection(SQL_DB_LOCATION);
-            _dbCommand = _dbConnection.CreateCommand();
+            var localPath = new Uri(SQL_DB_LOCATION.Remove(0, 4)).LocalPath;
+            if (File.Exists(localPath))
+            {
+                DebugText("Database was found. Opening connection to " + SQL_DB_NAME);
+                _dbConnection = new SqliteConnection(SQL_DB_LOCATION);
+                _dbCommand = _dbConnection.CreateCommand();
+            }
+            else
+            {
+                DebugText("Database was not found. Creating database and tables for " + SQL_DB_NAME);
+                _dbConnection = new SqliteConnection(SQL_DB_LOCATION);
+                _dbCommand = _dbConnection.CreateCommand();
+                CreateAccountsTable();
+                CreateStatisticsTable();
+            }
         }
 
         /// <summary>
@@ -123,6 +137,35 @@ namespace Engine
         }
 
         #region SQL Queries
+
+        private void CreateAccountsTable()
+        {
+            _sqlQuery = "CREATE TABLE [Accounts] (" +
+                        "[Email] VARCHAR(30)  PRIMARY KEY NOT NULL," +
+                        "[Salt] VARCHAR(65)  NULL," +
+                        "[Hash] VARCHAR(65)  NULL," +
+                        "[RegisteredIP] VARCHAR(15) NULL," +
+                        "[CurrentIP] VARCHAR(15) NULL)";
+
+            DebugText(_sqlQuery);
+            SQL_TABLE_NAME = AccountsTable.TableName;
+            ExecuteNonQuery(_sqlQuery);
+        }
+
+        private void CreateStatisticsTable()
+        {
+            _sqlQuery = "CREATE TABLE [Statistics] (" +
+                        "[Email] VARCHAR(30)  PRIMARY KEY NULL," +
+                        "[Wins] INTEGER DEFAULT '-1' NULL," +
+                        "[GamesPlayed] INTEGER DEFAULT '-1' NULL," +
+                        "[Rating] INTEGER DEFAULT '-1' NULL," +
+                        "[Kills] INTEGER DEFAULT '-1' NULL," +
+                        "[Deaths] INTEGER DEFAULT '-1' NULL)";
+
+            DebugText(_sqlQuery);
+            SQL_TABLE_NAME = StatisticsTable.TableName;
+            ExecuteNonQuery(_sqlQuery);
+        }
 
         /// <summary>
         /// Inserts given columns to the current table.
@@ -257,6 +300,7 @@ namespace Engine
             _dbConnection.Close();
 
             return "a";
+            //TODO
         }
 
         /// <summary>
@@ -296,7 +340,7 @@ namespace Engine
         {
             //Should check for sql injection here.
 
-            string[] accountInfo = { email, salt, hash, registeredIp,  currentIp};
+            string[] accountInfo = { email, salt, hash, registeredIp, currentIp };
 
             SQL_TABLE_NAME = Tables.Accounts;
 

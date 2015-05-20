@@ -4,7 +4,7 @@ namespace Engine
     /// <summary>
     /// Class that contains information about a user/account.
     /// </summary>
-	public class User : MonoBehaviour
+	public class User
     {
         public string Name { get; set; }
         public string Password { get; set; }
@@ -24,12 +24,13 @@ namespace Engine
             set { ipInfo.RegisteredIp = value; }
         }
 
-
         public User(string name, string password, string eMail)
         {
             Name = name;
             Password = password;
             EMail = eMail;
+            statistics = new Statistics();
+            ipInfo = new IpInfo();
         }
     }
 }
