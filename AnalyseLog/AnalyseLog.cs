@@ -5,7 +5,6 @@ using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
-using Microsoft.VisualBasic;
 
 namespace UDPLog
 {
@@ -25,10 +24,10 @@ namespace UDPLog
             InitializeComponent();
 
             //DEBUG!! REMOVE THIS
-            _logAnalysis.ReadLogFile(
-                "M:/Desktop/år2/SystemProgramvaruutveckling/UDPLog/UDPLog/UDPLog/bin/Debug/logs/gameplay LoginAndDay.log",
-                true);
-            //DEBUG!! REMOVE THIS
+          //  _logAnalysis.ReadLogFile(
+            //    "M:/Desktop/år2/SystemProgramvaruutveckling/UDPLog/UDPLog/UDPLog/bin/Debug/logs/gameplay LoginAndDay.log",
+          //      true);
+            //DEBUG!! REMOVE THIS TODO
         }
 
         #endregion

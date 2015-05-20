@@ -187,23 +187,35 @@ namespace LogAnalysis
             //const string fileLocation = AppDomain.CurrentDomain.BaseDirectory + "/logs/";    
             const Int32 bufferSize = 128;
 
-            using (var fileStream = File.OpenRead(fileLocation))
-            using (var streamReader = new StreamReader(fileStream, Encoding.UTF8, true, bufferSize))
+            FileStream fileStream = null;
+            try
             {
-                string line;
-                while ((line = streamReader.ReadLine()) != null)
+                fileStream = File.OpenRead(fileLocation);
+                using (var streamReader = new StreamReader(fileStream, Encoding.UTF8, true, bufferSize))
                 {
-                    var rowInfo = new LogRowInfo();
-                    rowInfo.FormatLine(line);
+                    fileStream = null;
+                    string line;
+                    while ((line = streamReader.ReadLine()) != null)
+                    {
+                        var rowInfo = new LogRowInfo();
+                        rowInfo.FormatLine(line);
 
-                    if (isGameplayLog)
-                    {
-                        _gameplayLogRowInfos.Add(rowInfo);
+                        if (isGameplayLog)
+                        {
+                            _gameplayLogRowInfos.Add(rowInfo);
+                        }
+                        else
+                        {
+                            _generalLogRowInfos.Add(rowInfo);
+                        }
                     }
-                    else
-                    {
-                        _generalLogRowInfos.Add(rowInfo);
-                    }
+                }
+            }
+            finally
+            {
+                if (fileStream != null)
+                {
+                    fileStream.Dispose();
                 }
             }
         }

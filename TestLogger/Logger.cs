@@ -1,7 +1,7 @@
 ﻿using System.Reflection;
 using log4net;
 
-namespace LogAnalysis
+namespace TestLogger
 {
     /// <summary>
     /// Class used for logging.
@@ -22,7 +22,7 @@ namespace LogAnalysis
             _log = LogManager.GetLogger(loggerName);
         }
 
-        #region Logging Methods
+        #region Logging methods
 
         /// <summary>
         /// Log on debug level if debug is enabled
