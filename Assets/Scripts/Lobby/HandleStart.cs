@@ -2,8 +2,11 @@
 
 public class HandleStart : MonoBehaviour
 {
+    public LobbySounds SoundController;
+
     public void HandleMouseClick()
     {
-        Debug.Log("Klick");
+        SoundController.StartGame();
+        Debug.Log("Click");
     }
 }

@@ -36,6 +36,8 @@ public class CharacterAndSkillsHandler : MonoBehaviour
     private PhotonPlayer[] _players;
     private PhotonPlayer[] _sortedPlayers;
 
+    public LobbySounds SoundController;
+
     #region Networking Variables
 
     private LobbyNetworking _lobbyNetworking = new LobbyNetworking();
@@ -55,20 +57,10 @@ public class CharacterAndSkillsHandler : MonoBehaviour
         EnablePassivSkillImages();
         _skillSelection.PreparePassiveSkills();
 
+        SoundController.GetComponent<LobbySounds>();
+
         _players = PhotonNetwork.playerList;
         SortPlayerList();
-    }
-
-    public void Update()
-    {
-        for (var i = 0; i < _sortedPlayers.Length; i++)
-        {
-            TeamMembersText[i].text = _sortedPlayers[i].name;
-            if (_sortedPlayers[i].customProperties["Ready"].Equals(true))
-            {
-                TeamMembersText[i].text += " Confirmed";
-            }
-        }
     }
 
     #endregion
@@ -101,8 +93,7 @@ public class CharacterAndSkillsHandler : MonoBehaviour
 
     public void HandleConfirmClick()
     {
-        PhotonView.RPC("ConfirmSelections", PhotonTargets.All);
-        //TODO
+        SoundController.Confirm();
     }
 
     [RPC]
@@ -223,6 +214,7 @@ public class CharacterAndSkillsHandler : MonoBehaviour
                 _characterSelection.ClickedSprites[_characterSelection.WaterbendingId];
             InfoText.text = "Water description goes here";
             DisplaySkillImages();
+            SoundController.SelectCharacter(CharacterSelection.Characters.Waterbending);
         }
     }
 
@@ -244,6 +236,7 @@ public class CharacterAndSkillsHandler : MonoBehaviour
                 _characterSelection.ClickedSprites[_characterSelection.EarthbendingId];
             InfoText.text = "Earth description goes here";
             DisplaySkillImages();
+            SoundController.SelectCharacter(CharacterSelection.Characters.Earthbending);
         }
     }
 
@@ -265,6 +258,7 @@ public class CharacterAndSkillsHandler : MonoBehaviour
                 _characterSelection.ClickedSprites[_characterSelection.FirebendingId];
             InfoText.text = "Fire description goes here";
             DisplaySkillImages();
+            SoundController.SelectCharacter(CharacterSelection.Characters.Firebending);
         }
     }
 
@@ -286,6 +280,7 @@ public class CharacterAndSkillsHandler : MonoBehaviour
                 _characterSelection.ClickedSprites[_characterSelection.AirbendingId];
             InfoText.text = "Air description goes here";
             DisplaySkillImages();
+            SoundController.SelectCharacter(CharacterSelection.Characters.Airbending);
         }
     }
 
@@ -320,10 +315,11 @@ public class CharacterAndSkillsHandler : MonoBehaviour
     private void HandleActiveSkillClick(ActiveSkillSelection.Skills skill)
     {
         var skillNumber = (int)skill;
-        if (_skillSelection.PerformActiveSkillClick(skillNumber))
+        if (_skillSelection.PerformActiveSkillClick(skillNumber, SoundController))
         {
             _skillSelection.SelectActiveSkill(skill, ActiveSkills[skillNumber]);
             DisplayActiveSkillInformation(skill);
+            SoundController.SelectSkill();
         }
         else
         {
@@ -339,7 +335,7 @@ public class CharacterAndSkillsHandler : MonoBehaviour
     private void HandlePassiveSkillClick(PassiveSkillSelection.Skills skill)
     {
         var skillNumber = (int)skill;
-        if (_skillSelection.PerformPassiveSkillClick(skillNumber))
+        if (_skillSelection.PerformPassiveSkillClick(skillNumber, SoundController))
         {
             _skillSelection.SelectPassiveSkill(skill, PassiveSkills[skillNumber]);
             DisplayPassiveSkillInformation(skill);

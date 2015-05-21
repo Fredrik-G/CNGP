@@ -90,12 +90,13 @@ public class SkillSelection
     /// </summary>
     /// <param name="skillNumber"></param>
     /// <returns>Returns true if the given skill could be clicked on, otherwise false.</returns>
-    public bool PerformActiveSkillClick(int skillNumber)
+    public bool PerformActiveSkillClick(int skillNumber, LobbySounds soundController)
     {
         if (IsSkillClicked(skillNumber, true))
         {
             ActiveSkillSelection.ActiveSkills[skillNumber].IsClicked = false;
             ActiveSkillSelection.CurrentNumberOfSelectedSkills--;
+            soundController.DeselectSkill();
             return false;
         }
 
@@ -103,6 +104,7 @@ public class SkillSelection
         {
             ActiveSkillSelection.ActiveSkills[skillNumber].IsClicked = true;
             ActiveSkillSelection.CurrentNumberOfSelectedSkills++;
+            soundController.SelectSkill();
             return true;
         }
 
@@ -213,12 +215,13 @@ public class SkillSelection
     /// </summary>
     /// <param name="skillNumber"></param>
     /// <returns>Returns true if the given skill could be clicked on, otherwise false.</returns>
-    public bool PerformPassiveSkillClick(int skillNumber)
+    public bool PerformPassiveSkillClick(int skillNumber, LobbySounds soundController)
     {
         if (IsSkillClicked(skillNumber, false))
         {
             PassiveSkillSelection.PassiveSkills[skillNumber].IsClicked = false;
             PassiveSkillSelection.CurrentNumberOfSelectedSkills--;
+            soundController.DeselectSkill();
             return false;
         }
 
@@ -226,6 +229,7 @@ public class SkillSelection
         {
             PassiveSkillSelection.PassiveSkills[skillNumber].IsClicked = true;
             PassiveSkillSelection.CurrentNumberOfSelectedSkills++;
+            soundController.SelectSkill();
             return true;
         }
 
