@@ -27,21 +27,19 @@ public class CharacterAndSkillsHandler : MonoBehaviour
     public List<Image> Characters = new List<Image>();
     public List<Image> ActiveSkills = new List<Image>();
     public List<Image> PassiveSkills = new List<Image>();
-
     public List<Image> ChosenImages = new List<Image>();
 
     #endregion
 
     private readonly CharacterSelection _characterSelection = new CharacterSelection();
     private readonly SkillSelection _skillSelection = new SkillSelection();
-
     private readonly ChosenCharacterAndSkills _chosenCharacterAndSkills = new ChosenCharacterAndSkills();
-
     private PhotonPlayer[] _players;
     private PhotonPlayer[] _sortedPlayers;
 
     #region Networking Variables
-
+    public List<int> chosenPassiveSkillList = new List<int>();
+    public List<int> chosenActiveSkillList = new List<int>();
     private LobbyNetworking _lobbyNetworking = new LobbyNetworking();
     public PhotonView PhotonView;
     public List<Text> TeamMembersText = new List<Text>();
@@ -70,85 +68,41 @@ public class CharacterAndSkillsHandler : MonoBehaviour
     {
         var numberOfConfirmed = 0;
         var numberOfplayers = _sortedPlayers.Length;
-        /*for (var i = 0; i < _sortedPlayers.Length; i++)
+        for (var i = 0; i < _sortedPlayers.Length; i++)
         {
-            TeamMembersText[i].text = _sortedPlayers[i].name;
-            if (_sortedPlayers[i].customProperties["Ready"] != null)
+            if (_sortedPlayers[i] != null)
             {
-                if (_sortedPlayers[i].customProperties["Ready"].Equals(true))
+                TeamMembersText[i].text = _sortedPlayers[i].name;
+                if (_sortedPlayers[i].customProperties["Ready"] != null)
                 {
-                    TeamMembersText[i].text += " Confirmed ";
-                    numberOfConfirmed++;
-                }
-            }
-        }*/
-        var numberOfBlues = 0;
-        var numberOfRed = 0;
-        for (var i = 0; i < numberOfplayers; ++i)
-        {
-            if (_sortedPlayers[i].customProperties["Ready"] == null &&
-                _sortedPlayers[i].customProperties["TeamID"] == null) continue;
-            if ((int)_sortedPlayers[i].customProperties["TeamID"] == 0)
-            {
-                if (numberOfRed == 0)
-                {
-                    TeamMembersText[0].text = _sortedPlayers[i].name;
                     if (_sortedPlayers[i].customProperties["Ready"].Equals(true))
                     {
-                        TeamMembersText[0].text += " Confirmed ";
-                        numberOfConfirmed++;
-                    }
-                }
-                else
-                {
-                    TeamMembersText[1].text = _sortedPlayers[i].name;
-                    if (_sortedPlayers[i].customProperties["Ready"].Equals(true))
-                    {
-                        TeamMembersText[1].text += " Confirmed ";
+                        if (i == 0 || i == 2)
+                        {
+                            var temp = "Ready " + TeamMembersText[i].text;
+                            TeamMembersText[i].text = temp;
+                        }
+                        else
+                            TeamMembersText[i].text += " Ready";
+
                         numberOfConfirmed++;
                     }
                 }
             }
             else
-            {
-                if (numberOfBlues == 0)
-                {
-                    TeamMembersText[2].text = _sortedPlayers[i].name;
-                    if (_sortedPlayers[i].customProperties["Ready"].Equals(true))
-                    {
-                        TeamMembersText[2].text += " Confirmed ";
-                        numberOfConfirmed++;
-                    }
-                }
-                else
-                {
-                    TeamMembersText[3].text = _sortedPlayers[i].name;
-                    if (_sortedPlayers[i].customProperties["Ready"].Equals(true))
-                    {
-                        TeamMembersText[3].text += " Confirmed ";
-                        numberOfConfirmed++;
-                    }
-                }
-            }
+                TeamMembersText[i].text = "N/A";
         }
 
-        if ((PhotonNetwork.isMasterClient) && (numberOfConfirmed == 4))
+        if ((PhotonNetwork.isMasterClient) && (numberOfConfirmed == 1))
         {
             GameObject.Find("StartManager").GetComponent<HandleStart>().ChangeButtonImage();
 
             GameObject.Find("StartManager").GetComponent<HandleStart>().ChangeReadyTextColor();
         }
+        /*for (int i = 0; i < 4; ++i) {
+            GetComponent("Chosen ActiveSkill"+i+1).GetComponent<Image>().sprite.
 
-        if (PhotonNetwork.room.playerCount == 4)
-        {
-            PhotonNetwork.room.visible = false;
-            PhotonNetwork.room.open = false;
-        }
-        else
-        {
-            PhotonNetwork.room.visible = true;
-            PhotonNetwork.room.open = true;
-        }
+        }*/
     }
 
     #endregion
@@ -192,13 +146,47 @@ public class CharacterAndSkillsHandler : MonoBehaviour
 
     public void HandleConfirmClick()
     {
-        var hashtable = new ExitGames.Client.Photon.Hashtable();
-        hashtable.Add("Ready", true);
-        PhotonNetwork.player.SetCustomProperties(hashtable);
-        Debug.Log(PhotonNetwork.player.customProperties["Ready"].ToString());
+        if (!PhotonNetwork.player.customProperties["Ready"].Equals(true))
+        {
+            var hashtable = new ExitGames.Client.Photon.Hashtable();
+            hashtable.Add("Ready", true);
+            PhotonNetwork.player.SetCustomProperties(hashtable);
+        }
     }
 
     #endregion
+
+    [RPC]
+    private void UpdateChosenImages(int playerID)
+    {
+        Debug.Log("update chosen images for playerID " + playerID);
+
+        var a = GameObject.FindGameObjectWithTag("TeamMember" + playerID);
+        var elementClass = _sortedPlayers[playerID - 1].customProperties["ElementalClass"].ToString();
+
+        var image = a.transform.Find("Chosen Character").GetComponent<Image>();
+        Sprite sprite;
+
+        switch (elementClass)
+        {
+            case "Water":
+                sprite = _characterSelection.NormalSprites[(int)CharacterSelection.Characters.Waterbending - 1];
+                break;
+            case "Earth":
+                sprite = _characterSelection.NormalSprites[(int)CharacterSelection.Characters.Earthbending - 1];
+                break;
+            case "Fire":
+                sprite = _characterSelection.NormalSprites[(int)CharacterSelection.Characters.Firebending - 1];
+                break;
+            case "Air":
+                sprite = _characterSelection.NormalSprites[(int)CharacterSelection.Characters.Airbending - 1];
+                break;
+            default:
+                sprite = null;
+                break;
+        }
+        image.sprite = sprite;
+    }
 
     #region Enable & Reset
 
@@ -309,6 +297,10 @@ public class CharacterAndSkillsHandler : MonoBehaviour
             InfoText.text = "Water description goes here";
             DisplaySkillImages();
 
+            ExitGames.Client.Photon.Hashtable hs = new ExitGames.Client.Photon.Hashtable();
+            hs.Add("ElementalClass", "Water");
+            PhotonNetwork.player.SetCustomProperties(hs);
+
             SetCharacterImage(CharacterSelection.Characters.Waterbending);
         }
     }
@@ -316,7 +308,8 @@ public class CharacterAndSkillsHandler : MonoBehaviour
     private void SetCharacterImage(CharacterSelection.Characters character)
     {
         //Tänker att denna är RPC och att man skickar ut vald image till alla connectade.
-        _chosenCharacterAndSkills.SetCharacterImage(_characterSelection.NormalSprites[(int)character]);
+        //_chosenCharacterAndSkills.SetCharacterImage(_characterSelection.NormalSprites[(int)character - 1]);
+        PhotonView.RPC("UpdateChosenImages", PhotonTargets.All, PhotonNetwork.player.ID);
     }
 
     /// <summary>
@@ -337,6 +330,12 @@ public class CharacterAndSkillsHandler : MonoBehaviour
                 _characterSelection.ClickedSprites[_characterSelection.EarthbendingId];
             InfoText.text = "Earth description goes here";
             DisplaySkillImages();
+            
+            ExitGames.Client.Photon.Hashtable hs = new ExitGames.Client.Photon.Hashtable();
+            hs.Add("ElementalClass", "Earth");
+            PhotonNetwork.player.SetCustomProperties(hs);
+
+            SetCharacterImage(CharacterSelection.Characters.Earthbending);
         }
     }
 
@@ -351,6 +350,7 @@ public class CharacterAndSkillsHandler : MonoBehaviour
         {
             Characters[_characterSelection.FirebendingId].sprite =
                 _characterSelection.NormalSprites[_characterSelection.FirebendingId];
+
         }
         else
         {
@@ -358,6 +358,12 @@ public class CharacterAndSkillsHandler : MonoBehaviour
                 _characterSelection.ClickedSprites[_characterSelection.FirebendingId];
             InfoText.text = "Fire description goes here";
             DisplaySkillImages();
+            
+            ExitGames.Client.Photon.Hashtable hs = new ExitGames.Client.Photon.Hashtable();
+            hs.Add("ElementalClass", "Fire");
+            PhotonNetwork.player.SetCustomProperties(hs);
+            
+            SetCharacterImage(CharacterSelection.Characters.Firebending);
         }
     }
 
@@ -372,6 +378,7 @@ public class CharacterAndSkillsHandler : MonoBehaviour
         {
             Characters[_characterSelection.AirbendingId].sprite =
                 _characterSelection.NormalSprites[_characterSelection.AirbendingId];
+
         }
         else
         {
@@ -379,6 +386,12 @@ public class CharacterAndSkillsHandler : MonoBehaviour
                 _characterSelection.ClickedSprites[_characterSelection.AirbendingId];
             InfoText.text = "Air description goes here";
             DisplaySkillImages();
+
+            ExitGames.Client.Photon.Hashtable hs = new ExitGames.Client.Photon.Hashtable();
+            hs.Add("ElementalClass", "Air");
+            PhotonNetwork.player.SetCustomProperties(hs);
+
+            SetCharacterImage(CharacterSelection.Characters.Airbending);
         }
     }
 
@@ -417,11 +430,14 @@ public class CharacterAndSkillsHandler : MonoBehaviour
         {
             _skillSelection.SelectActiveSkill(skill, ActiveSkills[skillNumber]);
             DisplayActiveSkillInformation(skill);
+            chosenActiveSkillList.Add(skillNumber);
         }
         else
         {
             _skillSelection.DeselectActiveSkill(skill, ActiveSkills[skillNumber]);
+            chosenActiveSkillList.Remove(skillNumber);
         }
+
     }
 
     /// <summary>
@@ -436,11 +452,13 @@ public class CharacterAndSkillsHandler : MonoBehaviour
         {
             _skillSelection.SelectPassiveSkill(skill, PassiveSkills[skillNumber]);
             DisplayPassiveSkillInformation(skill);
+            chosenPassiveSkillList.Add(skillNumber);
         }
         else
         {
             ResetSkillSelection();
             _skillSelection.DeselectPassiveSkill(skill, PassiveSkills[skillNumber]);
+            chosenPassiveSkillList.Add(skillNumber);
         }
     }
 
@@ -526,14 +544,14 @@ public class CharacterAndSkillsHandler : MonoBehaviour
         InfoText.text = _skillSelection.ActiveSkillSelection.ActiveSkills[skillNumber].ActiveSkill.Info;
 
         var attributeText = "Damage: " +
-                            _skillSelection.ActiveSkillSelection.ActiveSkills[skillNumber].ActiveSkill
+            _skillSelection.ActiveSkillSelection.ActiveSkills[skillNumber].ActiveSkill
                                 .DamageHealingPower
-                            + "\nChi Cost: " +
-                            _skillSelection.ActiveSkillSelection.ActiveSkills[skillNumber].ActiveSkill.ChiCost
-                            + "\nCooldown: " +
-                            _skillSelection.ActiveSkillSelection.ActiveSkills[skillNumber].ActiveSkill.Cooldown
-                            + "\nRange: " +
-                            _skillSelection.ActiveSkillSelection.ActiveSkills[skillNumber].ActiveSkill.Range;
+            + "\nChi Cost: " +
+            _skillSelection.ActiveSkillSelection.ActiveSkills[skillNumber].ActiveSkill.ChiCost
+            + "\nCooldown: " +
+            _skillSelection.ActiveSkillSelection.ActiveSkills[skillNumber].ActiveSkill.Cooldown
+            + "\nRange: " +
+            _skillSelection.ActiveSkillSelection.ActiveSkills[skillNumber].ActiveSkill.Range;
 
         AttributesText.text = attributeText;
     }
@@ -547,8 +565,7 @@ public class CharacterAndSkillsHandler : MonoBehaviour
         var skillNumber = (int)skill;
 
         NameText.text = _skillSelection.PassiveSkillSelection.PassiveSkills[skillNumber].PassiveSkill.Name;
-        InfoText.text = "Cooldown: " +
-                        _skillSelection.PassiveSkillSelection.PassiveSkills[skillNumber].PassiveSkill.Cooldown;
+  //      InfoText.text = _skillSelection.PassiveSkillSelection.PassiveSkills[skillNumber].PassiveSkill.Info;
         AttributesText.text = String.Empty;
     }
 
