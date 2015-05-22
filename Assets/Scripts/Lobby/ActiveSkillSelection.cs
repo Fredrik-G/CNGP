@@ -1,6 +1,7 @@
 using Engine;
 using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine.UI;
 
 /// <summary>
 /// Class used for active skill selection.
@@ -57,6 +58,8 @@ public class ActiveSkillSelection
     /// </summary>
     public List<ActiveClickableSkill> ActiveSkills { get; set; }
 
+    public List<Sprite> AllSprites { get; set; }
+
     /// <summary>
     /// List containing "normal" (not clicked) skill sprites.
     /// </summary>
@@ -83,9 +86,83 @@ public class ActiveSkillSelection
         ClickedImages = new List<Sprite>();
         MaxSelectedSkills = 4;
         CurrentNumberOfSelectedSkills = 0;
+
+        AllSprites = new List<Sprite>();
     }
 
     #endregion
+
+    //public void LoadChosenActiveSkills()
+    //{
+    //    ActiveSkills.Add(
+    //        new ActiveClickableSkill(new ActiveSkill("Ice Ramp",
+    //            "Waterbenders can manipulate ice as a means of short transportation",
+    //            0, 0.4, 0, false, false, false, false, 0.1, 0, 0, 0, 0, 0)));
+    //    ActiveSkills.Add(new ActiveClickableSkill(new ActiveSkill("Ice floor",
+    //        "a waterbender can cover a large area of the ground with ice, trapping their enemies' feet in ice", 10, 20,
+    //        7, false, false, false, false, 2, 0, 2.5, 0, 0, 1)));
+    //    ActiveSkills.Add(new ActiveClickableSkill(new ActiveSkill("Water bullets",
+    //        "The waterbullet is a move where a waterbender bends a large amount and shoots in a forcefull blow", 1.5, 0,
+    //        0.3, false, false, true, false, 1.9, 0, 9, 0, 12, 5)));
+    //    ActiveSkills.Add(new ActiveClickableSkill(new ActiveSkill("Water Shield",
+    //        "Capable waterbenders are able to sustain a large amount of attacks by creating a bubble around themselves and their fellow travelers",
+    //        0, 10, 0, false, false, false, false, 10, 0, 0, 0, 0, 0)));
+
+    //    ActiveSkills.Add(
+    //        new ActiveClickableSkill(new ActiveSkill("Rock Shoes",
+    //            "Rock shoes makes the earthbender more stable and therefore stronger", 0, 25, 0, false, false, false,
+    //            false, 6, 0, 0, 0, 0, 0)));
+    //    ActiveSkills.Add(new ActiveClickableSkill(new ActiveSkill("Earthquake",
+    //        "Creates localized earthquakes or fissures to throw opponents off-balance", 7, 20, 1, false, false, true,
+    //        false, 1.9, 0, 15, 0, 30, 1)));
+    //    ActiveSkills.Add(new ActiveClickableSkill(new ActiveSkill("Earthblock",
+    //        "Earthbenders can bring up blocks of earth and launch them at their enemies", 5, 0, 0.7, false, false, true,
+    //        false, 2, 0, 10, 0, 9, 1)));
+    //    ActiveSkills.Add(new ActiveClickableSkill(new ActiveSkill("Earth Bomb",
+    //        "By sending a rock toward the ground, earthbenders can cause massive damage as well as throw their opponents off their feet",
+    //        30, 20, 3, false, false, false, false, 18, 0, 10, 0, 6, 1)));
+
+    //    ActiveSkills.Add(new ActiveClickableSkill(new ActiveSkill("Firestream",
+    //        "Basic firebending ability, firebenders can shoot continues streams of fire from there fingertips, fists, palms or legs",
+    //        0.1, 0, 0.5, false, false, false, false, 0.025, 0, 4, 0, 15, 1)));
+    //    ActiveSkills.Add(new ActiveClickableSkill(new ActiveSkill("Blazing ring",
+    //        "Spinning kicks or sweeping arm movements create rings and arcs to slice larger, more widely spaced, or evasive targets",
+    //        16, 20, 8, false, false, false, false, 4, 0, 0, 0, 0, 0)));
+    //    ActiveSkills.Add(new ActiveClickableSkill(new ActiveSkill("Shield Of Fire",
+    //        "This creates a protective fire shield around the front of, or the whole body of, a firebender that can deflect attacks and explosions",
+    //        0, 15, 0, false, false, false, false, 10, 0, 0, 0, 0, 0)));
+    //    ActiveSkills.Add(new ActiveClickableSkill(new ActiveSkill("Jet Propulsion",
+    //        "Skilled firebending masters are able to conjure huge amounts of flame to propel themselves at high speeds on the ground or through the air",
+    //        0, 4, 0, false, false, false, false, 0, 0, 0, 0, 0, 0)));
+    //}
+
+    public void LoadAllSprites()
+    {
+        var textures = new List<Sprite>
+        {
+            Resources.Load<Sprite>("LobbyMaterials/Icons/Water/SpellIceRamp"),
+            Resources.Load<Sprite>("LobbyMaterials/Icons/Water/SpellIcefloor"),
+            Resources.Load<Sprite>("LobbyMaterials/Icons/Water/SpellWaterbullets"),
+            Resources.Load<Sprite>("LobbyMaterials/Icons/Water/SpellWaterShield"),
+
+            Resources.Load<Sprite>("LobbyMaterials/Icons/Earth/SpellRockShoes"),
+            Resources.Load<Sprite>("LobbyMaterials/Icons/Earth/SpellEarthblock"),
+            Resources.Load<Sprite>("LobbyMaterials/Icons/Earth/SpellEarthquake"),
+            Resources.Load<Sprite>("LobbyMaterials/Icons/Earth/SpellEarthbomb"),
+
+            Resources.Load<Sprite>("LobbyMaterials/Icons/Fire/SpellFirestream"),
+            Resources.Load<Sprite>("LobbyMaterials/Icons/Fire/SpellBlazingring"),
+            Resources.Load<Sprite>("LobbyMaterials/Icons/Fire/SpellShieldoffire"),
+            Resources.Load<Sprite>("LobbyMaterials/Icons/Fire/SpellJetpropulsion"),
+
+            Resources.Load<Sprite>("LobbyMaterials/Icons/Air/SpellAirblast"),
+            Resources.Load<Sprite>("LobbyMaterials/Icons/Air/SpellAirvortex"),
+            Resources.Load<Sprite>("LobbyMaterials/Icons/Air/SpellEnhancedspeed"),
+            Resources.Load<Sprite>("LobbyMaterials/Icons/Air/SpellStrongwind")
+        };
+
+        AllSprites.AddRange(textures);
+    }
 
     #region Load Skills Methods
 

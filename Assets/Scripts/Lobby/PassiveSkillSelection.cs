@@ -58,6 +58,8 @@ public class PassiveSkillSelection
     /// </summary>
     public List<PassiveClickableSkill> PassiveSkills { get; set; }
 
+    public List<Sprite> AllSprites; 
+
     /// <summary>
     /// List containing "normal" (not clicked) skill sprites.
     /// </summary>
@@ -81,9 +83,31 @@ public class PassiveSkillSelection
         ClickedImages = new List<Sprite>();
         MaxSelectedSkills = 2;
         CurrentNumberOfSelectedSkills = 0;
+
+        AllSprites = new List<Sprite>();
     }
 
     #endregion
+
+    public void LoadAllSprites()
+    {
+        var textures = new List<Sprite>
+        {
+            Resources.Load<Sprite>("LobbyMaterials/Icons/Passives/PassiveSkillAstralProjection"),
+            Resources.Load<Sprite>("LobbyMaterials/Icons/Passives/PassiveSkillManipulationofSpiritEnergy"),
+            Resources.Load<Sprite>("LobbyMaterials/Icons/Passives/PassiveSkillStrongPresence"),
+            Resources.Load<Sprite>("LobbyMaterials/Icons/Passives/PassiveSkillTheFaceStealersSecret"),
+
+            Resources.Load<Sprite>("LobbyMaterials/Icons/Passives/PassiveSkillFrost"),
+            Resources.Load<Sprite>("LobbyMaterials/Icons/Passives/PassiveSkillTailwind"),
+            Resources.Load<Sprite>("LobbyMaterials/Icons/Passives/PassiveSkillLeech"),
+            Resources.Load<Sprite>("LobbyMaterials/Icons/Passives/PassiveSkillAdvancedBending"),
+            Resources.Load<Sprite>("LobbyMaterials/Icons/Passives/PassiveSkillHarmonicConvergence")
+
+        };
+
+        AllSprites.AddRange(textures);
+    }
 
     #region Load Skills & Images Methods
 

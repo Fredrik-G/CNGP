@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Engine;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -27,19 +28,21 @@ public class CharacterAndSkillsHandler : MonoBehaviour
     public List<Image> Characters = new List<Image>();
     public List<Image> ActiveSkills = new List<Image>();
     public List<Image> PassiveSkills = new List<Image>();
-    public List<Image> ChosenImages = new List<Image>();
 
     #endregion
+
+    #region Objects
 
     private readonly CharacterSelection _characterSelection = new CharacterSelection();
     private readonly SkillSelection _skillSelection = new SkillSelection();
     private readonly ChosenCharacterAndSkills _chosenCharacterAndSkills = new ChosenCharacterAndSkills();
-    private PhotonPlayer[] _players;
-    private PhotonPlayer[] _sortedPlayers;
+
+    #endregion
 
     #region Networking Variables
-    public List<int> chosenPassiveSkillList = new List<int>();
-    public List<int> chosenActiveSkillList = new List<int>();
+
+    private PhotonPlayer[] _players;
+    private PhotonPlayer[] _sortedPlayers;
     private LobbyNetworking _lobbyNetworking = new LobbyNetworking();
     public PhotonView PhotonView;
     public List<Text> TeamMembersText = new List<Text>();
@@ -60,8 +63,8 @@ public class CharacterAndSkillsHandler : MonoBehaviour
         GetPlayerList();
         SortPlayerList();
 
-
-        _chosenCharacterAndSkills.ChosenImages = ChosenImages;
+        _skillSelection.ActiveSkillSelection.LoadAllSprites();
+        _skillSelection.PassiveSkillSelection.LoadAllSprites();
     }
 
     public void Update()
@@ -156,37 +159,52 @@ public class CharacterAndSkillsHandler : MonoBehaviour
 
     #endregion
 
-    [RPC]
-    private void UpdateChosenImages(int playerID)
-    {
-        Debug.Log("update chosen images for playerID " + playerID);
+    #region Sync Players Selections
 
-        var a = GameObject.FindGameObjectWithTag("TeamMember" + playerID);
+    /// <summary>
+    /// Syncs and updates the character/element image for a given player.
+    /// </summary>
+    /// <param name="playerID">The player ID to update image for.</param>
+    [RPC]
+    private void UpdateChosenCharacterImage(int playerID)
+    {
+        var teamMemberObject = GameObject.FindGameObjectWithTag("TeamMember" + playerID);
         var elementClass = _sortedPlayers[playerID - 1].customProperties["ElementalClass"].ToString();
 
-        var image = a.transform.Find("Chosen Character").GetComponent<Image>();
-        Sprite sprite;
-
-        switch (elementClass)
-        {
-            case "Water":
-                sprite = _characterSelection.NormalSprites[(int)CharacterSelection.Characters.Waterbending - 1];
-                break;
-            case "Earth":
-                sprite = _characterSelection.NormalSprites[(int)CharacterSelection.Characters.Earthbending - 1];
-                break;
-            case "Fire":
-                sprite = _characterSelection.NormalSprites[(int)CharacterSelection.Characters.Firebending - 1];
-                break;
-            case "Air":
-                sprite = _characterSelection.NormalSprites[(int)CharacterSelection.Characters.Airbending - 1];
-                break;
-            default:
-                sprite = null;
-                break;
-        }
-        image.sprite = sprite;
+        _chosenCharacterAndSkills.SetCharacterImage(teamMemberObject, elementClass, _characterSelection.NormalSprites);
     }
+
+    /// <summary>
+    /// Syncs and updates an active skill image for a given player.
+    /// </summary>
+    /// <param name="playerID">The player ID to update image for.</param>
+    /// <param name="activeSkill">The Active Skill to change image to.</param>
+    [RPC]
+    private void UpdateChosenActiveSkillImage(int playerID, int activeSkill)
+    {
+        var teamMemberObject = GameObject.FindGameObjectWithTag("TeamMember" + playerID);
+        var elementClass = _sortedPlayers[playerID - 1].customProperties["ElementalClass"].ToString();
+
+        _chosenCharacterAndSkills.SetActiveSkillImage(teamMemberObject, activeSkill, elementClass,
+            _skillSelection.ActiveSkillSelection.AllSprites);
+    }
+
+    /// <summary>
+    /// Syncs and updates a passive image for a given player.
+    /// </summary>
+    /// <param name="playerID">The player ID to update image for.</param>
+    /// <param name="passive">The passive to change image to</param>
+    /// <param name="currentNumberOfSelectedPassives">The current number of selected passives.</param>
+    [RPC]
+    private void UpdateChosenPassiveImage(int playerID, int passive, int currentNumberOfSelectedPassives)
+    {
+        var teamMemberObject = GameObject.FindGameObjectWithTag("TeamMember" + playerID);
+
+        _chosenCharacterAndSkills.SetPassiveImage(teamMemberObject, passive, currentNumberOfSelectedPassives,
+            _skillSelection.PassiveSkillSelection.AllSprites);
+    }
+
+    #endregion
 
     #region Enable & Reset
 
@@ -305,13 +323,6 @@ public class CharacterAndSkillsHandler : MonoBehaviour
         }
     }
 
-    private void SetCharacterImage(CharacterSelection.Characters character)
-    {
-        //Tänker att denna är RPC och att man skickar ut vald image till alla connectade.
-        //_chosenCharacterAndSkills.SetCharacterImage(_characterSelection.NormalSprites[(int)character - 1]);
-        PhotonView.RPC("UpdateChosenImages", PhotonTargets.All, PhotonNetwork.player.ID);
-    }
-
     /// <summary>
     /// Handles mouse click for the Earth image.
     /// </summary>
@@ -330,7 +341,7 @@ public class CharacterAndSkillsHandler : MonoBehaviour
                 _characterSelection.ClickedSprites[_characterSelection.EarthbendingId];
             InfoText.text = "Earth description goes here";
             DisplaySkillImages();
-            
+
             ExitGames.Client.Photon.Hashtable hs = new ExitGames.Client.Photon.Hashtable();
             hs.Add("ElementalClass", "Earth");
             PhotonNetwork.player.SetCustomProperties(hs);
@@ -350,7 +361,6 @@ public class CharacterAndSkillsHandler : MonoBehaviour
         {
             Characters[_characterSelection.FirebendingId].sprite =
                 _characterSelection.NormalSprites[_characterSelection.FirebendingId];
-
         }
         else
         {
@@ -358,11 +368,11 @@ public class CharacterAndSkillsHandler : MonoBehaviour
                 _characterSelection.ClickedSprites[_characterSelection.FirebendingId];
             InfoText.text = "Fire description goes here";
             DisplaySkillImages();
-            
+
             ExitGames.Client.Photon.Hashtable hs = new ExitGames.Client.Photon.Hashtable();
             hs.Add("ElementalClass", "Fire");
             PhotonNetwork.player.SetCustomProperties(hs);
-            
+
             SetCharacterImage(CharacterSelection.Characters.Firebending);
         }
     }
@@ -378,7 +388,6 @@ public class CharacterAndSkillsHandler : MonoBehaviour
         {
             Characters[_characterSelection.AirbendingId].sprite =
                 _characterSelection.NormalSprites[_characterSelection.AirbendingId];
-
         }
         else
         {
@@ -396,6 +405,11 @@ public class CharacterAndSkillsHandler : MonoBehaviour
     }
 
     #endregion
+
+    private void SetCharacterImage(CharacterSelection.Characters character)
+    {
+        PhotonView.RPC("UpdateChosenCharacterImage", PhotonTargets.All, PhotonNetwork.player.ID);
+    }
 
     #region Skill Mouse Clicks
 
@@ -430,12 +444,12 @@ public class CharacterAndSkillsHandler : MonoBehaviour
         {
             _skillSelection.SelectActiveSkill(skill, ActiveSkills[skillNumber]);
             DisplayActiveSkillInformation(skill);
-            chosenActiveSkillList.Add(skillNumber);
+
+            PhotonView.RPC("UpdateChosenActiveSkillImage", PhotonTargets.All, PhotonNetwork.player.ID, (int)skill);
         }
         else
         {
             _skillSelection.DeselectActiveSkill(skill, ActiveSkills[skillNumber]);
-            chosenActiveSkillList.Remove(skillNumber);
         }
 
     }
@@ -452,13 +466,14 @@ public class CharacterAndSkillsHandler : MonoBehaviour
         {
             _skillSelection.SelectPassiveSkill(skill, PassiveSkills[skillNumber]);
             DisplayPassiveSkillInformation(skill);
-            chosenPassiveSkillList.Add(skillNumber);
+
+            PhotonView.RPC("UpdateChosenPassiveImage", PhotonTargets.All,
+                PhotonNetwork.player.ID, (int)skill, _skillSelection.PassiveSkillSelection.CurrentNumberOfSelectedSkills);
         }
         else
         {
             ResetSkillSelection();
             _skillSelection.DeselectPassiveSkill(skill, PassiveSkills[skillNumber]);
-            chosenPassiveSkillList.Add(skillNumber);
         }
     }
 
@@ -565,7 +580,7 @@ public class CharacterAndSkillsHandler : MonoBehaviour
         var skillNumber = (int)skill;
 
         NameText.text = _skillSelection.PassiveSkillSelection.PassiveSkills[skillNumber].PassiveSkill.Name;
-  //      InfoText.text = _skillSelection.PassiveSkillSelection.PassiveSkills[skillNumber].PassiveSkill.Info;
+        //      InfoText.text = _skillSelection.PassiveSkillSelection.PassiveSkills[skillNumber].PassiveSkill.Info;
         AttributesText.text = String.Empty;
     }
 
