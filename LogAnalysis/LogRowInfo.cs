@@ -53,5 +53,11 @@ namespace LogAnalysis
             var splittedMessage = Message.Split(' ');
             return String.Equals(splittedMessage[0], "Account") ? splittedMessage[1] : String.Empty;
         }
+
+        public string CreateLogString()
+        {//2015-01-01 0:0:10,0;[10];DEBUG ;NameHere;(null);Account user3@mail.com has logged on.
+            return String.Format("{0}-{1}-{2} {3}:{4}:{5},{6};{7};{8};{9};{10}", DateTime.Year, DateTime.Month, DateTime.Day,
+                DateTime.Hour, DateTime.Minute, DateTime.Second, DateTime.Millisecond, Thread, Level, Logger, Message);
+        }
     }
 }

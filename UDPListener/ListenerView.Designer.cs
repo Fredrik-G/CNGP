@@ -37,7 +37,6 @@
             this.Thread = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Logger = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Message = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.IPAdressTextBox = new System.Windows.Forms.TextBox();
             this.PortTextBox = new System.Windows.Forms.TextBox();
             this.LogMessagePanel = new System.Windows.Forms.Panel();
             this.LogLevelComboBox = new System.Windows.Forms.ComboBox();
@@ -45,6 +44,7 @@
             this.TimeActiveTimer = new System.Windows.Forms.Timer(this.components);
             this.InformationLabel = new System.Windows.Forms.Label();
             this.ClearMessagesButton = new System.Windows.Forms.Button();
+            this.SaveLogsButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.LogMessagesDataGridView)).BeginInit();
             this.LogMessagePanel.SuspendLayout();
             this.SuspendLayout();
@@ -52,7 +52,7 @@
             // StopListenerButton
             // 
             this.StopListenerButton.Enabled = false;
-            this.StopListenerButton.Location = new System.Drawing.Point(120, 258);
+            this.StopListenerButton.Location = new System.Drawing.Point(120, 262);
             this.StopListenerButton.Name = "StopListenerButton";
             this.StopListenerButton.Size = new System.Drawing.Size(110, 37);
             this.StopListenerButton.TabIndex = 5;
@@ -62,7 +62,7 @@
             // 
             // StartListenerButton
             // 
-            this.StartListenerButton.Location = new System.Drawing.Point(8, 258);
+            this.StartListenerButton.Location = new System.Drawing.Point(8, 262);
             this.StartListenerButton.Name = "StartListenerButton";
             this.StartListenerButton.Size = new System.Drawing.Size(110, 37);
             this.StartListenerButton.TabIndex = 4;
@@ -119,18 +119,9 @@
             this.Message.HeaderText = "Message";
             this.Message.Name = "Message";
             // 
-            // IPAdressTextBox
-            // 
-            this.IPAdressTextBox.Location = new System.Drawing.Point(8, 232);
-            this.IPAdressTextBox.Name = "IPAdressTextBox";
-            this.IPAdressTextBox.Size = new System.Drawing.Size(110, 20);
-            this.IPAdressTextBox.TabIndex = 1;
-            this.IPAdressTextBox.Text = "127.0.0.1";
-            this.IPAdressTextBox.MouseDown += new System.Windows.Forms.MouseEventHandler(this.IPAdressTextBox_MouseDown);
-            // 
             // PortTextBox
             // 
-            this.PortTextBox.Location = new System.Drawing.Point(120, 232);
+            this.PortTextBox.Location = new System.Drawing.Point(10, 235);
             this.PortTextBox.Name = "PortTextBox";
             this.PortTextBox.Size = new System.Drawing.Size(110, 20);
             this.PortTextBox.TabIndex = 2;
@@ -159,7 +150,7 @@
             "WARN",
             "INFO",
             "DEBUG"});
-            this.LogLevelComboBox.Location = new System.Drawing.Point(233, 232);
+            this.LogLevelComboBox.Location = new System.Drawing.Point(126, 235);
             this.LogLevelComboBox.Name = "LogLevelComboBox";
             this.LogLevelComboBox.Size = new System.Drawing.Size(110, 21);
             this.LogLevelComboBox.TabIndex = 3;
@@ -168,7 +159,7 @@
             // TimeActiveLabel
             // 
             this.TimeActiveLabel.AutoSize = true;
-            this.TimeActiveLabel.Location = new System.Drawing.Point(348, 278);
+            this.TimeActiveLabel.Location = new System.Drawing.Point(254, 239);
             this.TimeActiveLabel.Name = "TimeActiveLabel";
             this.TimeActiveLabel.Size = new System.Drawing.Size(86, 13);
             this.TimeActiveLabel.TabIndex = 17;
@@ -183,14 +174,14 @@
             // InformationLabel
             // 
             this.InformationLabel.AutoSize = true;
-            this.InformationLabel.Location = new System.Drawing.Point(353, 267);
+            this.InformationLabel.Location = new System.Drawing.Point(353, 271);
             this.InformationLabel.Name = "InformationLabel";
             this.InformationLabel.Size = new System.Drawing.Size(0, 13);
             this.InformationLabel.TabIndex = 18;
             // 
             // ClearMessagesButton
             // 
-            this.ClearMessagesButton.Location = new System.Drawing.Point(233, 259);
+            this.ClearMessagesButton.Location = new System.Drawing.Point(233, 263);
             this.ClearMessagesButton.Name = "ClearMessagesButton";
             this.ClearMessagesButton.Size = new System.Drawing.Size(110, 37);
             this.ClearMessagesButton.TabIndex = 6;
@@ -198,17 +189,27 @@
             this.ClearMessagesButton.UseVisualStyleBackColor = true;
             this.ClearMessagesButton.Click += new System.EventHandler(this.ClearMessagesButton_Click);
             // 
+            // SaveLogsButton
+            // 
+            this.SaveLogsButton.Location = new System.Drawing.Point(349, 263);
+            this.SaveLogsButton.Name = "SaveLogsButton";
+            this.SaveLogsButton.Size = new System.Drawing.Size(110, 37);
+            this.SaveLogsButton.TabIndex = 19;
+            this.SaveLogsButton.Text = "Save Log Messages";
+            this.SaveLogsButton.UseVisualStyleBackColor = true;
+            this.SaveLogsButton.Click += new System.EventHandler(this.SaveLogsButton_Click);
+            // 
             // ListenerView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.SaveLogsButton);
             this.Controls.Add(this.ClearMessagesButton);
             this.Controls.Add(this.InformationLabel);
             this.Controls.Add(this.TimeActiveLabel);
             this.Controls.Add(this.LogLevelComboBox);
             this.Controls.Add(this.LogMessagePanel);
             this.Controls.Add(this.PortTextBox);
-            this.Controls.Add(this.IPAdressTextBox);
             this.Controls.Add(this.StopListenerButton);
             this.Controls.Add(this.StartListenerButton);
             this.Name = "ListenerView";
@@ -226,7 +227,6 @@
         private System.Windows.Forms.Button StopListenerButton;
         private System.Windows.Forms.Button StartListenerButton;
         private System.Windows.Forms.DataGridView LogMessagesDataGridView;
-        private System.Windows.Forms.TextBox IPAdressTextBox;
         private System.Windows.Forms.TextBox PortTextBox;
         private System.Windows.Forms.DataGridViewTextBoxColumn Date2;
         private System.Windows.Forms.DataGridViewTextBoxColumn Level;
@@ -239,5 +239,6 @@
         private System.Windows.Forms.Timer TimeActiveTimer;
         private System.Windows.Forms.Label InformationLabel;
         private System.Windows.Forms.Button ClearMessagesButton;
+        private System.Windows.Forms.Button SaveLogsButton;
     }
 }

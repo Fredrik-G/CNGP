@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Data;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
@@ -26,19 +27,15 @@ namespace UDPListener
         /// Events used to signal starting/stopping a listener.
         /// </summary>
         public event EventHandler StartedNewListener;
+
         public event EventHandler StoppedListener;
+        public event EventHandler TryingToStartNewListener;
 
         private readonly ActiveTime _activeTime = new ActiveTime();
 
         #endregion
 
         #region Properties
-
-        public string IpAdress
-        {
-            get { return IPAdressTextBox.Text; }
-            set { IPAdressTextBox.Text = value; }
-        }
 
         public int Port
         {
@@ -80,7 +77,7 @@ namespace UDPListener
         /// <param name="e"></param>
         private void StartListenerButton_Click(object sender, EventArgs e)
         {
-            StartListening();
+            PreparingToStartNewListener();
         }
 
         /// <summary>
@@ -91,6 +88,16 @@ namespace UDPListener
         private void StopListenerButton_Click(object sender, EventArgs e)
         {
             StopListening();
+        }
+
+        /// <summary>
+        /// Occurs when the Clear Messages Button is clicked.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ClearMessagesButton_Click(object sender, EventArgs e)
+        {
+            ClearAllMessages();
         }
 
         #endregion
@@ -104,7 +111,7 @@ namespace UDPListener
         /// <param name="e"></param>
         private void IPAdressTextBox_MouseDown(object sender, MouseEventArgs e)
         {
-            IPAdressTextBox.Text = String.Empty;
+           // IPAdressTextBox.Text = String.Empty;
         }
 
         /// <summary>
@@ -122,6 +129,16 @@ namespace UDPListener
         #region UDP Listener Methods
 
         /// <summary>
+        /// Prepares to start a new listener
+        /// Raises the "TryingToStartNewListener"-event.
+        /// </summary>
+        private void PreparingToStartNewListener()
+        {
+            if (TryingToStartNewListener != null)
+                TryingToStartNewListener(this, new EventArgs());
+        }
+
+        /// <summary>
         /// Starts up the server and starts listening for incoming messages.
         /// </summary>
         public void StartListening()
@@ -129,18 +146,18 @@ namespace UDPListener
             if (UdpListenIsActive)
                 return;
 
-            IPAdressTextBox.Enabled = PortTextBox.Enabled = false;
+            _udpServer = new UdpClient(Port);
+            UdpListenIsActive = true;
+            ReceiveUdpMessage();
+
+            //IPAdressTextBox.Enabled = PortTextBox.Enabled = false;
             StartListenerButton.Enabled = false;
             StopListenerButton.Enabled = true;
             TimeActiveLabel.Visible = true;
-            
-            TimeActiveTimer.Start();
-            
-            _udpServer = new UdpClient(Port);
-            UdpListenIsActive = true;
-            var task = Task.Run(() => ReceiveUdpMessage());
 
-            if(StartedNewListener != null)
+            TimeActiveTimer.Start();
+
+            if (StartedNewListener != null)
                 StartedNewListener(this, new EventArgs());
         }
 
@@ -154,7 +171,7 @@ namespace UDPListener
                 UdpListenIsActive = false;
                 _udpServer.Client.Close();
 
-                IPAdressTextBox.Enabled = PortTextBox.Enabled = true;
+                //IPAdressTextBox.Enabled = PortTextBox.Enabled = true;
                 StartListenerButton.Enabled = true;
                 StopListenerButton.Enabled = false;
 
@@ -164,7 +181,7 @@ namespace UDPListener
                     StoppedListener(this, new EventArgs());
             }
         }
-        
+
         /// <summary>
         /// Receives an UDP message asynchronously.
         /// </summary>
@@ -182,7 +199,7 @@ namespace UDPListener
         {
             if (UdpListenIsActive)
             {
-                var ipAdress = new IPEndPoint(IPAddress.Parse(IpAdress), Port);
+                var ipAdress = new IPEndPoint(IPAddress.Any, Port);
                 var receivedResults = _udpServer.EndReceive(result, ref ipAdress);
                 var loggingEvent = Encoding.ASCII.GetString(receivedResults);
 
@@ -209,7 +226,8 @@ namespace UDPListener
             Invoke(new Action(() => { _logRowInfos.Add(logRowInfo); }));
             Invoke(new Action(() =>
             {
-                LogMessagesDataGridView.Rows.Add(logRowInfo.DateTime, logRowInfo.Level, logRowInfo.Thread, logRowInfo.Logger, logRowInfo.Message);
+                LogMessagesDataGridView.Rows.Add(logRowInfo.DateTime, logRowInfo.Level, logRowInfo.Thread,
+                    logRowInfo.Logger, logRowInfo.Message);
             }));
 
             var indexOfLastAddedRow = LogMessagesDataGridView.Rows.GetLastRow(DataGridViewElementStates.None);
@@ -217,6 +235,17 @@ namespace UDPListener
             FilterLogMessages();
 
             _activeTime.AddMessage();
+        }
+
+        /// <summary>
+        /// Clears all log messages.
+        /// </summary>
+        private void ClearAllMessages()
+        {
+            _logRowInfos.Clear();
+            LogMessagesDataGridView.Rows.Clear();
+            _activeTime.ClearMessageCount();
+            TimeActiveLabel.Text = String.Empty;
         }
 
         /// <summary>
@@ -267,19 +296,29 @@ namespace UDPListener
                         Invoke(new Action(() => { logMessageRow.Visible = true; }));
                         break;
                     case 1:
-                        Invoke(new Action(() => { logMessageRow.Visible = logMessageRow.Cells["Level"].Value.Equals("FATAL"); }));
+                        Invoke(
+                            new Action(
+                                () => { logMessageRow.Visible = logMessageRow.Cells["Level"].Value.Equals("FATAL"); }));
                         break;
                     case 2:
-                        Invoke(new Action(() => { logMessageRow.Visible = logMessageRow.Cells["Level"].Value.Equals("ERROR"); }));
+                        Invoke(
+                            new Action(
+                                () => { logMessageRow.Visible = logMessageRow.Cells["Level"].Value.Equals("ERROR"); }));
                         break;
                     case 3:
-                        Invoke(new Action(() => { logMessageRow.Visible = logMessageRow.Cells["Level"].Value.Equals("WARN "); }));
+                        Invoke(
+                            new Action(
+                                () => { logMessageRow.Visible = logMessageRow.Cells["Level"].Value.Equals("WARN "); }));
                         break;
                     case 4:
-                        Invoke(new Action(() => { logMessageRow.Visible = logMessageRow.Cells["Level"].Value.Equals("INFO "); }));
+                        Invoke(
+                            new Action(
+                                () => { logMessageRow.Visible = logMessageRow.Cells["Level"].Value.Equals("INFO "); }));
                         break;
                     case 5:
-                        Invoke(new Action(() => { logMessageRow.Visible = logMessageRow.Cells["Level"].Value.Equals("DEBUG"); }));
+                        Invoke(
+                            new Action(
+                                () => { logMessageRow.Visible = logMessageRow.Cells["Level"].Value.Equals("DEBUG"); }));
                         break;
                 }
             }
@@ -315,13 +354,30 @@ namespace UDPListener
 
         #endregion
 
-        private void ClearMessagesButton_Click(object sender, EventArgs e)
+        private void SaveLogsButton_Click(object sender, EventArgs e)
         {
-            _logRowInfos.Clear();
-            LogMessagesDataGridView.Rows.Clear();
-            _activeTime.ClearMessageCount();
-            TimeActiveLabel.Text = String.Empty;
+            SaveLogMessages();
         }
 
+        /// <summary>
+        /// Writes each log message to user selected file.
+        /// </summary>
+        private void SaveLogMessages()
+        {
+            var saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Filter = "Log file|*.log";
+            saveFileDialog.Title = "Save Log Messages";
+
+            if (saveFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                using (var fileStream = new StreamWriter(saveFileDialog.FileName))
+                {
+                    foreach (var logRowInfo in _logRowInfos)
+                    {
+                        fileStream.Write(logRowInfo.CreateLogString());
+                    }
+                }
+            }
+        }
     }
 }
