@@ -1,8 +1,8 @@
 ﻿using System;
-using Engine;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using System.Collections.Generic;
 
 public class MainMenuEventHandler : MonoBehaviour
 {
@@ -15,18 +15,26 @@ public class MainMenuEventHandler : MonoBehaviour
     private Vector2 scrollPos = Vector2.zero;
     public Vector2 WidthAndHeight = new Vector2(300, 10);
 
-    private readonly Rect _roomInfoRect = new Rect(Screen.width/2 - Screen.width/6, Screen.height/2 + Screen.height/20,
-        Screen.width/3, Screen.height/2);
+    private readonly Rect _roomInfoRect = new Rect(Screen.width / 2 - Screen.width / 6, Screen.height / 2 + Screen.height / 20,
+        Screen.width / 3, Screen.height / 2);
 
     private readonly OptionsMenu _optionsMenu = new OptionsMenu();
 
     public List<GameObject> ResolutionList;
     public List<GameObject> GraphicsQualityList;
     public List<GameObject> SliderList;
+    public List<GameObject> HowToPlayList;
 
     public GameObject StartLobby;
     public GameObject JoinLobby;
+    public GameObject HowToPlay;
     public GameObject Options;
+
+    public GameObject HowToPlayNext;
+    public GameObject HowToPlayBack;
+    public GameObject HowToPlayImages;
+
+    public GameObject MainMenuBackground;
 
     public GameObject BackgroundButton;
 
@@ -39,15 +47,19 @@ public class MainMenuEventHandler : MonoBehaviour
     public GameObject MusicVolume;
     public GameObject SoundVolume;
     public GameObject VoiceVolume;
-    
+
     public GameObject Back;
+
+    private HowToPlay _howToPlay = new HowToPlay();
+
 
     private enum Menus
     {
         Default,
         StartNewLobby,
         JoinLobby,
-        Options
+        Options,
+        HowToPlay
     }
 
     private Menus _currentMenu = Menus.Default;
@@ -58,9 +70,15 @@ public class MainMenuEventHandler : MonoBehaviour
 
     public void Start()
     {
-        //   Image.enabled = false;
         DisableInputField();
         _networkManager.Start();
+
+        _howToPlay.Images = HowToPlayList;
+    }
+
+    public void Update()
+    {
+        _howToPlay.Timer += Time.deltaTime;
     }
 
     public void OnGUI()
@@ -109,6 +127,11 @@ public class MainMenuEventHandler : MonoBehaviour
         GameObject.FindGameObjectWithTag("JoinLobbyImage").GetComponent<Image>().enabled = true;
     }
 
+    public void HandleHowToPlayHover()
+    {
+        GameObject.FindGameObjectWithTag("HowToPlayImage").GetComponent<Image>().enabled = true;
+    }
+
     public void HandleOptionsHover()
     {
         GameObject.FindGameObjectWithTag("OptionsImage").GetComponent<Image>().enabled = true;
@@ -118,6 +141,7 @@ public class MainMenuEventHandler : MonoBehaviour
     {
         GameObject.FindGameObjectWithTag("StartNewLobbyImage").GetComponent<Image>().enabled = false;
         GameObject.FindGameObjectWithTag("JoinLobbyImage").GetComponent<Image>().enabled = false;
+        GameObject.FindGameObjectWithTag("HowToPlayImage").GetComponent<Image>().enabled = false;
         GameObject.FindGameObjectWithTag("OptionsImage").GetComponent<Image>().enabled = false;
     }
 
@@ -146,6 +170,86 @@ public class MainMenuEventHandler : MonoBehaviour
         _currentMenu = Menus.JoinLobby;
     }
 
+    public void HandleHowToPlayClick()
+    {
+        ResetGui();
+        _currentMenu = Menus.HowToPlay;
+        DisplayHowToPlay();
+    }
+
+    public void HandleHowToPlayNextClick()
+    {
+        _howToPlay.DisableCurrentImage();
+
+        if (_howToPlay.IsShowingCabbageMan())
+        {
+            StopCoroutine("TutorialPictureChange");
+            _howToPlay.Index = 0;
+            _howToPlay.DisableAllImages();
+            DisplayDefaultMenu();
+            return;
+        }
+
+        _howToPlay.Index++;
+
+        if (_howToPlay.ShouldDisplayCabbageMan())
+        {
+            StartCoroutine(TutorialPictureChange(HowToPlayList, _howToPlay.Index));
+        }
+        else
+        {
+            _howToPlay.EnableCurrentImage();
+        }
+    }
+    public IEnumerator TutorialPictureChange(List<GameObject> howToPlayList, int Index)
+    {
+        while (_howToPlay.CabbageMan)
+        {
+            yield return new WaitForSeconds(2);
+
+            if (_howToPlay.CabbageMan)
+            {
+                howToPlayList[Index].SetActive(false);
+                howToPlayList[Index + 1].SetActive(true);
+            }
+
+            yield return new WaitForSeconds(2);
+
+            if (_howToPlay.CabbageMan)
+            {
+                howToPlayList[Index + 1].SetActive(false);
+                howToPlayList[Index].SetActive(true);
+            }
+            else
+            {
+                howToPlayList[Index + 1].SetActive(false);
+            }
+        }
+    }
+
+    public void HandleHowToPlayBackClick()
+    {
+        if (_howToPlay.IsShowingCabbageMan())
+        {
+            StopCoroutine("TutorialPictureChange");
+            _howToPlay.DisableCurrentImage();
+            _howToPlay.Index--;
+            _howToPlay.EnableCurrentImage();
+        }
+        else if (_howToPlay.IsShowingFirstImage())
+        {
+            _howToPlay.Index = 0;
+            _howToPlay.DisableAllImages();
+            DisplayDefaultMenu();
+        }
+        else
+        {
+            _howToPlay.DisableCurrentImage();
+            _howToPlay.Index--;
+            _howToPlay.EnableCurrentImage();
+        }
+    }
+
     public void HandleOptionsClick()
     {
         ResetGui();
@@ -172,7 +276,6 @@ public class MainMenuEventHandler : MonoBehaviour
 
         DisableAllGraphics();
         EnableAllResolutions();
-        //DisableAllSliders();
     }
 
     public void HandleSelectedGraphicsClick()
@@ -180,12 +283,17 @@ public class MainMenuEventHandler : MonoBehaviour
         SelectedGraphics.SetActive(false);
 
         EnableAllGraphics();
-       // DisableAllSliders();
+        // DisableAllSliders();
     }
 
     public void HandleSelectResolutionClick(RectTransform rectButton)
     {
         _optionsMenu.SetResolution(rectButton.GetComponentInChildren<Text>().text);
+    }
+
+    public void HandleSelectGraphicsClick(RectTransform rectButton)
+    {
+        _optionsMenu.SetGraphics(rectButton.GetComponentInChildren<Text>().text);
     }
 
     public void HandleToggleWindowModeClick()
@@ -197,11 +305,27 @@ public class MainMenuEventHandler : MonoBehaviour
 
     #region Display Methods
 
+    private void DisplayHowToPlay()
+    {
+        HowToPlayImages.SetActive(true);
+        _howToPlay.EnableCurrentImage();
+        MainMenuBackground.SetActive(false);
+
+        StartLobby.SetActive(false);
+        JoinLobby.SetActive(false);
+        HowToPlay.SetActive(false);
+        Options.SetActive(false);
+
+        HowToPlayNext.SetActive(true);
+        HowToPlayBack.SetActive(true);
+    }
+
     private void DisplayOptionsMenu()
     {
         StartLobby.SetActive(false);
         JoinLobby.SetActive(false);
         Options.SetActive(false);
+        HowToPlay.SetActive(false);
 
         BackgroundButton.SetActive(true);
         ResolutionDropdownArrow.SetActive(true);
@@ -228,11 +352,15 @@ public class MainMenuEventHandler : MonoBehaviour
     {
         DisableAllResolutions();
         DisableAllGraphics();
-        DisableAllSliders();
+        // DisableAllSliders();
 
         StartLobby.SetActive(true);
         JoinLobby.SetActive(true);
         Options.SetActive(true);
+        HowToPlay.SetActive(true);
+
+        HowToPlayNext.SetActive(false);
+        HowToPlayBack.SetActive(false);
 
         ResolutionDropdownArrow.SetActive(false);
         GraphicDropdownArrow.SetActive(false);
@@ -240,12 +368,17 @@ public class MainMenuEventHandler : MonoBehaviour
         SelectedResolution.SetActive(false);
         SelectedGraphics.SetActive(false);
         WindowMode.SetActive(false);
-        
+
         MusicVolume.SetActive(false);
-        SoundVolume.SetActive(true);
+        SoundVolume.SetActive(false);
         VoiceVolume.SetActive(false);
 
         Back.SetActive(false);
+
+        _howToPlay.Index = 0;
+        HowToPlayImages.SetActive(false);
+
+        MainMenuBackground.SetActive(true);
     }
 
     private void DisplayAllRooms()
@@ -310,11 +443,11 @@ public class MainMenuEventHandler : MonoBehaviour
 
     private void DisableInputField()
     {
-        InputField.enabled = false;
         InputField.GetComponent<Image>().enabled = false;
         InputField.GetComponent<InputField>().enabled = false;
 
         InputField.GetComponentInChildren<Text>().enabled = false;
+        InputField.enabled = false;
     }
 
     #endregion
@@ -335,7 +468,7 @@ public class MainMenuEventHandler : MonoBehaviour
     }
 
     private static void DisableButton(GameObject button)
-    {         
+    {
         button.GetComponent<Image>().enabled = false;
         button.GetComponent<Button>().enabled = false;
         button.GetComponentInChildren<Text>().enabled = false;
@@ -367,7 +500,7 @@ public class MainMenuEventHandler : MonoBehaviour
     {
         foreach (var resolutionButton in ResolutionList)
         {
-            EnableButton(resolutionButton);
+            resolutionButton.SetActive(true);
         }
     }
 
@@ -376,7 +509,6 @@ public class MainMenuEventHandler : MonoBehaviour
         foreach (var resolutionButton in ResolutionList)
         {
             resolutionButton.SetActive(false);
-           // DisableButton(resolutionButton);
         }
     }
 
@@ -384,7 +516,7 @@ public class MainMenuEventHandler : MonoBehaviour
     {
         foreach (var graphicButton in GraphicsQualityList)
         {
-            EnableButton(graphicButton);
+            graphicButton.SetActive(true);
         }
     }
 
@@ -393,7 +525,6 @@ public class MainMenuEventHandler : MonoBehaviour
         foreach (var graphicButton in GraphicsQualityList)
         {
             graphicButton.SetActive(false);
-           // DisableButton(graphicButton);
         }
     }
 

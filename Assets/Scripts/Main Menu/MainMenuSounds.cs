@@ -21,7 +21,7 @@ public class MainMenuSounds : MonoBehaviour {
 
         if (!MainMenuMusic.isPlaying)
         {
-            var random = Random.Range(0, 3);
+            var random = Random.Range(0, 2);
             _currentSong = random;
         }
 	}
@@ -33,7 +33,7 @@ public class MainMenuSounds : MonoBehaviour {
             MainMenuMusic.clip = MusicClips[_currentSong++];
             MainMenuMusic.Play();
 
-            if (_currentSong == 3)
+            if (_currentSong >= 2)
             {
                 _currentSong = 0;
             }
