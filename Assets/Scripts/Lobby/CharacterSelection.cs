@@ -9,6 +9,24 @@ public class CharacterSelection
 {
     #region Data
 
+    public class CharacterInfoDescriptions
+    {
+        public string Water { get; set; }
+        public string Earth { get; set; }
+        public string Fire { get; set; }
+        public string Air { get; set; }
+
+        public CharacterInfoDescriptions()
+        {
+            Water = "Water description goes here";
+            Earth = "Earth description goes here";
+            Fire = "Fire description goes here";
+            Air = "Air description goes here";
+        }
+    }
+
+    public CharacterInfoDescriptions CharacterDescriptions { get; set; }
+
     /// <summary>
     /// Enum containing all available characters/elements.
     /// </summary>
@@ -72,6 +90,7 @@ public class CharacterSelection
         CurrentCharacter = Characters.None;
         NormalSprites = new List<Sprite>();
         ClickedSprites = new List<Sprite>();
+        CharacterDescriptions = new CharacterInfoDescriptions();
     }
 
     #endregion

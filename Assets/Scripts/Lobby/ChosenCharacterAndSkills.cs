@@ -44,27 +44,29 @@ public class ChosenCharacterAndSkills
     /// </summary>
     /// <param name="teamMemberObject">The players game object.</param>
     /// <param name="activeSkill">The active skill to change to.</param>
+    /// <param name="currentNumberOfSelectedSkills">The current number of selected passives</param>
     /// <param name="elementClass">The players selected element.</param>
     /// <param name="allSprites">The list containing all active skill sprites.</param>
-    public void SetActiveSkillImage(GameObject teamMemberObject, int activeSkill, string elementClass, List<Sprite> allSprites)
+    public void SetActiveSkillImage(GameObject teamMemberObject, int activeSkill, int currentNumberOfSelectedSkills, string elementClass, List<Sprite> allSprites)
     {
-        var activeSkillNumber = activeSkill + 1;
-        var image = teamMemberObject.transform.Find("Chosen Activeskill " + activeSkillNumber).GetComponent<Image>();
+        const int numberOfCharacterSkills = (int)ActiveSkillSelection.Skills.Six + 1;
+
+        var image = teamMemberObject.transform.Find("Chosen Activeskill " + currentNumberOfSelectedSkills).GetComponent<Image>();
 
         var activeSkillIndex = 0;
         switch (elementClass)
         {
             case "Water":
-                activeSkillIndex = 0 + activeSkill;
+                activeSkillIndex = numberOfCharacterSkills * 0 + activeSkill;
                 break;
             case "Earth":
-                activeSkillIndex = 4 + activeSkill;
+                activeSkillIndex = numberOfCharacterSkills * 1 + activeSkill;
                 break;
             case "Fire":
-                activeSkillIndex = 8 + activeSkill;
+                activeSkillIndex = numberOfCharacterSkills * 2 + activeSkill;
                 break;
             case "Air":
-                activeSkillIndex = 12 + activeSkill;
+                activeSkillIndex = numberOfCharacterSkills * 3 + activeSkill;
                 break;
         }
 

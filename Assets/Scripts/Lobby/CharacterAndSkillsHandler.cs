@@ -179,14 +179,15 @@ public class CharacterAndSkillsHandler : MonoBehaviour
     /// </summary>
     /// <param name="playerID">The player ID to update image for.</param>
     /// <param name="activeSkill">The Active Skill to change image to.</param>
+    /// <param name="currentNumberOfSelectedSkills">The current number of selected passives.</param>
     [RPC]
-    private void UpdateChosenActiveSkillImage(int playerID, int activeSkill)
+    private void UpdateChosenActiveSkillImage(int playerID, int activeSkill, int currentNumberOfSelectedSkills)
     {
         var teamMemberObject = GameObject.FindGameObjectWithTag("TeamMember" + playerID);
         var elementClass = _sortedPlayers[playerID - 1].customProperties["ElementalClass"].ToString();
 
-        _chosenCharacterAndSkills.SetActiveSkillImage(teamMemberObject, activeSkill, elementClass,
-            _skillSelection.ActiveSkillSelection.AllSprites);
+        _chosenCharacterAndSkills.SetActiveSkillImage(teamMemberObject, activeSkill, currentNumberOfSelectedSkills,
+            elementClass, _skillSelection.ActiveSkillSelection.AllSprites);
     }
 
     /// <summary>
@@ -312,7 +313,7 @@ public class CharacterAndSkillsHandler : MonoBehaviour
         {
             Characters[_characterSelection.WaterbendingId].sprite =
                 _characterSelection.ClickedSprites[_characterSelection.WaterbendingId];
-            InfoText.text = "Water description goes here";
+            InfoText.text = _characterSelection.CharacterDescriptions.Water;
             DisplaySkillImages();
 
             ExitGames.Client.Photon.Hashtable hs = new ExitGames.Client.Photon.Hashtable();
@@ -339,7 +340,7 @@ public class CharacterAndSkillsHandler : MonoBehaviour
         {
             Characters[_characterSelection.EarthbendingId].sprite =
                 _characterSelection.ClickedSprites[_characterSelection.EarthbendingId];
-            InfoText.text = "Earth description goes here";
+            InfoText.text = _characterSelection.CharacterDescriptions.Earth;
             DisplaySkillImages();
 
             ExitGames.Client.Photon.Hashtable hs = new ExitGames.Client.Photon.Hashtable();
@@ -366,7 +367,7 @@ public class CharacterAndSkillsHandler : MonoBehaviour
         {
             Characters[_characterSelection.FirebendingId].sprite =
                 _characterSelection.ClickedSprites[_characterSelection.FirebendingId];
-            InfoText.text = "Fire description goes here";
+            InfoText.text = _characterSelection.CharacterDescriptions.Fire;
             DisplaySkillImages();
 
             ExitGames.Client.Photon.Hashtable hs = new ExitGames.Client.Photon.Hashtable();
@@ -393,7 +394,7 @@ public class CharacterAndSkillsHandler : MonoBehaviour
         {
             Characters[_characterSelection.AirbendingId].sprite =
                 _characterSelection.ClickedSprites[_characterSelection.AirbendingId];
-            InfoText.text = "Air description goes here";
+            InfoText.text = _characterSelection.CharacterDescriptions.Air;
             DisplaySkillImages();
 
             ExitGames.Client.Photon.Hashtable hs = new ExitGames.Client.Photon.Hashtable();
@@ -445,7 +446,8 @@ public class CharacterAndSkillsHandler : MonoBehaviour
             _skillSelection.SelectActiveSkill(skill, ActiveSkills[skillNumber]);
             DisplayActiveSkillInformation(skill);
 
-            PhotonView.RPC("UpdateChosenActiveSkillImage", PhotonTargets.All, PhotonNetwork.player.ID, (int)skill);
+            PhotonView.RPC("UpdateChosenActiveSkillImage", PhotonTargets.All, PhotonNetwork.player.ID,
+                (int)skill, _skillSelection.ActiveSkillSelection.CurrentNumberOfSelectedSkills);
         }
         else
         {
@@ -493,14 +495,40 @@ public class CharacterAndSkillsHandler : MonoBehaviour
         }
 
         var activeSkillId = rectHover.GetComponent<ActiveSkillId>();
+        var passiveSkillId = rectHover.GetComponent<PassiveSkillId>();
+
+        //Checks if given RectTransform is an active skill.
         if (activeSkillId != null)
         {
             DisplayActiveSkillInformation(activeSkillId.ActiveSkill);
         }
+        //Checks if given RectTransform is a passive skill.
+        else if (passiveSkillId != null)
+        {
+            DisplayPassiveSkillInformation(passiveSkillId.PassiveSkills);
+        }
+        //Otherwise it's a Character.
         else
         {
-            var passiveSkillId = rectHover.GetComponent<PassiveSkillId>();
-            DisplayPassiveSkillInformation(passiveSkillId.PassiveSkills);
+            //Performs a click on relevant character/element.
+            var characterId = rectHover.GetComponent<CharacterId>().Character;
+            switch (characterId)
+            {
+                case CharacterSelection.Characters.Waterbending:
+                    InfoText.text = _characterSelection.CharacterDescriptions.Water;
+                    break;
+                case CharacterSelection.Characters.Earthbending:
+                    InfoText.text = _characterSelection.CharacterDescriptions.Earth;
+                    break;
+                case CharacterSelection.Characters.Firebending:
+                    InfoText.text = _characterSelection.CharacterDescriptions.Fire;
+                    break;
+                case CharacterSelection.Characters.Airbending:
+                    InfoText.text = _characterSelection.CharacterDescriptions.Air;
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
         }
     }
 
@@ -553,14 +581,11 @@ public class CharacterAndSkillsHandler : MonoBehaviour
     {
         var skillNumber = (int)skill;
 
-        // _skillSelection.SelectActiveSkill(skill, ActiveSkills[skillNumber]);
-
         NameText.text = _skillSelection.ActiveSkillSelection.ActiveSkills[skillNumber].ActiveSkill.Name;
         InfoText.text = _skillSelection.ActiveSkillSelection.ActiveSkills[skillNumber].ActiveSkill.Info;
 
         var attributeText = "Damage: " +
-            _skillSelection.ActiveSkillSelection.ActiveSkills[skillNumber].ActiveSkill
-                                .DamageHealingPower
+            _skillSelection.ActiveSkillSelection.ActiveSkills[skillNumber].ActiveSkill.DamageHealingPower
             + "\nChi Cost: " +
             _skillSelection.ActiveSkillSelection.ActiveSkills[skillNumber].ActiveSkill.ChiCost
             + "\nCooldown: " +
