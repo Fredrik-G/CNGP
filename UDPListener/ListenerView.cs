@@ -39,8 +39,8 @@ namespace UDPListener
 
         public int Port
         {
-            get { return Convert.ToInt16(PortTextBox.Text); }
-            set { PortTextBox.Text = value.ToString(); }
+            get { return Convert.ToInt16(PortUpDown.Text); }
+            set { PortUpDown.Text = value.ToString(); }
         }
 
         #endregion
@@ -98,30 +98,6 @@ namespace UDPListener
         private void ClearMessagesButton_Click(object sender, EventArgs e)
         {
             ClearAllMessages();
-        }
-
-        #endregion
-
-        #region Textbox Mouse Clicks
-
-        /// <summary>
-        /// Occurs when the IPAdressTextBox is clicked.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void IPAdressTextBox_MouseDown(object sender, MouseEventArgs e)
-        {
-           // IPAdressTextBox.Text = String.Empty;
-        }
-
-        /// <summary>
-        /// Occurs when the PortTextBox is clicked.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void PortTextBox_MouseDown(object sender, MouseEventArgs e)
-        {
-            PortTextBox.Text = String.Empty;
         }
 
         #endregion

@@ -37,7 +37,6 @@
             this.Thread = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Logger = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Message = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.PortTextBox = new System.Windows.Forms.TextBox();
             this.LogMessagePanel = new System.Windows.Forms.Panel();
             this.LogLevelComboBox = new System.Windows.Forms.ComboBox();
             this.TimeActiveLabel = new System.Windows.Forms.Label();
@@ -45,8 +44,10 @@
             this.InformationLabel = new System.Windows.Forms.Label();
             this.ClearMessagesButton = new System.Windows.Forms.Button();
             this.SaveLogsButton = new System.Windows.Forms.Button();
+            this.PortUpDown = new System.Windows.Forms.NumericUpDown();
             ((System.ComponentModel.ISupportInitialize)(this.LogMessagesDataGridView)).BeginInit();
             this.LogMessagePanel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.PortUpDown)).BeginInit();
             this.SuspendLayout();
             // 
             // StopListenerButton
@@ -119,15 +120,6 @@
             this.Message.HeaderText = "Message";
             this.Message.Name = "Message";
             // 
-            // PortTextBox
-            // 
-            this.PortTextBox.Location = new System.Drawing.Point(10, 235);
-            this.PortTextBox.Name = "PortTextBox";
-            this.PortTextBox.Size = new System.Drawing.Size(110, 20);
-            this.PortTextBox.TabIndex = 2;
-            this.PortTextBox.Text = "9059";
-            this.PortTextBox.MouseDown += new System.Windows.Forms.MouseEventHandler(this.PortTextBox_MouseDown);
-            // 
             // LogMessagePanel
             // 
             this.LogMessagePanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -199,17 +191,39 @@
             this.SaveLogsButton.UseVisualStyleBackColor = true;
             this.SaveLogsButton.Click += new System.EventHandler(this.SaveLogsButton_Click);
             // 
+            // PortUpDown
+            // 
+            this.PortUpDown.Location = new System.Drawing.Point(8, 236);
+            this.PortUpDown.Maximum = new decimal(new int[] {
+            65536,
+            0,
+            0,
+            0});
+            this.PortUpDown.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.PortUpDown.Name = "PortUpDown";
+            this.PortUpDown.Size = new System.Drawing.Size(110, 20);
+            this.PortUpDown.TabIndex = 20;
+            this.PortUpDown.Value = new decimal(new int[] {
+            9059,
+            0,
+            0,
+            0});
+            // 
             // ListenerView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.PortUpDown);
             this.Controls.Add(this.SaveLogsButton);
             this.Controls.Add(this.ClearMessagesButton);
             this.Controls.Add(this.InformationLabel);
             this.Controls.Add(this.TimeActiveLabel);
             this.Controls.Add(this.LogLevelComboBox);
             this.Controls.Add(this.LogMessagePanel);
-            this.Controls.Add(this.PortTextBox);
             this.Controls.Add(this.StopListenerButton);
             this.Controls.Add(this.StartListenerButton);
             this.Name = "ListenerView";
@@ -217,6 +231,7 @@
             this.Load += new System.EventHandler(this.ListenerView_Load);
             ((System.ComponentModel.ISupportInitialize)(this.LogMessagesDataGridView)).EndInit();
             this.LogMessagePanel.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.PortUpDown)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -227,7 +242,6 @@
         private System.Windows.Forms.Button StopListenerButton;
         private System.Windows.Forms.Button StartListenerButton;
         private System.Windows.Forms.DataGridView LogMessagesDataGridView;
-        private System.Windows.Forms.TextBox PortTextBox;
         private System.Windows.Forms.DataGridViewTextBoxColumn Date2;
         private System.Windows.Forms.DataGridViewTextBoxColumn Level;
         private System.Windows.Forms.DataGridViewTextBoxColumn Thread;
@@ -240,5 +254,6 @@
         private System.Windows.Forms.Label InformationLabel;
         private System.Windows.Forms.Button ClearMessagesButton;
         private System.Windows.Forms.Button SaveLogsButton;
+        private System.Windows.Forms.NumericUpDown PortUpDown;
     }
 }
