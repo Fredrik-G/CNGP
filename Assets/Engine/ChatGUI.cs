@@ -61,6 +61,7 @@ public class ChatGUI : MonoBehaviour, IChatClientListener
 
     //Timeout stuff
     private bool _displayMessages = true;
+    private bool _displayInputField = true;
     private Single _timeAtLastMessage;
     public float TimeoutDelay = 5f;
 
@@ -154,6 +155,7 @@ public class ChatGUI : MonoBehaviour, IChatClientListener
         if (!LobbyMode && Time.time - _timeAtLastMessage > TimeoutDelay && String.IsNullOrEmpty(_inputLine))
         {
             _displayMessages = false;
+            _displayInputField = false;
         }
         else
         {
@@ -177,7 +179,7 @@ public class ChatGUI : MonoBehaviour, IChatClientListener
                 return; //displaying the now modified list would result in an error. to avoid this, we just skip this single frame
             }
 
-            _displayMessages = true;
+            _displayMessages = _displayInputField = true;
             _timeAtLastMessage = Time.time;
             GUI.FocusControl("ChatInput");
             return;
@@ -202,7 +204,7 @@ public class ChatGUI : MonoBehaviour, IChatClientListener
         {
             GUILayout.Label("Not in chat.");
         }
-        else
+        else if(_displayMessages)
         {
             DisplayChat();
         }
@@ -214,7 +216,7 @@ public class ChatGUI : MonoBehaviour, IChatClientListener
             DisplayPrivateMessageChat();
         }
 
-        if (_displayMessages)
+        if (_displayInputField)
         {
             DisplayInputField();
         }
