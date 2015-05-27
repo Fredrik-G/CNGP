@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using ExitGames.Client.Photon.Chat;
 using UnityEngine;
 
@@ -73,8 +74,12 @@ public class ChatGUI : MonoBehaviour, IChatClientListener
                                     "/clear clears the current chat tab. private chats get closed.\n" +
                                     "/help displays this help message.";
 
+    private Logger _logger;
+
     public void Start()
     {
+        _logger = new Logger(MethodBase.GetCurrentMethod());
+
         DontDestroyOnLoad(gameObject);
         Application.runInBackground = true; // this must run in background or it will drop connection if not focussed.
 
@@ -307,7 +312,6 @@ public class ChatGUI : MonoBehaviour, IChatClientListener
     {
         if (channelName.Equals(_selectedChannelName))
         {
-            Debug.Log("Nytt msg");
             _scrollPos.y = float.MaxValue;
             _timeAtLastMessage = Time.time;
             _displayMessages = true;
@@ -336,11 +340,13 @@ public class ChatGUI : MonoBehaviour, IChatClientListener
             {
                 ChatClient.SendPrivateMessage(_userIdInput, _inputLine);
                 DebugText("Sent private message with content: " + _inputLine);
+                _logger.Info("Sent private message with content: " + _inputLine);
             }
             else
             {
                 ChatClient.PublishMessage(_selectedChannelName, _inputLine);
                 DebugText("Sent message with content: " + _inputLine);
+                _logger.Info("Sent message with content: " + _inputLine);
             }
         }
 
@@ -461,10 +467,6 @@ public class ChatGUI : MonoBehaviour, IChatClientListener
     public void OnSubscribed(string[] channels, bool[] results)
     {
         _timeAtLastMessage = Time.time;
-        foreach (var channel in channels)
-        {
-            ChatClient.PublishMessage(channel, "says 'hi' in OnSubscribed()."); // you don't HAVE to send a msg on join but you could.
-        }
     }
 
     public void OnUnsubscribed(string[] channels)

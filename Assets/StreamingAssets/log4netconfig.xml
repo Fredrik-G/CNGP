@@ -1,0 +1,49 @@
+  <log4net>
+    <appender name="ConsoleAppender" type="log4net.Appender.ConsoleAppender" >
+      <layout type="log4net.Layout.PatternLayout">
+        <param name="Header" value="[Header]\r\n" />
+        <param name="Footer" value="[Footer]\r\n" />
+        <conversionPattern value="%date;[%thread];%-5level;%logger;%ndc;%message%newline" />
+      </layout>
+    </appender>
+    <appender name="UdpAppender" type="log4net.Appender.UdpAppender">
+      <remoteAddress value="127.0.0.1" />
+      <!--<remoteAddress value="130.243.104.220" />-->
+      <remotePort value="9059" />
+      <layout type="log4net.Layout.PatternLayout, log4net">
+        <conversionPattern value="%date;[%thread];%-5level;%logger;%ndc;%message%newline" />
+      </layout>
+    </appender>
+    <appender name="Gameplay" type="log4net.Appender.RollingFileAppender">
+      <file value="Logs/gameplay.log" />
+      <appendToFile value="true" />
+      <rollingStyle value="Size" />
+      <maxSizeRollBackups value="10" />
+      <maximumFileSize value="50MB" />
+      <staticLogFileName value="true" />
+      <layout type="log4net.Layout.PatternLayout">
+        <conversionPattern value="%date;[%thread];%-5level;%logger;%ndc;%message%newline" />
+      </layout>
+    </appender>
+    <appender name="General" type="log4net.Appender.RollingFileAppender">
+      <file value="Logs/general.log" />
+      <appendToFile value="true" />
+      <rollingStyle value="Size" />
+      <maxSizeRollBackups value="10" />
+      <maximumFileSize value="1MB" />
+      <staticLogFileName value="true" />
+      <layout type="log4net.Layout.PatternLayout">
+        <conversionPattern value="%date;[%thread];%-5level;%logger;%ndc;%message%newline" />
+      </layout>
+    </appender>
+    <root>
+      <level value="ALL" />
+      <appender-ref ref="ConsoleAppender"/>
+      <appender-ref ref="UdpAppender" />
+      <appender-ref ref="General"/>
+    </root>
+    <logger additivity="false" name="Gameplay">
+      <level value="ALL"/>
+      <appender-ref ref="Gameplay" />
+    </logger>
+  </log4net>
