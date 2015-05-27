@@ -29,10 +29,21 @@ using UnityEngine;
 /// </remarks>
 public class ChatGUI : MonoBehaviour, IChatClientListener
 {
+    #region Data
+
+    /// <summary>
+    /// Enum for all teams.
+    /// </summary>
+    public enum Teams
+    {
+        Red,
+        Blue,
+        NotSet
+    }
+    private Teams _team = Teams.NotSet;
+
     //Photon chat ID. Used when connecting to Photon Chat API.
     public string ChatAppId = "5e4a6881-66f5-41a4-bee5-f7397d719e50";
-    //Channels to join automatically.
-    public string[] ChannelsToJoinOnConnect = { "Team", "Global" };
     //Up to a certain degree, previously sent messages can be fetched for context.
     public int HistoryLengthToFetch;
     //Puts the chat in lobbymode -> does not fade out chat.
@@ -41,9 +52,9 @@ public class ChatGUI : MonoBehaviour, IChatClientListener
     public string UserName { get; set; }
 
     private ChatChannel _selectedChannel;
-    private string _selectedChannelName;     // mainly used for GUI/input
-    private int _selectedChannelIndex;   // mainly used for GUI/input
-    bool _doingPrivateChat;
+    private string _selectedChannelName; // mainly used for GUI/input
+    private int _selectedChannelIndex; // mainly used for GUI/input
+    private bool _doingPrivateChat;
 
     //Determines if chat should be in debugmode and print debug text.
     public bool DebugMode = true;
@@ -55,16 +66,20 @@ public class ChatGUI : MonoBehaviour, IChatClientListener
 
     public ChatClient ChatClient;
 
-    //GUI stuff
+    #region GUI Stuff
+
     public Rect GuiRect = new Rect(0, 0, 250, 300);
     public bool IsVisible = true;
     public bool AlignBottom = false;
     public bool AlignCenter = false;
     public bool FullScreen = false;
 
+    #endregion
+
     private string _inputLine = String.Empty;
     private string _userIdInput = String.Empty;
     private Vector2 _scrollPos = Vector2.zero;
+
     private const string WelcomeText = "Welcome to chat. /help lists commands.";
     private const string HelpText = "/join <list of channelnames> joins channels.\n" +
                                     "/leave <list of channelnames> leaves channels.\n" +
@@ -75,6 +90,8 @@ public class ChatGUI : MonoBehaviour, IChatClientListener
                                     "/help displays this help message.";
 
     private Logger _logger;
+
+    #endregion
 
     public void Start()
     {
@@ -100,7 +117,7 @@ public class ChatGUI : MonoBehaviour, IChatClientListener
 
         if (AlignCenter)
         {
-            GuiRect.x = Screen.width/2 - Screen.width/10;
+            GuiRect.x = Screen.width / 2 - Screen.width / 10;
         }
 
         if (FullScreen)
@@ -118,12 +135,23 @@ public class ChatGUI : MonoBehaviour, IChatClientListener
         {
             ChatClient.Service();  // make sure to call this regularly! it limits effort internally, so calling often is ok!
         }
+
+        if (_team == Teams.NotSet)
+        {
+            var teamID = PhotonNetwork.player.customProperties["TeamID"];
+            if (teamID != null)
+            {
+                _team = (Teams)teamID;
+                Debug.Log("Team = " + _team);
+                SetupChannels();
+            }
+        }
     }
 
     public void OnGUI()
     {
         //Checks if chat should be displayed (timeout)
-        if (Time.time - _timeAtLastMessage > TimeoutDelay && String.IsNullOrEmpty(_inputLine) && !LobbyMode)
+        if (!LobbyMode && Time.time - _timeAtLastMessage > TimeoutDelay && String.IsNullOrEmpty(_inputLine))
         {
             _displayMessages = false;
         }
@@ -144,9 +172,9 @@ public class ChatGUI : MonoBehaviour, IChatClientListener
         {
             if ("ChatInput".Equals(GUI.GetNameOfFocusedControl()))
             {
-                // focus on input -> submit it
+                //focus on input -> send it
                 GuiSendsMessage();
-                return; // displaying the now modified list would result in an error. to avoid this, we just skip this single frame
+                return; //displaying the now modified list would result in an error. to avoid this, we just skip this single frame
             }
 
             _displayMessages = true;
@@ -340,13 +368,14 @@ public class ChatGUI : MonoBehaviour, IChatClientListener
             {
                 ChatClient.SendPrivateMessage(_userIdInput, _inputLine);
                 DebugText("Sent private message with content: " + _inputLine);
-                _logger.Info("Sent private message with content: " + _inputLine);
+                _logger.Info("Player " + PhotonNetwork.player.name + "sent private message with content: " + _inputLine);
             }
             else
             {
                 ChatClient.PublishMessage(_selectedChannelName, _inputLine);
                 DebugText("Sent message with content: " + _inputLine);
-                _logger.Info("Sent message with content: " + _inputLine);
+                _logger.Info("Player " + PhotonNetwork.player.name + "Sent message to channel " + _selectedChannel.Name +
+                             " with content: " + _inputLine);
             }
         }
 
@@ -382,7 +411,13 @@ public class ChatGUI : MonoBehaviour, IChatClientListener
         }
         else if (tokens[0].Equals("/join") && !string.IsNullOrEmpty(tokens[1]))
         {
-            ChatClient.Subscribe(tokens[1].Split(' ', ','));
+            var channels = tokens[1].Split(' ', ',');
+            //Makes sure user does not try to join another teams channel.
+            if (!channels.Contains("Blue") && !channels.Contains("Red"))
+            {
+                ChatClient.Subscribe(channels);
+            }
+            DebugText("Player " + PhotonNetwork.player.name + "is cheating");
         }
         else if (tokens[0].Equals("/leave") && !string.IsNullOrEmpty(tokens[1]))
         {
@@ -407,7 +442,6 @@ public class ChatGUI : MonoBehaviour, IChatClientListener
             var message = inputLine[0];
             ChatClient.PublishMessage("Global", message);
         }
-
         else if (tokens[0].Equals("/clear"))
         {
             if (_doingPrivateChat)
@@ -434,13 +468,24 @@ public class ChatGUI : MonoBehaviour, IChatClientListener
 
     public void OnConnected()
     {
-        if (ChannelsToJoinOnConnect != null && ChannelsToJoinOnConnect.Length > 0)
-        {
-            ChatClient.Subscribe(ChannelsToJoinOnConnect, HistoryLengthToFetch);
-        }
+        SetupChannels();
+    }
 
-        ChatClient.AddFriends(new string[] { "tobi", "ilya" });          // Add some users to the server-list to get their status updates
-        ChatClient.SetOnlineStatus(ChatUserStatus.Online);             // You can set your online state (without a mesage).
+    /// <summary>
+    /// Sets up channels and joins them.
+    /// Channels are based on players team.
+    /// </summary>
+    private void SetupChannels()
+    {
+        var channelsToJoin = new string[2];
+        channelsToJoin[0] = ((Teams)PhotonNetwork.player.customProperties["TeamID"] == Teams.Red) ? "Red" : "Blue";
+        channelsToJoin[1] = "Global";
+
+        ChatClient.Subscribe(channelsToJoin, HistoryLengthToFetch);
+
+        ChatClient.AddFriends(new string[] { "tobi", "ilya" });
+        // Add some users to the server-list to get their status updates
+        ChatClient.SetOnlineStatus(ChatUserStatus.Online); // You can set your online state (without a mesage).
     }
 
     public void OnDisconnected()
