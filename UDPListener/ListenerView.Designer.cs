@@ -32,11 +32,6 @@
             this.StopListenerButton = new System.Windows.Forms.Button();
             this.StartListenerButton = new System.Windows.Forms.Button();
             this.LogMessagesDataGridView = new System.Windows.Forms.DataGridView();
-            this.Date2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Level = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Thread = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Logger = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Message = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.LogMessagePanel = new System.Windows.Forms.Panel();
             this.LogLevelComboBox = new System.Windows.Forms.ComboBox();
             this.TimeActiveLabel = new System.Windows.Forms.Label();
@@ -45,6 +40,11 @@
             this.ClearMessagesButton = new System.Windows.Forms.Button();
             this.SaveLogsButton = new System.Windows.Forms.Button();
             this.PortUpDown = new System.Windows.Forms.NumericUpDown();
+            this.Date2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Level = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Thread = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Logger = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Message = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.LogMessagesDataGridView)).BeginInit();
             this.LogMessagePanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PortUpDown)).BeginInit();
@@ -81,7 +81,7 @@
             this.LogMessagesDataGridView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.LogMessagesDataGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.LogMessagesDataGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
             this.LogMessagesDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.LogMessagesDataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Date2,
@@ -94,31 +94,6 @@
             this.LogMessagesDataGridView.RowHeadersWidth = 28;
             this.LogMessagesDataGridView.Size = new System.Drawing.Size(521, 207);
             this.LogMessagesDataGridView.TabIndex = 8;
-            // 
-            // Date2
-            // 
-            this.Date2.HeaderText = "Date";
-            this.Date2.Name = "Date2";
-            // 
-            // Level
-            // 
-            this.Level.HeaderText = "Level";
-            this.Level.Name = "Level";
-            // 
-            // Thread
-            // 
-            this.Thread.HeaderText = "Thread";
-            this.Thread.Name = "Thread";
-            // 
-            // Logger
-            // 
-            this.Logger.HeaderText = "Logger";
-            this.Logger.Name = "Logger";
-            // 
-            // Message
-            // 
-            this.Message.HeaderText = "Message";
-            this.Message.Name = "Message";
             // 
             // LogMessagePanel
             // 
@@ -213,6 +188,41 @@
             0,
             0});
             // 
+            // Date2
+            // 
+            this.Date2.FillWeight = 49.06615F;
+            this.Date2.HeaderText = "Date";
+            this.Date2.Name = "Date2";
+            this.Date2.Width = 55;
+            // 
+            // Level
+            // 
+            this.Level.FillWeight = 45.88676F;
+            this.Level.HeaderText = "Level";
+            this.Level.Name = "Level";
+            this.Level.Width = 58;
+            // 
+            // Thread
+            // 
+            this.Thread.FillWeight = 50.76142F;
+            this.Thread.HeaderText = "Thread";
+            this.Thread.Name = "Thread";
+            this.Thread.Width = 66;
+            // 
+            // Logger
+            // 
+            this.Logger.FillWeight = 87.29494F;
+            this.Logger.HeaderText = "Logger";
+            this.Logger.Name = "Logger";
+            this.Logger.Width = 65;
+            // 
+            // Message
+            // 
+            this.Message.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.Message.FillWeight = 266.9907F;
+            this.Message.HeaderText = "Message";
+            this.Message.Name = "Message";
+            // 
             // ListenerView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -242,11 +252,6 @@
         private System.Windows.Forms.Button StopListenerButton;
         private System.Windows.Forms.Button StartListenerButton;
         private System.Windows.Forms.DataGridView LogMessagesDataGridView;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Date2;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Level;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Thread;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Logger;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Message;
         private System.Windows.Forms.Panel LogMessagePanel;
         private System.Windows.Forms.ComboBox LogLevelComboBox;
         private System.Windows.Forms.Label TimeActiveLabel;
@@ -255,5 +260,10 @@
         private System.Windows.Forms.Button ClearMessagesButton;
         private System.Windows.Forms.Button SaveLogsButton;
         private System.Windows.Forms.NumericUpDown PortUpDown;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Date2;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Level;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Thread;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Logger;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Message;
     }
 }

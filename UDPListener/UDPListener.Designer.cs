@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(UDPListener));
             this.ListenerTabControl = new System.Windows.Forms.TabControl();
             this.ListenersMenuStrip = new System.Windows.Forms.MenuStrip();
             this.openNewListenerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -80,6 +81,7 @@
             this.ClientSize = new System.Drawing.Size(917, 373);
             this.Controls.Add(this.ListenersMenuStrip);
             this.Controls.Add(this.ListenerTabControl);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "UDPListener";
             this.Text = " ";
             this.Load += new System.EventHandler(this.UDPListener_Load);

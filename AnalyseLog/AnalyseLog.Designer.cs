@@ -28,9 +28,10 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea5 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend5 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series5 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AnalyseLog));
             this.AnalyseInfoDataGridView = new System.Windows.Forms.DataGridView();
             this.SortButton = new System.Windows.Forms.Button();
             this.ShowDaysButton = new System.Windows.Forms.Button();
@@ -200,22 +201,22 @@
             // 
             // AnalyseDataChart
             // 
-            chartArea5.Name = "ChartArea1";
-            this.AnalyseDataChart.ChartAreas.Add(chartArea5);
-            legend5.DockedToChartArea = "ChartArea1";
-            legend5.IsDockedInsideChartArea = false;
-            legend5.Name = "Legend1";
-            this.AnalyseDataChart.Legends.Add(legend5);
+            chartArea1.Name = "ChartArea1";
+            this.AnalyseDataChart.ChartAreas.Add(chartArea1);
+            legend1.DockedToChartArea = "ChartArea1";
+            legend1.IsDockedInsideChartArea = false;
+            legend1.Name = "Legend1";
+            this.AnalyseDataChart.Legends.Add(legend1);
             this.AnalyseDataChart.Location = new System.Drawing.Point(566, 25);
             this.AnalyseDataChart.Name = "AnalyseDataChart";
-            series5.ChartArea = "ChartArea1";
-            series5.IsVisibleInLegend = false;
-            series5.LabelBackColor = System.Drawing.Color.White;
-            series5.LabelBorderColor = System.Drawing.Color.White;
-            series5.LabelForeColor = System.Drawing.Color.White;
-            series5.Legend = "Legend1";
-            series5.Name = " ";
-            this.AnalyseDataChart.Series.Add(series5);
+            series1.ChartArea = "ChartArea1";
+            series1.IsVisibleInLegend = false;
+            series1.LabelBackColor = System.Drawing.Color.White;
+            series1.LabelBorderColor = System.Drawing.Color.White;
+            series1.LabelForeColor = System.Drawing.Color.White;
+            series1.Legend = "Legend1";
+            series1.Name = " ";
+            this.AnalyseDataChart.Series.Add(series1);
             this.AnalyseDataChart.Size = new System.Drawing.Size(382, 240);
             this.AnalyseDataChart.TabIndex = 0;
             this.AnalyseDataChart.Text = "Analyse Data Chart";
@@ -301,6 +302,7 @@
             this.Controls.Add(this.UserPlaytimeDataGridView);
             this.Controls.Add(this.ButtonsPanel);
             this.Controls.Add(this.AnalyseInfoDataGridView);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "AnalyseLog";
             this.Text = "Analyse Log";
             ((System.ComponentModel.ISupportInitialize)(this.AnalyseInfoDataGridView)).EndInit();
