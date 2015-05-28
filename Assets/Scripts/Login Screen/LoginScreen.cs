@@ -1,12 +1,10 @@
 ﻿using System;
-using UnityEngine;
-using System.Collections;
 using System.Linq;
-using System.Net;
 using System.Security.Cryptography;
 using System.Text;
 using Engine;
 using Mono.Data.SqliteClient;
+using UnityEngine;
 
 public class LoginScreen : MonoBehaviour
 {
@@ -132,15 +130,15 @@ public class LoginScreen : MonoBehaviour
     /// </summary>
     private void LoginGUI()
     {
-        if (GUI.Button(new Rect(0, 0, 300, 100), "TEST:Lägg till statistics"))
-        {
-            _database.UpdateStatisticsForAccount("asd", 10, 10, 10, 20, 10);
-        }
+        //if (GUI.Button(new Rect(0, 0, 300, 100), "TEST:Lägg till statistics"))
+        //{
+        //    _database.UpdateStatisticsForAccount("asd", 10, 10, 10, 20, 10);
+        //}
 
-        if (GUI.Button(new Rect(320, 0, 300, 100), "TEST:Läs statistics"))
-        {
-            _database.GetStatisticsForAccount("asd");
-        }
+        //if (GUI.Button(new Rect(320, 0, 300, 100), "TEST:Läs statistics"))
+        //{
+        //    _database.GetStatisticsForAccount("asd");
+        //}
 
         GUI.Box(_menuRect, "Login Screen", BoxGuiStyle);
 
@@ -156,11 +154,20 @@ public class LoginScreen : MonoBehaviour
             _currentMenu = Menus.CreateAccount;
         }
 
-        _user.EMail = GUI.TextField(UIFormat.CreateCenteredRect(0), _user.EMail, InputFieldGuiStyle);
-        if(GUI.GetNameOfFocusedControl().Equals(""))
-        if (String.IsNullOrEmpty(_user.EMail))
+        if ((Event.current.type == EventType.KeyDown &&
+             (Event.current.keyCode == KeyCode.KeypadEnter || Event.current.keyCode == KeyCode.Return)) &&
+            !String.IsNullOrEmpty(_user.EMail) && !String.IsNullOrEmpty(_user.Password))
         {
-            GUI.Label(UIFormat.CreateCenteredRect(0), "Account Email", InputFieldGuiStyle);
+            Authenticate();
+        }
+        else
+        {
+            _user.EMail = GUI.TextField(UIFormat.CreateCenteredRect(0), _user.EMail, InputFieldGuiStyle);
+            if (GUI.GetNameOfFocusedControl().Equals(""))
+                if (String.IsNullOrEmpty(_user.EMail))
+                {
+                    GUI.Label(UIFormat.CreateCenteredRect(0), "Account Email", InputFieldGuiStyle);
+                }
         }
 
         _user.Password = GUI.PasswordField(UIFormat.CreateCenteredRect(-40), _user.Password, '*', InputFieldGuiStyle);
@@ -189,10 +196,19 @@ public class LoginScreen : MonoBehaviour
             _currentMenu = Menus.Login;
         }
 
-        _user.EMail = GUI.TextField(UIFormat.CreateCenteredRect(0), _user.EMail, InputFieldGuiStyle);
-        if (String.IsNullOrEmpty(_user.EMail))
+        if ((Event.current.type == EventType.KeyDown &&
+             (Event.current.keyCode == KeyCode.KeypadEnter || Event.current.keyCode == KeyCode.Return)) &&
+            !String.IsNullOrEmpty(_user.EMail) && !String.IsNullOrEmpty(_user.Password))
         {
-            GUI.Label(UIFormat.CreateCenteredRect(0), "Account Email", InputFieldGuiStyle);
+            CreateAccount();
+        }
+        else
+        {
+            _user.EMail = GUI.TextField(UIFormat.CreateCenteredRect(0), _user.EMail, InputFieldGuiStyle);
+            if (String.IsNullOrEmpty(_user.EMail))
+            {
+                GUI.Label(UIFormat.CreateCenteredRect(0), "Account Email", InputFieldGuiStyle);
+            }
         }
         _user.Password = GUI.PasswordField(UIFormat.CreateCenteredRect(-40), _user.Password, '*', InputFieldGuiStyle);
 
@@ -221,8 +237,8 @@ public class LoginScreen : MonoBehaviour
         _hash = CalculateHash(_salt, _user.Password);
         _user.RegisteredIp = GetUserPublicIp();
         _user.CurrentIp = _user.RegisteredIp;
-        
-        
+
+
         try
         {
             Debug.Log("Adding to database");
